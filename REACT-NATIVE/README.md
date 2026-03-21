@@ -39,6 +39,14 @@ Welcome to the comprehensive React Native learning resource! This guide covers e
 
 ---
 
+## Prerequisites
+
+- Node.js 18+ installed
+- Basic React and JavaScript knowledge
+- Android Studio or Xcode (for native builds)
+
+---
+
 ## 🚀 Quick Start
 
 ```bash
@@ -55,28 +63,17 @@ npx react-native run-android  # or run-ios
 
 ---
 
-## 🔑 Key Concepts
+## 🔑 Key Features
 
-| Concept | React Web | React Native |
+| Feature | React Web | React Native |
 |---------|-----------|--------------|
-| Rendering | HTML DOM | Native Views |
-| Layout | CSS | StyleSheet + Flexbox |
-| Components | `<div>`, `<p>` | `<View>`, `<Text>` |
-| Styling | CSS files | JS objects |
-| Navigation | React Router | React Navigation |
-| Platform | Browser | iOS & Android |
+| **Rendering** | HTML DOM | Native Views |
+| **Layout** | CSS | StyleSheet + Flexbox |
+| **Components** | `<div>`, `<p>` | `<View>`, `<Text>` |
+| **Styling** | CSS files | JS objects |
+| **Navigation** | React Router | React Navigation |
+| **Platform** | Browser | iOS & Android |
 
 ---
 
-## 🛠️ Essential Tooling
-
-- **Expo** — Managed workflow, OTA updates, easy setup
-- **React Navigation** — Routing and navigation
-- **React Native Paper / NativeBase** — UI component libraries
-- **Reanimated** — High-performance animations
-- **MMKV / AsyncStorage** — Local data storage
-- **EAS Build** — Cloud build service for iOS & Android
-
----
-
-*Happy building! 📱*
+*Happy building with React Native! 📱*

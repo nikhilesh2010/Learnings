@@ -34,3 +34,45 @@ Welcome to the comprehensive React learning resource! This guide covers everythi
 19. [Debugging & Tools](19-debugging.md)
 
 ---
+
+## Prerequisites
+
+- Node.js 18+ installed
+- Basic JavaScript, HTML, and CSS knowledge
+- Understanding of ES6+ features (arrow functions, destructuring, modules)
+
+---
+
+## 🚀 Quick Start
+
+```bash
+npx create-react-app my-app
+cd my-app
+npm start
+```
+
+```jsx
+function App() {
+  return <h1>Hello, React!</h1>;
+}
+
+export default App;
+```
+
+Visit `http://localhost:3000` to see your app running.
+
+---
+
+## 🔑 Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Component-Based** | Build encapsulated, reusable UI components |
+| **Virtual DOM** | Efficient UI updates through a fast diffing algorithm |
+| **Unidirectional Data Flow** | Predictable state management makes debugging easy |
+| **Rich Ecosystem** | Huge library of tools and third-party packages |
+| **JSX** | Write HTML-like syntax directly in JavaScript |
+
+---
+
+*Happy building with React! ⚛️*
