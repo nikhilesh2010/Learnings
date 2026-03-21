@@ -1,6 +1,6 @@
-# React Native Complete Learning Guide
+# React Native App Journey
 
-Welcome to the comprehensive React Native learning resource! This guide covers everything from fundamentals to production deployment.
+Create native mobile apps with components, navigation, state, and release-ready workflows.
 
 ## 📚 Table of Contents
 

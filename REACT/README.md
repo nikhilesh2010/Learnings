@@ -1,6 +1,6 @@
-# React Complete Learning Guide
+# React Learning Roadmap
 
-Welcome to the comprehensive React learning resource! This guide covers everything from fundamentals to advanced concepts.
+A focused path from JSX and components to hooks, patterns, and performance for real-world React apps.
 
 ## 📚 Table of Contents
 

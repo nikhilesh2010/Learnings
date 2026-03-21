@@ -1,6 +1,6 @@
-# Python Complete Learning Guide
+# Python Learning Path
 
-Welcome to the comprehensive Python learning resource! This guide covers everything from fundamentals to advanced concepts.
+Go from core syntax to scripting, data handling, and automation with clear, progressive lessons.
 
 ## 📚 Table of Contents
 

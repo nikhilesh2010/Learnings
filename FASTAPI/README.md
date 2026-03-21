@@ -1,6 +1,6 @@
-# FastAPI Complete Learning Guide
+# FastAPI Backend Guide
 
-Welcome to the comprehensive FastAPI learning resource! This guide covers everything from fundamentals to advanced concepts.
+Build high-performance Python APIs with validation, async patterns, and production-ready practices.
 
 ## 📚 Table of Contents
 

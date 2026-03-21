@@ -1,6 +1,6 @@
-# Node.js Complete Learning Guide
+# Node.js Backend Playbook
 
-Welcome to the comprehensive Node.js learning resource! This guide covers everything from fundamentals to advanced concepts.
+Learn Node.js by building servers, APIs, and tooling with a practical, backend-first approach.
 
 ## 📚 Table of Contents
 
