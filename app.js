@@ -1,9 +1,10 @@
 ﻿const readmes = [
+  { label: "JavaScript", path: "JAVASCRIPT/README.md" },
   { label: "React", path: "REACT/README.md" },
-  { label: "Python", path: "PYTHON/README.md" },
-  { label: "Node", path: "NODE/README.md" },
-  { label: "FastAPI", path: "FASTAPI/README.md" },
   { label: "React Native", path: "REACT-NATIVE/README.md" },
+  { label: "Node", path: "NODE/README.md" },
+  { label: "Python", path: "PYTHON/README.md" },
+  { label: "FastAPI", path: "FASTAPI/README.md" },
 ];
 
 const grid = document.getElementById("readme-grid");

@@ -58,6 +58,13 @@ a {
   padding: 32px 0 0;
 }
 
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0;
+}
+
 .eyebrow {
   letter-spacing: 0.3em;
   font-size: 12px;
@@ -73,9 +80,8 @@ h1 {
 
 .subhead {
   margin: 0;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--muted);
-  max-width: 60ch;
 }
 
 .grid {
@@ -128,7 +134,7 @@ h1 {
   gap: 6px;
   font-size: 14px;
   color: var(--accent-dark);
-  margin-bottom: 12px;
+  margin-bottom: 0;
 }
 
 .doc {
@@ -210,5 +216,9 @@ h1 {
 
   .card {
     min-height: auto;
+  }
+  .site-header .wrap {
+    flex-direction: column;
+    gap: 12px;
   }
 }
