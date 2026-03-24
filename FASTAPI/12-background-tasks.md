@@ -12,6 +12,8 @@ Background tasks run **after the response is sent** to the client. They are usef
 
 ## FastAPI's Built-in `BackgroundTasks`
 
+FastAPI's `BackgroundTasks` runs lightweight tasks in the same process after the HTTP response has already been sent. Inject it directly into a route function parameter and call `add_task()` with the function and its arguments.
+
 ```python
 from fastapi import FastAPI, BackgroundTasks
 
@@ -31,6 +33,8 @@ def register_user(email: str, background_tasks: BackgroundTasks):
 The response is sent immediately. `send_welcome_email` runs in the background.
 
 ## Multiple Background Tasks
+
+You can queue as many background tasks as you like before returning the response. Each call to `add_task()` appends a new task to the queue; they execute sequentially in the order they were added.
 
 ```python
 @app.post("/users/{user_id}/actions")
@@ -77,6 +81,8 @@ def create_item(item: Item, background_tasks: BackgroundTasks):
 ```
 
 ## Async Background Tasks
+
+Background task functions can be `async def` as well as plain `def`. FastAPI handles both automatically — async tasks are awaited on the event loop, while sync tasks run in a thread pool.
 
 ```python
 import asyncio
@@ -195,6 +201,8 @@ def get_task_status(task_id: str):
 ```
 
 ## Celery Beat (Scheduled Tasks)
+
+Celery Beat is a scheduler that triggers Celery tasks on a fixed timetable. Define the schedule in `celery_app.conf.beat_schedule` using crontab expressions, then run a separate `celery beat` process alongside your workers.
 
 ```bash
 pip install celery[redis] django-celery-beat

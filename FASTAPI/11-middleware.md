@@ -28,6 +28,8 @@ Client Response
 
 ## Adding Middleware with `@app.middleware`
 
+The `@app.middleware("http")` decorator registers a function as HTTP middleware. The function receives the request and a `call_next` callable, which passes the request to the next layer (route handler or further middleware) and returns the response.
+
 ```python
 import time
 from fastapi import FastAPI, Request
@@ -44,6 +46,8 @@ async def add_process_time_header(request: Request, call_next):
 ```
 
 ## Logging Middleware
+
+A logging middleware intercepts every request and response without modifying them. It is useful for recording timing data, status codes, and URLs for monitoring and debugging.
 
 ```python
 import logging
@@ -188,6 +192,8 @@ app.add_middleware(MiddlewareB)   # runs first
 ```
 
 ## Exception Handling in Middleware
+
+Wrapping `call_next` in a `try/except` block inside middleware allows you to catch any unhandled exception that escapes route handlers, log it, and return a controlled JSON error response to the client.
 
 ```python
 @app.middleware("http")

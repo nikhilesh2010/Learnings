@@ -2,6 +2,8 @@
 
 ## Install Required Package
 
+FastAPI requires `python-multipart` to handle `multipart/form-data` requests, which is the encoding used for file uploads. Install it before accepting any file or form fields.
+
 ```bash
 pip install python-multipart
 ```
@@ -9,6 +11,8 @@ pip install python-multipart
 This is required for receiving `multipart/form-data` file uploads.
 
 ## Single File Upload
+
+Declare a file upload parameter with the `UploadFile` type and `File(...)` as the default. The file is streamed to a temporary file on disk, so `read()` must be called with `await`.
 
 ```python
 from fastapi import FastAPI, UploadFile, File
@@ -36,6 +40,8 @@ async def upload_file(file: UploadFile = File(...)):
 
 ## Reading File Contents
 
+Use `await file.read()` to load the entire file into memory, or `await file.read(chunk_size)` to stream it in pieces. Call `await file.seek(0)` to reset the position if you need to read the file more than once.
+
 ```python
 @app.post("/upload")
 async def upload(file: UploadFile):
@@ -53,6 +59,8 @@ async def upload(file: UploadFile):
 ```
 
 ## Saving Files to Disk
+
+Use `shutil.copyfileobj(file.file, buffer)` to copy the upload directly to a file on disk without loading the entire content into memory. Ensure the destination directory exists before writing.
 
 ```python
 import os
@@ -73,6 +81,8 @@ async def upload_file(file: UploadFile):
 
 ## Saving with a Unique Filename (Prevents Overwrite)
 
+Generate a UUID-based filename on every upload to prevent one user's file from silently overwriting another's. Preserve the original file extension with `Path(file.filename).suffix`.
+
 ```python
 import uuid
 from pathlib import Path
@@ -91,6 +101,8 @@ async def upload_file(file: UploadFile):
 
 ## Multiple File Upload
 
+Accept multiple files by typing the parameter as `List[UploadFile]`. FastAPI automatically aggregates all files with the same form field name into a list.
+
 ```python
 from typing import List
 
@@ -103,6 +115,8 @@ async def upload_multiple(files: List[UploadFile] = File(...)):
 ```
 
 ## File Validation
+
+Validate `content_type` against an allowlist and check the file size before saving. Reject disallowed types and oversized files with a `400 Bad Request` to prevent abuse.
 
 ```python
 from fastapi import HTTPException
@@ -129,6 +143,8 @@ async def upload_image(file: UploadFile = File(...)):
 
 ## Combining File Upload with Form Data
 
+Mix file uploads with plain text form fields using `Form()` alongside `File()`. Note that you cannot combine `multipart/form-data` file uploads with a JSON Pydantic body in the same endpoint.
+
 ```python
 from fastapi import Form, UploadFile, File
 
@@ -149,6 +165,8 @@ async def update_profile(
 
 ## Optional File Upload
 
+Make a file upload optional by setting `File(default=None)` and using the `Optional[UploadFile]` type annotation. Check `if image:` in the handler before attempting to read or save the file.
+
 ```python
 from typing import Optional
 
@@ -164,6 +182,8 @@ async def create_item(
 ```
 
 ## Streaming File Download
+
+Use `FileResponse` to serve a file from disk. Set `filename` to control the `Content-Disposition` header, which prompts the browser to download the file with the given name rather than displaying it inline.
 
 ```python
 from fastapi.responses import FileResponse, StreamingResponse
@@ -183,6 +203,8 @@ def download_file(filename: str):
 
 ## Streaming Large Files
 
+For very large files, use `StreamingResponse` with a generator that yields chunks. This avoids loading the entire file into memory and lets the client start receiving data immediately.
+
 ```python
 @app.get("/stream/{filename}")
 def stream_file(filename: str):
@@ -201,6 +223,8 @@ def stream_file(filename: str):
 ```
 
 ## Upload to Cloud Storage (S3 Example)
+
+Read the uploaded bytes with `await file.read()` and pass them directly to the S3 client. Generate a unique key for each upload and return the public URL so the caller knows where the file is stored.
 
 ```bash
 pip install boto3

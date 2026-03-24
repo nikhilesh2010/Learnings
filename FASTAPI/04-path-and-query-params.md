@@ -199,6 +199,8 @@ def get_item(
 
 ## Combining Path, Query, and Body
 
+A single route handler can accept path parameters, query parameters, and a request body simultaneously. FastAPI determines the source of each parameter automatically: values in the path template become path params, plain scalar types become query params, and Pydantic model arguments become the request body.
+
 ```python
 from pydantic import BaseModel
 

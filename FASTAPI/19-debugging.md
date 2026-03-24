@@ -10,6 +10,8 @@ uvicorn app.main:app --reload --log-level debug
 
 ## Using Python's `logging` Module
 
+Configure Python's built-in `logging` at startup to output timestamped, levelled messages. Use a module-level logger (`logging.getLogger(__name__)`) in each file so log entries identify their source automatically.
+
 ```python
 import logging
 
@@ -32,6 +34,8 @@ def get_item(item_id: int):
 ```
 
 ## Structured Logging with `structlog`
+
+`structlog` emits log entries as structured key-value pairs (JSON in production, coloured text in development) instead of plain strings, making logs easily searchable and parseable in log aggregation tools.
 
 ```bash
 pip install structlog
@@ -103,6 +107,8 @@ def create_item(item: Item):
 
 ## Inspecting Request Data
 
+Inject the `Request` object into any route handler to access raw request data: method, URL, headers, and body bytes. This is useful for debugging unexpected inputs or building a low-level request inspection endpoint.
+
 ```python
 from fastapi import Request
 
@@ -117,6 +123,8 @@ async def debug_request(request: Request):
 ```
 
 ## Middleware for Request/Response Logging
+
+A logging middleware records the method, path, status code, and duration of every request in one place. This is more maintainable than adding logging statements inside every individual handler.
 
 ```python
 import time

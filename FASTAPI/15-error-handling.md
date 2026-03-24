@@ -34,6 +34,8 @@ raise HTTPException(
 
 ## Custom Exception Classes
 
+Define a custom exception class that carries the data needed to construct a meaningful error response — for example, an item ID or a field name. Custom exceptions are caught by registered exception handlers before they reach the default handler.
+
 ```python
 class ItemNotFoundError(Exception):
     def __init__(self, item_id: int):
@@ -41,6 +43,8 @@ class ItemNotFoundError(Exception):
 ```
 
 ## Custom Exception Handlers
+
+Register a handler with `@app.exception_handler(YourException)` to intercept a specific exception type anywhere in the app. The handler receives the `request` and the exception instance and must return a `Response` object.
 
 ```python
 from fastapi import FastAPI, Request
@@ -105,6 +109,8 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
 
 ## Global Catch-All Handler
 
+A handler registered for the base `Exception` class catches any unhandled exception that escapes route handlers and middleware. Always log the full traceback here so bugs are visible, then return a generic 500 response to avoid leaking internal details.
+
 ```python
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
@@ -143,6 +149,8 @@ async def http_exception_handler(request: Request, exc: HTTPException):
 
 ## Returning Errors in Middleware
 
+Middleware can return early with an error response before the request reaches the route handler. This is useful for enforcing blanket requirements — such as a required API key — that apply to every endpoint.
+
 ```python
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse
@@ -158,6 +166,8 @@ class AuthMiddleware(BaseHTTPMiddleware):
 ```
 
 ## Logging Errors
+
+Configure Python's built-in `logging` module at startup to write formatted log entries. In exception handlers, use `exc_info=True` in the `logger.error()` call to include the full traceback in the log output.
 
 ```python
 import logging
@@ -182,6 +192,8 @@ async def log_all_errors(request: Request, exc: Exception):
 ```
 
 ## Re-using FastAPI's Default Handlers
+
+You can call FastAPI's built-in handler functions from within your own exception handlers after adding custom logic such as logging. This lets you extend the default behaviour rather than completely replace it.
 
 ```python
 from fastapi.exception_handlers import (
@@ -222,6 +234,8 @@ When a `422` is returned, FastAPI gives:
 ```
 
 ## Common HTTP Error Patterns
+
+These are the standard `HTTPException` calls for the most common failure scenarios. Using consistent status codes and detail messages makes your API predictable and easy for clients to handle.
 
 ```python
 # 400 Bad Request

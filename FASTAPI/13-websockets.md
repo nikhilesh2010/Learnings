@@ -13,6 +13,8 @@ Use cases:
 
 ## Basic WebSocket Endpoint
 
+Declare a WebSocket endpoint with `@app.websocket("/path")`. The handler must be `async def` and must call `await websocket.accept()` before sending or receiving any messages.
+
 ```python
 from fastapi import FastAPI, WebSocket
 
@@ -56,6 +58,8 @@ async def websocket_endpoint(websocket: WebSocket):
 
 ## Receiving Different Data Types
 
+The WebSocket object provides dedicated methods for receiving text, binary, and JSON payloads. Use the method that matches the format your client sends.
+
 ```python
 @app.websocket("/ws")
 async def ws_handler(websocket: WebSocket):
@@ -68,6 +72,8 @@ async def ws_handler(websocket: WebSocket):
 
 ## Sending Different Data Types
 
+Mirror the receive methods for sending: use `send_text()`, `send_bytes()`, or `send_json()` depending on the payload format. `send_json()` serialises a Python dict or list to JSON automatically.
+
 ```python
 await websocket.send_text("Hello!")
 await websocket.send_bytes(b"binary data")
@@ -75,6 +81,8 @@ await websocket.send_json({"event": "update", "data": [1, 2, 3]})
 ```
 
 ## Handling Disconnect
+
+Client disconnections raise a `WebSocketDisconnect` exception. Wrap the receive loop in a `try/except WebSocketDisconnect` block so your handler can perform clean-up such as removing the client from a connection manager or notifying other users.
 
 ```python
 from fastapi import WebSocket, WebSocketDisconnect
@@ -91,6 +99,8 @@ async def websocket_endpoint(websocket: WebSocket):
 ```
 
 ## Path and Query Parameters
+
+WebSocket endpoints can declare path parameters and query parameters exactly like HTTP routes. This allows passing a room ID in the path or an auth token as a query string parameter on the connection URL.
 
 ```python
 @app.websocket("/ws/{room_id}")
@@ -154,6 +164,8 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
 
 ## Room-Based Chat
 
+Room-based chat groups connected clients by a room identifier. A `RoomManager` tracks which sockets belong to each room and provides a method to broadcast a message to everyone in the room except the sender.
+
 ```python
 from collections import defaultdict
 from typing import Dict, List
@@ -188,6 +200,8 @@ async def chat(websocket: WebSocket, room: str):
 ```
 
 ## With Authentication
+
+Because WebSocket connections don't support custom headers easily from browsers, pass the auth token as a query parameter when connecting. Validate it before calling `accept()` — if invalid, close the connection with code `1008` (Policy Violation).
 
 ```python
 from fastapi import WebSocket, Query, status
@@ -233,6 +247,8 @@ await websocket.close(code=1000, reason="Session ended")
 ```
 
 ## Testing WebSockets
+
+Use `TestClient.websocket_connect()` to open a WebSocket connection inside a test. The context manager gives you a connection object with `send_text()` and `receive_text()` methods.
 
 ```python
 from fastapi.testclient import TestClient

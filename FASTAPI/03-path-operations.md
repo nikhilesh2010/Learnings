@@ -15,6 +15,8 @@ def get_users():          # "path operation function"
 
 ## HTTP Method Decorators
 
+FastAPI provides a decorator for every standard HTTP verb. The decorator name matches the method: `@app.get()`, `@app.post()`, `@app.put()`, `@app.patch()`, `@app.delete()`, and so on. Each binds a URL path and HTTP method to a handler function.
+
 ```python
 from fastapi import FastAPI
 
@@ -66,6 +68,8 @@ def get_num():
 
 ## Path Parameters
 
+Path parameters are declared with `{param_name}` in the URL and matched by the same-named function argument. Adding a type hint (`int`, `str`, etc.) tells FastAPI to validate and cast the value automatically — invalid types return a `422` error.
+
 ```python
 @app.get("/users/{user_id}")
 def get_user(user_id: int):              # type hint → auto validation + casting
@@ -76,6 +80,8 @@ def get_user(user_id: int):              # type hint → auto validation + casti
 - `/users/abc` → `422 Unprocessable Entity` (validation error)
 
 ## Query Parameters
+
+Query parameters are function arguments that don't appear in the path template. They are read from the URL query string (`?key=value`) and may have default values (optional) or no default (required).
 
 ```python
 @app.get("/items")
@@ -103,6 +109,8 @@ def get_user(user_id: str):
 If reversed, `/users/me` would match `{user_id}` with value `"me"`.
 
 ## Response Status Codes
+
+By default FastAPI returns `200 OK`. Pass `status_code` to the decorator to return a different code. Use the `status` constants from `fastapi` (e.g., `status.HTTP_201_CREATED`) for readability and to avoid magic numbers.
 
 ```python
 from fastapi import FastAPI, status
@@ -132,6 +140,8 @@ Common status codes:
 
 ## Tags (for Docs Grouping)
 
+Tags group related routes together in the Swagger UI and ReDoc documentation. Pass a list of strings to `tags=` on each route, and all routes sharing the same tag appear under a collapsible section.
+
 ```python
 @app.get("/users", tags=["users"])
 def get_users(): ...
@@ -146,6 +156,8 @@ def get_items(): ...
 Tags organize routes in the Swagger UI into collapsible sections.
 
 ## Summary / Description in Docs
+
+Use `summary` for a short one-line description and `description` for longer Markdown text that appears in the Swagger UI detail panel. Python docstrings on the handler function are also used as the description.
 
 ```python
 @app.get(
@@ -164,6 +176,8 @@ def get_item(item_id: int):
 
 ## Deprecated Routes
 
+Mark a route as `deprecated=True` to flag it in the auto-generated docs without removing it. Deprecated routes appear crossed-out in Swagger UI, signalling to API consumers that they should migrate to a newer endpoint.
+
 ```python
 @app.get("/old-endpoint", deprecated=True)
 def old_endpoint():
@@ -171,6 +185,8 @@ def old_endpoint():
 ```
 
 ## Using APIRouter (for large apps)
+
+An `APIRouter` works exactly like the main `FastAPI` app but is designed to live in a separate file and be included into the main app. Use one router per resource (users, items, auth) to keep your codebase modular and focused.
 
 ```python
 # routers/users.py
@@ -197,6 +213,8 @@ app.include_router(users.router)
 ```
 
 ## Async Route Handlers
+
+Handler functions can be either `def` (synchronous) or `async def` (asynchronous). Use `async def` when the handler calls other `await`-able operations such as async database drivers or `httpx`. FastAPI automatically runs plain `def` handlers in a thread pool to avoid blocking the event loop.
 
 ```python
 import asyncio

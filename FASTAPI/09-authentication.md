@@ -169,6 +169,8 @@ def read_me(current_user = Depends(get_active_user)):
 
 ## Refresh Tokens
 
+Access tokens are short-lived by design. A refresh token has a longer expiry and is used solely to obtain a new access token without requiring the user to log in again. Store refresh tokens securely and invalidate them on logout.
+
 ```python
 REFRESH_TOKEN_EXPIRE_DAYS = 7
 
@@ -190,6 +192,8 @@ def refresh_token(refresh_token: str = Body()):
 ```
 
 ## Role-Based Access Control (RBAC)
+
+RBAC restricts access to routes based on the roles assigned to the authenticated user. A factory function `require_role()` returns a dependency that checks the current user's role and raises `403 Forbidden` if it does not match.
 
 ```python
 from enum import Enum
@@ -215,6 +219,8 @@ def admin_stats():
 
 ## HTTP Basic Auth
 
+HTTP Basic Auth transmits credentials as a Base64-encoded username and password in the `Authorization` header. FastAPI's `HTTPBasic` security scheme extracts them automatically — always use `secrets.compare_digest` to prevent timing attacks.
+
 ```python
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 import secrets
@@ -236,6 +242,8 @@ def verify_basic_auth(credentials: HTTPBasicCredentials = Depends(security)):
 > Always use `secrets.compare_digest` to prevent timing attacks.
 
 ## Cookie-Based Auth
+
+Cookie-based authentication stores a session token in an `httponly` cookie so it is sent automatically with every request. Read the cookie value with FastAPI's `Cookie` parameter and exchange it for the authenticated user on each request.
 
 ```python
 from fastapi import Cookie

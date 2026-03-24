@@ -15,6 +15,8 @@ Before deploying:
 
 ## Health Check Endpoint
 
+A health check endpoint returns a simple JSON payload that load balancers and container orchestrators can poll to verify the application is running. Keep it lightweight and dependency-free so it responds even under load.
+
 ```python
 @app.get("/health", tags=["health"])
 def health_check():
@@ -22,6 +24,8 @@ def health_check():
 ```
 
 ## Running with Uvicorn (Single Process)
+
+Uvicorn is the ASGI server that runs FastAPI. The `--host 0.0.0.0` flag makes it accessible from outside the container or machine. This single-process command is suitable for development or simple single-server deployments.
 
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8000
@@ -45,6 +49,8 @@ gunicorn app.main:app \
 Workers formula: `(2 × CPU cores) + 1`
 
 ## Dockerfile
+
+This Dockerfile follows the layered-cache best practice: copy `requirements.txt` and install dependencies before copying the application code, so the slow dependency layer is only rebuilt when `requirements.txt` changes.
 
 ```dockerfile
 FROM python:3.12-slim
@@ -75,6 +81,8 @@ docker run -p 8000:8000 --env-file .env my-api
 ```
 
 ## Docker Compose (App + PostgreSQL + Redis)
+
+Docker Compose defines and runs a multi-container application with a single command. This configuration starts the FastAPI app, a PostgreSQL database, and a Redis instance, wiring them together on an internal network.
 
 ```yaml
 # docker-compose.yml
@@ -118,6 +126,8 @@ docker compose down           # stop all services
 
 ## Nginx as Reverse Proxy
 
+Nginx sits in front of the FastAPI app to handle SSL termination, redirect HTTP to HTTPS, and forward requests to the Uvicorn/Gunicorn process. The WebSocket `location` block must upgrade the connection protocol to support WebSocket routes.
+
 ```nginx
 # /etc/nginx/sites-available/myapi
 server {
@@ -152,6 +162,8 @@ server {
 ```
 
 ## Environment Config for Production
+
+Load all runtime configuration from environment variables using a `BaseSettings` class. In production, disable the docs by setting `docs_url=None` and `redoc_url=None` to avoid exposing the API schema publicly.
 
 ```python
 # app/config.py
@@ -257,6 +269,8 @@ CMD alembic upgrade head && gunicorn app.main:app \
 Or as a separate step in CI/CD.
 
 ## CI/CD with GitHub Actions
+
+This workflow runs the test suite on every push to `main`, then (if tests pass) builds and pushes a Docker image to the container registry. Extend the `deploy` job to update the running service in your cloud environment.
 
 ```yaml
 # .github/workflows/deploy.yml

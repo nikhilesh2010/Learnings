@@ -65,6 +65,8 @@ def get_user(id: int):
 
 ## Returning Multiple Items
 
+To return a list of objects, annotate `response_model` with `list[YourModel]`. FastAPI validates and serialises every item in the list before sending the response.
+
 ```python
 from typing import List
 
@@ -78,6 +80,8 @@ def get_items():
 ```
 
 ## Response Status Codes
+
+Declare the expected HTTP status code on each route with the `status_code` parameter. Using the `status` module constants (e.g., `status.HTTP_201_CREATED`) makes the intent clear and avoids hard-coded integers.
 
 ```python
 from fastapi import status
@@ -118,6 +122,8 @@ def html_response():
 
 ## Setting Headers and Cookies
 
+Inject a `Response` object as a function parameter to set response headers or cookies without bypassing Pydantic serialisation. The route can still return a normal dict or model while the `Response` parameter carries side-band data.
+
 ```python
 from fastapi import FastAPI, Response
 
@@ -138,6 +144,8 @@ def logout(response: Response):
 ```
 
 ## JSONResponse, RedirectResponse, StreamingResponse
+
+Use specialised response classes when you need full control over the response. `RedirectResponse` issues a redirect, `StreamingResponse` streams data incrementally, and both can be returned directly from a route handler.
 
 ```python
 from fastapi.responses import RedirectResponse, StreamingResponse
@@ -165,6 +173,8 @@ def download_file():
 ```
 
 ## Documenting Possible Responses
+
+The `responses` dict on a route decorator lets you document non-default status codes in the OpenAPI schema. Each key is an HTTP status code and each value is a description or schema that appears in the Swagger UI.
 
 ```python
 from fastapi import FastAPI
@@ -229,6 +239,8 @@ def get_pet(pet_id: int):
 ```
 
 ## `response_model=None` – Skip Serialization
+
+Setting `response_model=None` tells FastAPI to skip Pydantic serialisation entirely and return the response object as-is. This is useful when a route returns a raw `Response` with custom content or binary data.
 
 ```python
 @app.get("/data", response_model=None)

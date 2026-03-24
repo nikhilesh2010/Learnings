@@ -53,6 +53,8 @@ def get_db():
 
 ## Defining ORM Models
 
+SQLAlchemy ORM models map Python classes to database tables. Each column is declared as a `Column` with a type and optional constraints. Relationships between tables are expressed with `ForeignKey` and `relationship()`.
+
 ```python
 # app/models/user.py
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, func
@@ -111,6 +113,8 @@ class UserResponse(UserBase):
 
 ## CRUD Operations
 
+CRUD functions encapsulate all direct database interactions. Each function accepts a `Session` object and the data it needs, keeping route handlers free of raw query logic and making the data layer independently testable.
+
 ```python
 # app/crud/user.py
 from sqlalchemy.orm import Session
@@ -156,6 +160,8 @@ def delete_user(db: Session, user_id: int):
 
 ## Routers Using CRUD + DB
 
+Route handlers delegate to the CRUD layer for database operations. They remain responsible only for HTTP concerns: extracting inputs, raising `HTTPException` on known error conditions, and choosing the status code.
+
 ```python
 # app/routers/users.py
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -186,6 +192,8 @@ def list_users(skip: int = 0, limit: int = 20, db: Session = Depends(get_db)):
 ```
 
 ## Creating Tables on Startup
+
+Calling `Base.metadata.create_all()` at startup creates any missing tables in the database. This is convenient in development but should be replaced by Alembic migrations in production.
 
 ```python
 # app/main.py
@@ -235,6 +243,8 @@ alembic history
 ```
 
 ## Async Database with SQLAlchemy 2.0
+
+For high-concurrency workloads, use SQLAlchemy's async engine with `asyncpg`. The session must be used with `async with` and all queries must be `await`-ed. Pair this with `async def` route handlers throughout.
 
 ```bash
 pip install sqlalchemy[asyncio] asyncpg

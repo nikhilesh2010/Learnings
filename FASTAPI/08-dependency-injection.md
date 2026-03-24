@@ -28,6 +28,8 @@ def read_items(db = Depends(get_db)):
 
 ## Basic Dependency
 
+A basic dependency is any callable whose return value is injected into a route handler via `Depends()`. FastAPI calls the dependency automatically, resolves any parameters it declares, and passes the result to the handler.
+
 ```python
 from fastapi import Depends, HTTPException, Query
 
@@ -145,6 +147,8 @@ app = FastAPI(dependencies=[Depends(verify_api_key)])
 
 ## Overriding Dependencies in Tests
 
+During testing, replace any production dependency with a test-friendly version by assigning to `app.dependency_overrides`. The override is active for all requests until you clear the dict.
+
 ```python
 # main.py
 def get_db():
@@ -185,6 +189,8 @@ def read_items(
 
 ## Security Dependencies
 
+The `fastapi.security` module provides ready-made dependency functions for common auth schemes. `OAuth2PasswordBearer` extracts the Bearer token from the `Authorization` header and passes it to your `get_current_user` dependency.
+
 ```python
 from fastapi.security import OAuth2PasswordBearer
 
@@ -202,6 +208,8 @@ def read_me(current_user = Depends(get_current_user)):
 ```
 
 ## Full DI Example
+
+This example chains three dependency layers — a database session, a token-authenticated user, and an active-user guard — to show how complex auth and DB logic composes cleanly through `Depends()`.
 
 ```python
 from fastapi import FastAPI, Depends, HTTPException, Header

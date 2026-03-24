@@ -2,6 +2,8 @@
 
 ## Setup
 
+Install `pytest` as the test runner, `httpx` as the underlying HTTP client, and `pytest-asyncio` to support `async def` test functions. Run `pytest` from the project root to discover and execute all test files.
+
 ```bash
 pip install pytest httpx pytest-asyncio
 ```
@@ -11,6 +13,8 @@ pip install pytest httpx pytest-asyncio
 - `pytest-asyncio` – run async test functions
 
 ## `TestClient` – Synchronous Testing
+
+`TestClient` wraps your FastAPI app in a synchronous WSGI-compatible interface, letting you write straightforward `requests`-style tests without running a real server.
 
 ```python
 # app/main.py
@@ -51,6 +55,8 @@ def test_invalid_item_id():
 
 ## Testing POST with Body
 
+Pass a Python dict to `json=` to send a JSON request body. `TestClient` serialises it automatically and sets the `Content-Type: application/json` header.
+
 ```python
 def test_create_item():
     response = client.post(
@@ -63,6 +69,8 @@ def test_create_item():
 ```
 
 ## Testing with Headers
+
+Supply a `headers` dict to any `TestClient` method to add request headers. Use this to simulate authenticated requests by including an `Authorization` header.
 
 ```python
 def test_protected_route():
@@ -78,6 +86,8 @@ def test_unauthorized():
 ```
 
 ## Using Fixtures (pytest)
+
+A `@pytest.fixture` function runs before each test that requests it. Wrap `TestClient` in a fixture so every test function gets a fresh, cleanly initialised client.
 
 ```python
 import pytest
@@ -145,6 +155,8 @@ def client(db_session):
 
 ## Async Testing with `pytest-asyncio`
 
+Configure `asyncio_mode = auto` in `pytest.ini` so pytest-asyncio applies to all async tests. Use `httpx.AsyncClient` with `app=app` to send requests to the ASGI app without starting a real server.
+
 ```python
 # pytest.ini or pyproject.toml
 [pytest]
@@ -164,6 +176,8 @@ async def test_async_endpoint():
 ```
 
 ## Mocking External Services
+
+Use `unittest.mock.patch` to replace external service calls with controlled fakes during tests. For async functions, use `AsyncMock` as the replacement so the mock is properly awaitable.
 
 ```python
 from unittest.mock import patch, AsyncMock
@@ -185,6 +199,8 @@ async def test_async_service():
 
 ## Testing File Uploads
 
+Pass a `files` dict to `TestClient.post()` where each value is a tuple of `(filename, content, content_type)`. This replicates a multipart file upload without needing a real file on disk.
+
 ```python
 def test_upload_file():
     file_content = b"fake image content"
@@ -198,6 +214,8 @@ def test_upload_file():
 
 ## Testing WebSockets
 
+Use `client.websocket_connect("/path")` as a context manager to open a test WebSocket connection. The resulting object supports `send_text()`, `receive_text()`, and their JSON equivalents.
+
 ```python
 def test_websocket():
     with client.websocket_connect("/ws") as ws:
@@ -207,6 +225,8 @@ def test_websocket():
 ```
 
 ## Test Structure
+
+Organise tests in a `tests/` directory with one file per router. Put shared fixtures in `conftest.py` — pytest discovers it automatically and makes its fixtures available to all test files in the same directory.
 
 ```
 tests/
@@ -238,6 +258,8 @@ def auth_header():
 
 ## Running Tests
 
+These `pytest` command-line flags cover the most common test-running scenarios. Add `--cov=app` with `pytest-cov` installed to generate a coverage report alongside the test results.
+
 ```bash
 # Run all tests
 pytest
@@ -259,6 +281,8 @@ pytest --cov=app --cov-report=html
 ```
 
 ## Example: Full User CRUD Test
+
+This test suite walks through the full lifecycle of the user resource: create, attempt duplicate, read, and read-nonexistent. It demonstrates how to chain requests and carry IDs between test calls.
 
 ```python
 # tests/test_users.py

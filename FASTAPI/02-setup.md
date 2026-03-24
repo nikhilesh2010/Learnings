@@ -18,6 +18,8 @@ This includes `uvicorn`, `pydantic`, `python-multipart`, `email-validator`, `htt
 
 ## Virtual Environment (Recommended)
 
+A virtual environment isolates your project's packages from the global Python installation, preventing version conflicts between projects. Create and activate one before installing any dependencies.
+
 ```bash
 # Create
 python -m venv venv
@@ -129,6 +131,8 @@ gunicorn app.main:app -w 4 -k uvicorn.workers.UvicornWorker
 
 ## App Configuration with Metadata
 
+FastAPI accepts metadata at construction time to enrich the auto-generated documentation. Setting `title`, `description`, and `version` populates the Swagger UI and ReDoc headers. You can also customise or disable the `/docs`, `/redoc`, and `/openapi.json` endpoints.
+
 ```python
 from fastapi import FastAPI
 
@@ -150,6 +154,8 @@ app = FastAPI(
 ```
 
 ## Environment Variables with Pydantic Settings
+
+The `pydantic-settings` package provides a `BaseSettings` class that reads configuration from environment variables and `.env` files automatically. Fields without defaults are **required** at startup — the app will fail fast if they are missing rather than misbehaving at runtime.
 
 ```bash
 pip install pydantic-settings
@@ -187,6 +193,8 @@ print(settings.database_url)
 ```
 
 ## requirements.txt
+
+Pin your dependencies in `requirements.txt` so every environment (local, CI, production) installs identical package versions. The list below covers a full production-ready FastAPI stack.
 
 ```
 fastapi>=0.110.0

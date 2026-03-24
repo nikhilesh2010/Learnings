@@ -6,6 +6,8 @@ A **request body** is data sent by the client in the HTTP request (typically JSO
 
 ## Declaring a Request Body
 
+To declare a request body, create a Pydantic model and use it as the type hint for a function argument. FastAPI reads the JSON payload, validates it against the model, and injects the parsed object into the handler.
+
 ```python
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -31,6 +33,8 @@ FastAPI will:
 
 ## Accessing Body Fields
 
+Once the request body is parsed into a Pydantic model instance, you can access any field with dot notation. Call `model_dump()` to convert the entire model to a plain dictionary for further processing.
+
 ```python
 @app.post("/items")
 def create_item(item: Item):
@@ -44,6 +48,8 @@ def create_item(item: Item):
 
 ## Body + Path Parameter
 
+You can declare both a path parameter and a request body in the same handler. FastAPI knows `item_id` comes from the URL path and `item` — because it is a Pydantic model — comes from the request body.
+
 ```python
 @app.put("/items/{item_id}")
 def update_item(item_id: int, item: Item):
@@ -55,6 +61,8 @@ FastAPI knows:
 - `item` → request body (Pydantic model)
 
 ## Body + Path + Query
+
+Handlers can combine all three input sources at once: a path parameter (from the URL), a query parameter (from the query string), and a request body (from the JSON payload). FastAPI resolves each one independently.
 
 ```python
 @app.put("/items/{item_id}")
@@ -159,6 +167,8 @@ Instead of just:
 
 ## Nested Models
 
+A Pydantic model can contain another model as a field, creating a nested structure. FastAPI validates the entire nested object and maps it to the expected JSON shape automatically.
+
 ```python
 class Image(BaseModel):
     url: str
@@ -189,6 +199,8 @@ Expected JSON:
 
 ## Lists in Body
 
+Pydantic fields can be typed as `list[str]` or `list[NestedModel]` to accept arrays in the JSON body. Validation is applied to every element in the list.
+
 ```python
 class Item(BaseModel):
     name: str
@@ -200,6 +212,8 @@ class Bundle(BaseModel):
 ```
 
 ## Body with Extra Validation using Field
+
+Use Pydantic's `Field()` to add per-field constraints such as minimum/maximum length, numeric boundaries, and documentation metadata. `Field()` is the body-level counterpart to `Query()` and `Path()`.
 
 ```python
 from pydantic import BaseModel, Field
@@ -213,6 +227,8 @@ class Item(BaseModel):
 See [06 – Pydantic Models](06-pydantic-models.md) for full details.
 
 ## Schema Example in Docs
+
+Setting `json_schema_extra` in the model's `model_config` adds example values to the Swagger UI "Try it out" panel. This makes the API easier to explore without having to guess valid input.
 
 ```python
 class Item(BaseModel):

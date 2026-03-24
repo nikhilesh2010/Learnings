@@ -10,6 +10,8 @@ pip install pydantic         # bundled with fastapi
 
 ## Basic Model
 
+Define a schema by subclassing `BaseModel` and annotating each field with a type. Fields without a default are required; fields with a default (including `None`) are optional.
+
 ```python
 from pydantic import BaseModel
 
@@ -22,6 +24,8 @@ class User(BaseModel):
 ```
 
 ## Creating and Using Models
+
+Pydantic models can be instantiated from keyword arguments, validated from a dict with `model_validate()`, or parsed directly from a JSON string with `model_validate_json()`. Use `model_dump()` to serialise back to a dict.
 
 ```python
 # From a dict
@@ -42,6 +46,8 @@ user.model_dump_json()     # '{"id":1,"name":"Alice",...}'
 > Pydantic v1 used `.dict()` and `.json()`. Pydantic v2 uses `.model_dump()` and `.model_dump_json()`.
 
 ## Field – Adding Validation and Metadata
+
+`Field()` attaches validation constraints and documentation metadata to individual model fields. It is the equivalent of `Query()` and `Path()` but used inside model definitions rather than route signatures.
 
 ```python
 from pydantic import BaseModel, Field
@@ -74,6 +80,8 @@ class Item(BaseModel):
 | `frozen` | Make field immutable |
 
 ## Supported Field Types
+
+Pydantic supports a wide range of built-in Python types as well as specialised types from `pydantic` including `EmailStr`, `HttpUrl`, `UUID`, `Decimal`, and `datetime`. Each type is validated and coerced automatically.
 
 ```python
 from pydantic import BaseModel, HttpUrl, EmailStr
@@ -138,6 +146,8 @@ class DateRange(BaseModel):
 
 ## Nested Models
 
+A Pydantic model can contain other models as field types, allowing arbitrarily deep nested structures. Nested models are validated recursively, so every level of the hierarchy must conform to its schema.
+
 ```python
 class Address(BaseModel):
     street: str
@@ -158,6 +168,8 @@ print(user.address.city)   # Boston
 ```
 
 ## Inheritance
+
+Models support standard Python class inheritance — subclasses inherit all parent fields and can add new ones. This is useful for building a hierarchy of related schemas such as a base model, a create model, and a response model.
 
 ```python
 class BaseItem(BaseModel):
@@ -218,6 +230,8 @@ response = UserResponse.model_validate(db_user)  # works with ORM object
 
 ## Partial Updates with Optional Fields
 
+For PATCH operations, declare all fields as `Optional` with a `None` default so that clients can send only the fields they want to update. Use `model_dump(exclude_unset=True)` to retrieve only the fields that were explicitly provided.
+
 ```python
 class UserUpdate(BaseModel):
     email: str | None = None
@@ -235,6 +249,8 @@ def patch_user(user_id: int, updates: UserUpdate):
 `exclude_unset=True` → only includes fields that were explicitly provided, ignoring defaults.
 
 ## Config Options
+
+`model_config` is a dict-based configuration block that controls how Pydantic validates and serialises the model. Common options include `from_attributes` for ORM compatibility, `str_strip_whitespace`, and `json_schema_extra` for example values.
 
 ```python
 class Item(BaseModel):
@@ -255,6 +271,8 @@ class Item(BaseModel):
 ```
 
 ## Serialization Options
+
+`model_dump()` accepts keyword arguments that control which fields are included in the output. Use `exclude_unset=True` for PATCH payloads, `exclude_none=True` to keep responses lean, and `by_alias=True` when field aliases are required.
 
 ```python
 user = User(id=1, name="Alice", email="a@example.com")

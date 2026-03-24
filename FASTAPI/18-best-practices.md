@@ -118,6 +118,8 @@ def list_items(page: int = 1, size: int = Query(default=20, le=100), db: Session
 
 ## Use `Annotated` for Clean Dependency Declarations
 
+Wrapping a type and its `Depends()` in `Annotated` creates a reusable type alias. You can then use the alias as the type hint in multiple handlers without repeating the full `Depends(get_db)` expression.
+
 ```python
 from typing import Annotated
 from fastapi import Depends
@@ -138,6 +140,8 @@ def list_items(db: DBSession, user: CurrentUser):
 ```
 
 ## Never Store Secrets in Code
+
+Hard-coding credentials in source code means they end up in version control, CI logs, and Docker images. Read all secrets from environment variables, and prefer `pydantic-settings` for type-safe, validated configuration loading.
 
 ```python
 # BAD
@@ -170,6 +174,8 @@ def create_order(order_id: int = Path(ge=1)):
 
 ## Async Best Practices
 
+Use `async def` only when the handler calls other `await`-able operations; otherwise plain `def` is fine and FastAPI threads it automatically. Never call blocking functions like `time.sleep()` inside an `async def` handler as this stalls the entire event loop.
+
 ```python
 # Use async def when doing async I/O
 @app.get("/data")
@@ -199,6 +205,8 @@ async def ok():
 ```
 
 ## Response Caching
+
+Cache expensive or static data at the function level with `@lru_cache` from the standard library. For HTTP-level caching, set the `Cache-Control` response header so clients and CDN edges can cache the response.
 
 ```python
 from functools import lru_cache
@@ -241,6 +249,8 @@ async def list_items(request: Request):
 
 ## Keep Handlers Thin
 
+Route handlers should contain only HTTP-layer logic: parameter extraction, high-level validation, and delegating to the service or CRUD layer. Business logic and database queries belong in dedicated service and CRUD modules.
+
 ```python
 # BAD: all logic in the handler
 @app.post("/users")
@@ -264,6 +274,8 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
 ```
 
 ## Use `status` Module for Status Codes
+
+Import and use `fastapi.status` constants instead of raw integers for HTTP status codes. The named constants document the intent (`HTTP_201_CREATED` is clearer than `201`) and are recognised by IDE tooling.
 
 ```python
 from fastapi import status
