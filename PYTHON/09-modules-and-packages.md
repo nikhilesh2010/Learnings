@@ -18,6 +18,8 @@ my_project/
 
 ## 🔄 Importing
 
+Python's `import` system loads code from other files. `import module` keeps the namespace separate (you access names as `module.func`). `from module import name` brings specific names into the current namespace. Aliasing with `as` is idiomatic for long names (`import numpy as np`).
+
 ```python
 # Import module (namespace stays separate)
 import math
@@ -45,6 +47,8 @@ from services import email   # import submodule
 ---
 
 ## ✍️ Creating Modules
+
+Any `.py` file is a module. You define functions, classes, and constants in it, then import them from other files. The `if __name__ == '__main__':` guard lets you embed runnable code that only executes when the file is run directly, not when it is imported as a library.
 
 ```python
 # utils.py
@@ -75,6 +79,8 @@ print(VERSION)          # 1.0.0
 ---
 
 ## 📂 Packages
+
+A package is a directory containing an `__init__.py` file. The `__init__.py` can be empty or can re-export names from sub-modules to create a cleaner public API. `__all__` controls exactly which names are exported when a user writes `from package import *`.
 
 ```python
 # services/__init__.py
@@ -112,6 +118,8 @@ from ..utils import format_date   # relative: parent package
 
 ## 🏗️ `__name__` and `__main__`
 
+Every Python module has a `__name__` attribute. When a file is **run directly** from the command line, `__name__` equals `'__main__'`. When it is **imported** by another module, `__name__` equals the module's file name (without `.py`). This lets the same file behave as both a library and a standalone script.
+
 ```python
 # script.py
 
@@ -133,6 +141,8 @@ python -c "import script"  # __name__ == "script" → main() does NOT run
 ---
 
 ## 📦 Package Management with pip
+
+`pip` is Python's package installer. `pip install package` downloads from PyPI. Use exact version pinning (`==`) in production for reproducibility. `pip freeze > requirements.txt` captures all currently installed packages.
 
 ```bash
 # Install a package
@@ -164,6 +174,8 @@ pip freeze > requirements.txt
 
 ## 📋 requirements.txt
 
+A `requirements.txt` file lists all project dependencies with pinned or constrained version numbers. Commit it to version control so that teammates and CI pipelines can recreate the exact same environment with `pip install -r requirements.txt`.
+
 ```
 # requirements.txt
 requests==2.31.0
@@ -175,6 +187,8 @@ fastapi             # no version pin (latest)
 ---
 
 ## 🏢 pyproject.toml (Modern)
+
+`pyproject.toml` is the modern project metadata standard (PEP 517/518/621). It replaces `setup.py` and `setup.cfg`, consolidating project name, version, Python requirements, dependencies, and build system into a single file. It's the preferred approach for any new Python project.
 
 ```toml
 # pyproject.toml — modern standard (PEP 517/518)
@@ -200,6 +214,8 @@ build-backend = "setuptools.backends.legacy:build"
 
 ## 🔍 Module Internals
 
+`dir(module)` lists all attributes and methods. `module.__file__` shows the path to the source file on disk. `help(module)` renders the full documentation. These tools are invaluable when exploring an unfamiliar library in the REPL without leaving the terminal.
+
 ```python
 import math
 
@@ -220,6 +236,8 @@ math.__all__          # not set → all non-underscore names exported
 ---
 
 ## 🌐 The Python Standard Library (Top Modules)
+
+Python ships with an enormous standard library — "batteries included". The modules below cover OS interaction, filesystem operations, data formats (JSON/CSV), concurrency, and more. You rarely need third-party packages for everyday tasks.
 
 ```python
 import os           # OS interface (files, env, paths)
@@ -273,6 +291,8 @@ import profile/cProfile  # Profiler
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of Python's import syntax and essential pip commands.
 
 ```python
 # Import

@@ -2,6 +2,8 @@
 
 ## 📐 Project Structure
 
+A well-organised project separates source code (`src/`), tests (`tests/`), configuration (`.env`, `pyproject.toml`), and documentation. Using a `src/` layout prevents accidental imports of the uninstalled package from the repo root, catching missing-dependency bugs early.
+
 ```
 my-project/
 ├── src/
@@ -34,6 +36,8 @@ my-project/
 
 ## 🔤 Naming Conventions (PEP 8)
 
+PEP 8 defines Python's standard naming conventions: `snake_case` for variables and functions, `PascalCase` for classes, `UPPER_SNAKE_CASE` for module-level constants, and a single leading underscore for internal/private names (convention only, not enforced).
+
 ```python
 # Variables and functions — snake_case
 user_name = "Alice"
@@ -61,7 +65,7 @@ __version__ = "1.0.0"
 ---
 
 ## 📏 Code Style (PEP 8)
-
+PEP 8 defines code formatting standards: line length (79–99 chars), spaces around operators, blank lines between definitions, and import grouping (stdlib → third-party → local). Use an auto-formatter like Black or Ruff to enforce these rules automatically and end all style debates.
 ```python
 # Line length: 79-99 chars (88 is Black's default)
 
@@ -106,6 +110,8 @@ from myapp.models import User
 
 ## 🤖 Formatters & Linters
 
+Use **Black** or **Ruff** for auto-formatting (configure to run on save and enforce in CI). Use **mypy** or **pyright** for static type checking. **isort** / Ruff also sorts imports. These tools eliminate style debates and catch bugs before runtime, at zero ongoing cost.
+
 ```bash
 # black — opinionated formatter (auto-formats code)
 pip install black
@@ -143,6 +149,8 @@ strict = true
 ---
 
 ## 🏗️ Separation of Concerns
+
+Keep the four layers of responsibility clearly separate: **models** (data structures), **repositories** (database access), **services** (business logic), and **routes/handlers** (HTTP layer). Business logic must never appear in route handlers, and database queries must never appear in service functions.
 
 ```python
 # ❌ Everything in one function
@@ -193,6 +201,8 @@ def create_user(request):
 
 ## 🔑 Configuration Management
 
+Centralise all configuration in one place (e.g., `config.py`). Load values from environment variables — never hardcode them. Using a typed dataclass or Pydantic settings model gives the rest of the app type-safe config access with automatic validation at startup.
+
 ```python
 # config.py — centralize all config
 import os
@@ -222,6 +232,8 @@ config = load_config()
 
 ## 📝 Logging
 
+Use the `logging` module instead of `print()` for production code. Call `logging.basicConfig()` once at startup. Get a per-module logger with `logging.getLogger(__name__)` so log messages are automatically labelled with the originating module. Use `logger.exception()` to capture full tracebacks.
+
 ```python
 import logging
 
@@ -247,6 +259,8 @@ logger.exception("Unexpected error")   # logs traceback automatically
 ---
 
 ## ⚡ Performance Tips
+
+Key Python performance patterns: use **generators** for large data instead of loading everything into a list, `''.join(parts)` instead of `+=` in loops, **sets** for O(1) membership testing, and bind frequently called functions to local variables. Always profile before optimising — never guess where the bottleneck is.
 
 ```python
 # Use generators for large data
@@ -279,6 +293,8 @@ cProfile.run("my_function()")
 
 ## 🔒 Security Basics
 
+Fundamental security rules: never hardcode secrets (use environment variables), hash passwords with `bcrypt` or `argon2` (never MD5 or SHA-1), always use parameterised database queries, and validate all input at system boundaries (user data, external APIs).
+
 ```python
 # Never hardcode secrets
 SECRET = os.environ["SECRET_KEY"]         # ✅
@@ -304,6 +320,8 @@ def get_user_age(value: str) -> int:
 ---
 
 ## 📌 Quick Reference
+
+A concise summary of naming conventions, key design principles (DRY, YAGNI, single responsibility, explicit over implicit), and mandatory tooling (formatter, type checker, test runner).
 
 ```python
 # Naming

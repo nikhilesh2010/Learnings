@@ -2,6 +2,8 @@
 
 ## 🔀 if / elif / else
 
+Python's conditional statement branches execution based on truthiness. **Indentation** defines the block body — there are no curly braces. `elif` handles multiple exclusive conditions. The ternary expression `value_if_true if condition else value_if_false` lets you write simple conditionals on one line.
+
 ```python
 age = 20
 
@@ -39,6 +41,8 @@ if items:
 ---
 
 ## 🔁 for Loops
+
+`for` iterates over any iterable — lists, strings, dicts, ranges, files, and more. `range()` generates number sequences. `enumerate()` gives both the index and the value. `zip()` iterates two sequences in parallel. Iterating over dictionary items with `.items()` gives `(key, value)` pairs directly.
 
 ```python
 # Iterate over a sequence
@@ -93,6 +97,8 @@ for key, value in user.items():  # both
 
 ## 🔄 while Loops
 
+A `while` loop repeats as long as its condition is truthy. Use it when you don't know the number of iterations in advance. Always ensure the condition eventually becomes falsy, or include a `break` to exit. The `while True: ... break` pattern is common for event loops and input-reading loops.
+
 ```python
 count = 0
 while count < 5:
@@ -115,6 +121,8 @@ while True:
 ---
 
 ## ⏭️ break, continue, pass
+
+`break` exits the entire loop immediately. `continue` skips the rest of the current iteration and moves to the next. `pass` is a syntactic no-op — it satisfies Python's requirement for an indented block without doing anything. Python's `for/else` and `while/else` clause runs only if the loop completed without hitting `break`.
 
 ```python
 # break — exit the loop entirely
@@ -206,6 +214,10 @@ match command:
 
 ## 🎯 Comprehension Expressions (Preview)
 
+List comprehensions create a new list from an iterable in a single, readable expression — faster than a manual loop with `append()`. They directly express the transformation: "give me `expr` for each `item` in `iterable` where `condition` is met".
+
+> See [11-comprehensions.md](11-comprehensions.md) for full coverage of dict, set, and generator comprehensions.
+
 ```python
 # Instead of:
 squares = []
@@ -224,6 +236,8 @@ evens = [i for i in range(20) if i % 2 == 0]
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of Python's key control flow constructs: conditionals, loops, and pattern matching.
 
 ```python
 # if/elif/else

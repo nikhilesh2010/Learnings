@@ -2,6 +2,8 @@
 
 ## 📝 String Basics
 
+Strings are **immutable** sequences of Unicode characters. Single and double quotes are interchangeable. Triple quotes create multiline strings. Raw strings (`r'...'`) treat every backslash as a literal character — essential for regex patterns and Windows paths. Because strings are immutable, methods always return a new string; they never modify the original.
+
 ```python
 # Creation
 s1 = 'single quotes'
@@ -20,6 +22,8 @@ s = "H" + s[1:]   # create a new string instead
 ---
 
 ## 🔄 f-Strings (Python 3.6+) — Preferred
+
+f-strings (formatted string literals) are the **modern standard** for embedding values in strings. Any expression inside `{}` is evaluated and converted to a string. Format specifiers (`:,.2f`, `:.1%`, `:<10`, etc.) control alignment, precision, and number formatting. The `=` specifier (`f"{value=}"`) is a Python 3.8+ shortcut that prints both the expression and its value — invaluable for debugging.
 
 ```python
 name = "Alice"
@@ -128,6 +132,8 @@ s.strip("xyz")   # strip specific chars
 
 ## 🔪 Slicing
 
+Strings support the same slice syntax as lists: `s[start:stop:step]`. Omitting `start` defaults to 0; omitting `stop` defaults to the end. Negative indices count from the right (`-1` is the last character). `s[::-1]` is the idiomatic Python idiom for reversing a string.
+
 ```python
 s = "Hello, World!"
 #    0123456789...
@@ -146,6 +152,8 @@ s[::-1]   # reversed string  → "!dlroW ,olleH"
 
 ## 🔗 String Concatenation & Repetition
 
+The `+` operator joins strings and `*` repeats them. For building a single string from many pieces in a loop, always use `'separator'.join(parts)` — it's far more efficient because it allocates exactly one new string object instead of creating intermediate copies at each `+`.
+
 ```python
 "Hello" + ", " + "World"   # "Hello, World"
 "ha" * 3                   # "hahaha"
@@ -158,6 +166,8 @@ result = " ".join(parts)   # faster than + in loops
 ---
 
 ## 📐 String Formatting Styles
+
+Python has three ways to format strings. **f-strings** (Python 3.6+) are the modern, preferred style — most readable and fastest. **`.format()`** is older but still widely used and supported everywhere. **`%` formatting** is a legacy C-style syntax from Python 2 — avoid it in new code.
 
 ```python
 name, age = "Alice", 30
@@ -176,6 +186,8 @@ f"Name: {name}, Age: {age}"
 ---
 
 ## 🔄 Common Patterns
+
+A collection of frequently needed string operations that don't have a single built-in method: checking if a string is numeric, reversing, counting unique characters, stripping punctuation, and splitting on multiple delimiters with regex.
 
 ```python
 # Check if string is a number
@@ -204,6 +216,8 @@ re.split(r"[,;.\s]+", "a,b;c.d e")   # ["a","b","c","d","e"]
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of the most commonly used string methods and operations.
 
 ```python
 s.upper() / s.lower() / s.title()

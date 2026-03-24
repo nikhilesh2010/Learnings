@@ -62,6 +62,8 @@ def __exit__(self, exc_type, exc_val, exc_tb):
 
 ## ⚡ contextlib — Generator-Based (Simpler!)
 
+The `@contextmanager` decorator lets you write a context manager as a simple generator function instead of a class with `__enter__`/`__exit__` methods. The code before `yield` is the setup phase; the code in the `finally` block is the teardown. This is the most concise way to create custom context managers.
+
 ```python
 from contextlib import contextmanager
 
@@ -181,6 +183,8 @@ def process(data, lock=None):
 
 ## 🔗 Multiple Context Managers
 
+Multiple context managers can be combined on a single `with` line, which is cleaner than nesting. For a **dynamic** number of context managers (e.g., opening files from a list), use `contextlib.ExitStack` — it registers each manager at runtime and ensures all are closed properly even if one raises.
+
 ```python
 # Multiple on same line (preferred)
 with open("input.txt") as fin, open("output.txt", "w") as fout:
@@ -214,6 +218,8 @@ with ExitStack() as stack:
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of context manager syntax (class-based and generator-based) and the most useful `contextlib` utilities.
 
 ```python
 # Class-based

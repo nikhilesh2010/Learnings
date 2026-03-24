@@ -15,6 +15,8 @@
 
 ## 🗃️ sqlite3 — Built-in
 
+Python's built-in `sqlite3` module provides a serverless SQL database — perfect for development, embedded applications, and testing with no server setup. Always set `conn.row_factory = sqlite3.Row` for dict-like row access. Always use **parameterised queries** (`?` placeholders) — never concatenate user input into SQL strings.
+
 ```python
 import sqlite3
 from contextlib import contextmanager
@@ -179,6 +181,8 @@ with Session(engine) as session:
 
 ## 🚀 SQLModel — Modern (SQLAlchemy + Pydantic)
 
+SQLModel combines SQLAlchemy (ORM) and Pydantic (data validation) in a single unified model class. The same class serves as both the database table definition and the API request/response schema, eliminating duplication. Created by the FastAPI author, it integrates seamlessly with FastAPI.
+
 ```bash
 pip install sqlmodel
 ```
@@ -212,6 +216,8 @@ with Session(engine) as session:
 
 ## 🐘 PostgreSQL with psycopg2
 
+`psycopg2` is the standard PostgreSQL adapter for Python. Use `psycopg2-binary` for easy installation without a C compiler. `RealDictCursor` makes rows behave like dicts keyed by column name. Use `%s` as the placeholder (not `?` like sqlite3) for parameterised queries.
+
 ```bash
 pip install psycopg2-binary
 ```
@@ -242,6 +248,8 @@ conn.close()
 
 ## 🔑 Safety Rules
 
+The single most important database rule: **always use parameterised queries**. Never concatenate user input into SQL strings — doing so enables SQL injection attacks that can expose, modify, or delete your entire database. Every database library in Python supports parameterised queries.
+
 ```python
 # ✅ Always use parameterized queries
 cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
@@ -253,6 +261,8 @@ cursor.execute(f"SELECT * FROM users WHERE email = '{email}'")
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of sqlite3 and SQLAlchemy 2.x essentials, with a reminder to always parameterise queries.
 
 ```python
 # sqlite3

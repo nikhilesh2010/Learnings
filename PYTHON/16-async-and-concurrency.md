@@ -2,6 +2,8 @@
 
 ## ⚡ Concurrency vs Parallelism
 
+**Concurrency** means multiple tasks make progress by taking turns (interleaving on a single CPU). **Parallelism** means tasks run literally simultaneously on multiple CPU cores. Python's `asyncio` and `threading` provide concurrency; `multiprocessing` provides true parallelism, bypassing the GIL for CPU-bound work.
+
 ```
 Concurrency  — multiple tasks in progress at the same time (interleaved)
 Parallelism  — multiple tasks running at the exactly same time (multiple CPUs)
@@ -260,6 +262,8 @@ with ThreadPoolExecutor(max_workers=5) as executor:
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of Python's three concurrency models: asyncio (I/O-bound async/await), threading (blocking I/O), and multiprocessing (CPU-bound parallelism).
 
 ```python
 # asyncio

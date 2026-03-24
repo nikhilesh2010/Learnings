@@ -32,6 +32,13 @@ say_hello()
 
 ## 🔧 Decorator Anatomy
 
+Every decorator follows the same structure:
+1. The **outer function** receives the original function as its argument.
+2. Inside, you define a **wrapper function** that adds your new behavior and then calls the original function.
+3. The outer function **returns the wrapper** (not the result — the function itself).
+
+`@functools.wraps(func)` is important: when you wrap a function, Python would normally lose the original function's name, docstring, and other metadata (because now `func.__name__` would say `wrapper`). `@functools.wraps` copies that metadata across so it looks like the original function.
+
 ```python
 import functools
 
@@ -51,7 +58,11 @@ def decorator(func):
 
 ## 🎯 Common Decorator Use Cases
 
+Decorators are most commonly used for **cross-cutting concerns** — functionality that many functions need but that is not the function's core purpose. You write the logic once in a decorator and apply it anywhere with `@`.
+
 ### Timing
+Measures how long a function takes to execute. Useful for profiling and finding slow code.
+
 ```python
 import functools
 import time
@@ -74,6 +85,8 @@ slow_function()   # slow_function took 1.0012s
 ```
 
 ### Logging
+Automatically records every call to a function — what arguments it received and what it returned. Replaces manual `print` debugging.
+
 ```python
 import functools
 import logging
@@ -93,6 +106,8 @@ def add(a, b):
 ```
 
 ### Retry
+Automatically retries a function if it raises an exception. Very common for network calls, database queries, or any operation that might temporarily fail. You configure how many times to retry and how long to wait between attempts.
+
 ```python
 import functools
 import time
@@ -118,7 +133,9 @@ def fetch_data(url):
     ...
 ```
 
-### Caching
+### Caching (Memoization)
+Stores the return value of a function for each set of arguments it has been called with. If the same arguments are passed again, the cached result is returned instantly without re-running the function. `@cache` is especially powerful for recursive functions (like Fibonacci) where the same sub-problems are solved many times.
+
 ```python
 from functools import lru_cache, cache
 
@@ -140,6 +157,8 @@ fib.cache_clear() # clear the cache
 ```
 
 ### Validation
+Checks inputs before the function runs and raises an error if they are invalid. Keeps validation logic separate from business logic.
+
 ```python
 def validate_positive(*arg_names):
     def decorator(func):
@@ -164,7 +183,10 @@ create_rect(-1, 5)   # ValueError: width must be positive, got -1
 
 ## 🏗️ Decorators with Arguments
 
-To accept arguments, you need an **extra wrapper layer**.
+Sometimes you want to configure a decorator when applying it, like `@repeat(3)`. To do this, you need **one extra layer of nesting**: a factory function that takes the configuration arguments and returns a regular decorator. So you end up with three nested functions:
+1. The **factory** — takes decorator arguments (e.g., `n=3`)
+2. The **decorator** — takes the function
+3. The **wrapper** — takes the function's arguments and runs the logic
 
 ```python
 def repeat(n):           # ← takes decorator argument
@@ -191,6 +213,8 @@ say_hi()
 
 ## 🔗 Stacking Decorators
 
+You can apply multiple decorators to the same function. They are applied **from the bottom up** — the decorator closest to the function is applied first, then the one above it wraps that result, and so on. Think of it like layers of an onion, with the innermost decorator wrapping the original function first.
+
 ```python
 @decorator_a
 @decorator_b
@@ -205,6 +229,8 @@ def func():
 ---
 
 ## 🏛️ Class-Based Decorators
+
+Instead of a function, you can implement a decorator as a class. The class receives the function in `__init__`, and the `__call__` method makes the class instance callable (so it can be used like a function). This is useful when the decorator needs to maintain state across multiple calls (e.g., a call counter or a cache), because state is naturally stored as instance attributes.
 
 ```python
 class Memoize:
@@ -231,7 +257,7 @@ slow_square(5)   # 25 (instant — from cache)
 
 ## 🔧 Class Decorators
 
-Decorators can also decorate **classes**:
+Decorators can also be applied to **classes**, not just functions. A class decorator receives the class itself as its argument and returns a modified version (or a wrapper). This is how the `@singleton` pattern is implemented — you intercept class creation to ensure only one instance ever exists.
 
 ```python
 def singleton(cls):
@@ -257,6 +283,8 @@ db1 is db2   # True
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of decorator syntax: basic decorators, decorators with arguments, stacking multiple decorators, and the most important built-in decorators.
 
 ```python
 # Basic decorator

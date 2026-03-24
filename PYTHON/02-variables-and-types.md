@@ -24,6 +24,8 @@ first, *rest = [1, 2, 3, 4, 5]   # first=1, rest=[2,3,4,5]
 
 ## 🔢 Built-in Data Types
 
+Python ships with a rich set of built-in types covering text, numbers, booleans, sequences, mappings, and sets. Understanding which type to use — and the trade-offs between `list` (mutable, ordered) vs `tuple` (immutable), `dict` (key-value) vs `set` (unique values) — is foundational to writing Pythonic code.
+
 ```
 ┌────────────────────────────────────────────────┐
 │              Python Data Types                  │
@@ -42,6 +44,8 @@ first, *rest = [1, 2, 3, 4, 5]   # first=1, rest=[2,3,4,5]
 ---
 
 ## 🔢 Numbers
+
+Python's `int` type has **unlimited precision** — it grows as needed, unlike C or Java. `float` is a 64-bit IEEE 754 double. Use underscores in large literals (`1_000_000`) solely for readability. True division `/` always returns a float; floor division `//` returns an integer; `**` is exponentiation.
 
 ```python
 # int — whole numbers (unlimited size!)
@@ -94,6 +98,8 @@ bool("hi")      # True
 
 ## 📝 Strings
 
+Strings are **immutable** sequences of Unicode characters. Single and double quotes are interchangeable; triple quotes allow multiline strings. f-strings (Python 3.6+) are the modern, preferred way to embed expressions in strings. Because strings are immutable, every operation returns a new string — the original is never modified. See [06-strings.md](06-strings.md) for the full reference.
+
 ```python
 # String creation
 s1 = 'single quotes'
@@ -115,6 +121,8 @@ print(f"{pi:.2f}")                 # 3.14 — formatting
 ---
 
 ## ✅ Booleans
+
+Python's booleans are `True` and `False` (capitalised). Many values are **falsy** — they evaluate to `False` in a boolean context: `0`, `0.0`, `''`, `[]`, `{}`, `set()`, and `None`. This lets you write clean conditional checks like `if items:` instead of `if len(items) > 0:`. Logical operators (`and`, `or`, `not`) short-circuit and return the actual value, not just `True`/`False`.
 
 ```python
 # True / False (capitalized!)
@@ -151,6 +159,8 @@ z = x and x.value    # z = None (safe, never calls .value)
 
 ## 🚫 None
 
+`None` is Python's null value — the single instance of `NoneType`, representing the absence of a value. Always check for `None` using the **identity operator** `is` (not `==`), because custom objects may override `__eq__`. It's commonly used as a default argument sentinel and as the implicit return value of functions that don't return anything.
+
 ```python
 # None is Python's null — represents "no value"
 result = None
@@ -173,6 +183,8 @@ def greet(name=None):
 
 ## 🔍 Type Checking
 
+Python is dynamically typed — variables can hold any type at runtime. `type()` returns the exact type; `isinstance()` is preferred because it also matches subclasses. Type **annotations** (e.g., `x: int`) are hints for static analysis tools like `mypy`; they are never enforced at runtime.
+
 ```python
 x = 42
 
@@ -193,6 +205,8 @@ def add(a: int, b: int) -> int:
 ---
 
 ## 🔄 Variable Scope (Preview)
+
+Python uses the **LEGB** rule to resolve variable names: Local → Enclosing → Global → Built-in. A variable assigned inside a function is local by default. Use `global` to modify a module-level variable from inside a function; use `nonlocal` to modify a variable in the immediately enclosing (non-global) scope.
 
 ```python
 x = "global"
@@ -215,6 +229,8 @@ print(x)              # modified
 ---
 
 ## 📌 Quick Reference
+
+A concise summary of Python's most fundamental type-checking, conversion, and identity operations.
 
 ```python
 # Check type

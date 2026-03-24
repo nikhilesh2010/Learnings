@@ -2,6 +2,8 @@
 
 ## 📂 Opening Files
 
+Files are opened with the built-in `open(path, mode, encoding)` function. Always use the `with` statement — it is a context manager that guarantees the file is closed even if an exception is raised. Always specify `encoding='utf-8'` to avoid platform-dependent defaults that can cause cross-platform bugs.
+
 ```python
 # open(path, mode, encoding)
 f = open("data.txt", "r", encoding="utf-8")
@@ -28,6 +30,8 @@ with open("data.txt", "r", encoding="utf-8") as f:
 
 ## 📖 Reading Files
 
+`f.read()` loads the entire file into one string — convenient but not suitable for very large files. `f.readlines()` returns a list of lines including the trailing `\n`. Iterating `for line in f:` reads one line at a time and is the most memory-efficient approach for files too large to load at once.
+
 ```python
 # Read entire file as a string
 with open("data.txt") as f:
@@ -51,6 +55,8 @@ with open("data.txt") as f:
 ---
 
 ## ✏️ Writing Files
+
+`open()` in write mode (`'w'`) creates the file or **overwrites** it completely. Append mode (`'a'`) adds to the end. `f.writelines()` writes a list of strings (you must include `\n` yourself). You can also redirect `print()` output to a file with `print(..., file=f)`.
 
 ```python
 # Write (overwrites existing content)
@@ -77,6 +83,8 @@ with open("output.txt", "w") as f:
 
 ## 📦 Working with JSON
 
+JSON is the standard data interchange format for web APIs and configuration files. Python's `json` module maps directly between JSON objects and Python dicts. `json.dump()` / `json.load()` work with open file objects. `json.dumps()` / `json.loads()` work with strings. Use `indent=2` for human-readable output.
+
 ```python
 import json
 
@@ -100,6 +108,8 @@ parsed   = json.loads(json_str)    # string → dict
 ---
 
 ## 📊 Working with CSV
+
+Python's built-in `csv` module handles quoting and escaping correctly — something that naive `row.split(',')` misses entirely (values can contain commas if quoted). `DictReader` parses each row into a dict keyed by the header row, which is the most convenient interface for most use cases.
 
 ```python
 import csv
@@ -191,6 +201,8 @@ Path("empty_dir").rmdir()  # delete empty directory
 
 ## 🔧 os Module (Older Style)
 
+`os` is the traditional string-based interface to the operating system. Prefer `pathlib` for path manipulation in new code — it's more readable and cross-platform. However, `os.environ` and `os.environ.get()` remain the standard way to read environment variables, regardless of style preference.
+
 ```python
 import os
 
@@ -209,6 +221,8 @@ os.environ.get("HOME")       # environment variable
 ---
 
 ## ⚠️ Error Handling with Files
+
+File operations raise specific exceptions: `FileNotFoundError` if the path doesn't exist, `PermissionError` if access is denied, and `json.JSONDecodeError` if a JSON file is malformed. Wrap file access in `try/except` for graceful degradation, and use `Path.exists()` to guard against known-bad paths before opening.
 
 ```python
 from pathlib import Path
@@ -233,6 +247,8 @@ if p.exists() and p.is_file():
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of Python's file I/O essentials: reading, writing, JSON, CSV, and pathlib.
 
 ```python
 # Read

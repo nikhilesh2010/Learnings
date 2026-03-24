@@ -201,6 +201,8 @@ fs.add(4)   # AttributeError!
 
 ## 🏆 collections Module
 
+The `collections` module provides specialised container types beyond the built-in `list`, `dict`, and `set`. `Counter` counts hashable items and returns a frequency map. `deque` is a double-ended queue with O(1) appends and pops from both ends. `defaultdict` auto-creates missing keys, eliminating `if key not in d:` boilerplate.
+
 ```python
 from collections import Counter, deque, OrderedDict, defaultdict
 
@@ -226,6 +228,8 @@ for i in range(10):
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of Python's four core collection types and their most-used operations.
 
 ```python
 # List

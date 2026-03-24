@@ -19,6 +19,8 @@
 
 ## 📊 How Python Works
 
+Python is an **interpreted** language. When you run a `.py` file, CPython compiles the source to bytecode (`.pyc`) and immediately executes it on the Python Virtual Machine — all automatically. You never manage compilation yourself; just run `python my_script.py` and execution begins instantly.
+
 ```
 Source Code (.py) → Python Interpreter → Bytecode (.pyc) → Python VM → Output
 ```
@@ -76,22 +78,26 @@ print(type(print))     # <class 'builtin_function_or_method'>
 
 ## 🎯 Python Use Cases
 
+Python's readable syntax, huge ecosystem (400,000+ PyPI packages), and fast development cycle have made it dominant in **data science, machine learning, web backends, automation, and scripting**. Knowing when Python is the right tool — and when it isn't (e.g., CPU-intensive real-time systems) — is the first practical insight.
+
 ```
-┌─────────────────────────────────────────────┐
+┌──────────────────────────────────────────────┐
 │              Python Ecosystem                │
-├─────────────────┬───────────────────────────┤
-│  Web Dev        │  Django, Flask, FastAPI    │
-│  Data Science   │  pandas, NumPy, Jupyter    │
+├──────────────────┬───────────────────────────┤
+│  Web Dev         │  Django, Flask, FastAPI   │
+│  Data Science    │  pandas, NumPy, Jupyter   │
 │  Machine Learning│ TensorFlow, PyTorch       │
-│  Automation     │  Selenium, pyautogui       │
-│  DevOps         │  Ansible, Fabric           │
-│  Scripting      │  os, subprocess, pathlib   │
-└─────────────────┴───────────────────────────┘
+│  Automation      │  Selenium, pyautogui      │
+│  DevOps          │  Ansible, Fabric          │
+│  Scripting       │  os, subprocess, pathlib  │
+└──────────────────┴───────────────────────────┘
 ```
 
 ---
 
 ## ⚙️ Installation & Setup
+
+You run Python scripts with the `python` (Windows) or `python3` (macOS/Linux) command. External packages are installed with `pip`. In VS Code, use **Python: Select Interpreter** from the Command Palette to point the editor at the right environment so you get proper autocomplete and linting.
 
 ```bash
 # Check if Python is installed
@@ -118,6 +124,8 @@ pip install requests
 
 ## 📝 Your First Python Program
 
+A typical Python script wraps logic in a function (for reusability and testability) and uses the `if __name__ == '__main__':` guard to run code only when the file is executed directly — not when it's imported as a module. Every public function should have a **docstring** describing what it does and returns.
+
 ```python
 # hello.py
 
@@ -134,6 +142,8 @@ if __name__ == "__main__":
 
 ## 🔑 Key Python Philosophy
 
+The Zen of Python (`import this`) is a set of aphorisms that guide how Python code should be written. The essentials: **Beautiful is better than ugly. Explicit is better than implicit. Simple is better than complex. Readability counts.** When in doubt between two approaches, choose the more readable one.
+
 ```python
 import this  # prints "The Zen of Python"
 ```
@@ -146,6 +156,8 @@ import this  # prints "The Zen of Python"
 ---
 
 ## 📌 Quick Reference
+
+A summary of Python's fundamental built-in operators for output, input, and introspection. `print()` is highly flexible with `sep` and `end` arguments. `help()` and `dir()` are invaluable for exploring any object or module interactively in the REPL.
 
 ```python
 # Comments

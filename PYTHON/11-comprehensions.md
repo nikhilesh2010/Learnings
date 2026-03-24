@@ -1,8 +1,15 @@
 # 11: Comprehensions
 
+Comprehensions are a concise, readable, and Pythonic way to create **new collections** from existing ones in a single expression. Instead of writing a `for` loop, appending to a list, you express the entire transformation in one line. Python supports four types: list, dict, set, and generator comprehensions.
+
 ## 🔄 List Comprehensions
 
-A concise way to create lists. Faster than equivalent `for` loops.
+A list comprehension creates a new list by applying an expression to each item in an iterable, optionally filtering items with a condition. It is faster than an equivalent manual `for` loop because Python optimizes it internally.
+
+**Syntax: `[expression for item in iterable if condition]`**
+- `expression` — what to put in the new list (can be any calculation)
+- `for item in iterable` — loop over items
+- `if condition` — optional filter (only items where condition is True are included)
 
 ```python
 # Syntax: [expression for item in iterable if condition]
@@ -27,6 +34,8 @@ for w in words:
 ```
 
 ### Nested Loops
+You can write nested `for` clauses inside a comprehension. They work just like nested `for` loops in normal code, read left to right. The common use cases are flattening 2D lists (a list of lists) and generating all combinations (Cartesian product) of two sequences.
+
 ```python
 # Flatten a 2D list
 matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
@@ -39,6 +48,12 @@ pairs = [(x, y) for x in [1, 2, 3] for y in ["a", "b"]]
 ```
 
 ### if/else in Expression (Different Position!)
+There is an important distinction between two places the `if` can appear:
+- **After the iterable** (`for x in ... if cond`) — this is a **filter**. Items where the condition is False are excluded from the output.
+- **In the expression** (`val_if_true if cond else val_if_false for x in ...`) — this is a **ternary transform**. Every item is included but gets a different value depending on the condition.
+
+You can also combine both, but the filter `if` always comes at the end.
+
 ```python
 # Condition in expression (no filtering — every item included)
 labels = ["even" if x % 2 == 0 else "odd" for x in range(6)]
@@ -51,6 +66,8 @@ result = [x**2 if x > 0 else 0 for x in range(-3, 4) if x != 2]
 ---
 
 ## 🗄️ Dict Comprehensions
+
+A dict comprehension creates a new dictionary by building key-value pairs from an iterable. The syntax is similar to list comprehensions but uses curly braces and a `key: value` expression. Common uses include transforming an existing dict, swapping keys and values, filtering a dict, or building a dict from two parallel lists using `zip`.
 
 ```python
 # Syntax: {key: value for item in iterable if condition}
@@ -83,6 +100,8 @@ user   = {k: v for k, v in zip(keys, values)}
 
 ## 🔵 Set Comprehensions
 
+A set comprehension creates a **set** (an unordered collection with no duplicates) using the same syntax as a list comprehension but with curly braces `{}`. Because sets automatically discard duplicates, set comprehensions are perfect when you want unique values from an iterable.
+
 ```python
 # Syntax: {expression for item in iterable if condition}
 
@@ -105,7 +124,11 @@ normalized = {n.lower() for n in names}
 
 ## ⚡ Generator Expressions
 
-Like list comprehensions but **lazy** — compute one item at a time. Memory efficient.
+A generator expression looks exactly like a list comprehension but uses **parentheses `()`** instead of square brackets `[]`. The key difference is that a list comprehension immediately computes all values and stores them in memory, while a generator expression is **lazy** — it computes one value at a time, only when asked.
+
+This makes generator expressions ideal for:
+- Very large sequences where you don't want to hold everything in memory
+- Passing into functions like `sum()`, `any()`, `all()`, `max()` that process one item at a time anyway
 
 ```python
 # Syntax: (expression for item in iterable if condition)
@@ -128,6 +151,8 @@ gen_expr  = (x**2 for x in range(5))   # generator object — lazy
 ```
 
 ### When to use Generator vs List?
+As a rule of thumb: if you only need to loop through the result once (e.g., passing to `sum()`), use a generator. If you need to reuse the result, index into it, or get its length, use a list.
+
 ```python
 # Use LIST when: you need to reuse results, index, or know the length
 squares_list = [x**2 for x in range(1000)]
@@ -141,6 +166,8 @@ total = sum(x**2 for x in range(1_000_000))   # constant memory!
 ---
 
 ## 🎯 Practical Examples
+
+Real-world comprehension patterns: parsing structured text into dicts, extracting fields from a list of dicts with filtering, counting word frequencies with a dict comprehension, and building nested dict comprehensions for matrix-like data.
 
 ```python
 # Parse CSV-like data
@@ -169,6 +196,8 @@ matrix_dict = {i: {j: i*j for j in range(1, 4)} for i in range(1, 4)}
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of all four comprehension types — list, dict, set, and generator — with filtering and nesting syntax.
 
 ```python
 # List

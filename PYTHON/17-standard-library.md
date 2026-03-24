@@ -2,6 +2,8 @@
 
 ## 🗓️ datetime — Dates and Times
 
+`datetime` provides `date`, `time`, `datetime`, and `timedelta` types. Use `datetime.now()` for local time or `datetime.utcnow()` for UTC. `strftime()` formats a datetime to a string; `strptime()` parses a string into a datetime. For production code, prefer timezone-aware datetimes.
+
 ```python
 from datetime import datetime, date, time, timedelta
 
@@ -34,6 +36,8 @@ datetime.fromisoformat("2025-06-15T14:30:00")
 ---
 
 ## 🗂️ os — Operating System Interface
+
+`os` provides an interface to the operating system: working directory, environment variables, and file system operations. For path manipulation, prefer `pathlib` in new code — it's more readable. `os.environ.get()` remains the standard way to read environment variables in any style.
 
 ```python
 import os
@@ -68,6 +72,8 @@ os.cpu_count()       # number of CPUs
 
 ## ⚙️ sys — Python Interpreter
 
+`sys` exposes information about the Python interpreter: version, platform, command-line arguments (`sys.argv`), the module search path (`sys.path`), and standard I/O streams. `sys.exit(code)` terminates the process with the given exit code (0 = success).
+
 ```python
 import sys
 
@@ -87,6 +93,8 @@ sys.getsizeof(obj)        # memory size in bytes
 ---
 
 ## 🔢 math — Mathematical Functions
+
+The `math` module provides standard mathematical functions: `sqrt`, `log`, `floor`, `ceil`, `factorial`, `gcd`, and trigonometric functions. It also exposes the constants `math.pi`, `math.e`, and `math.inf`.
 
 ```python
 import math
@@ -121,6 +129,8 @@ math.isinf(math.inf)  # True
 
 ## 🎲 random — Random Numbers
 
+`random` generates pseudo-random numbers. `randint(a, b)` returns an inclusive integer in the range. `choice()` picks a random element. `sample()` picks without replacement. Call `random.seed()` for reproducible results in tests.
+
 ```python
 import random
 
@@ -141,6 +151,8 @@ random.seed(42)            # reproducible results
 ---
 
 ## 🔄 collections — Specialized Containers
+
+`collections` provides container types beyond the built-ins. `Counter` counts occurrences and supports arithmetic. `defaultdict` creates missing keys with a factory. `deque` is efficient at both ends (O(1) append/pop). `namedtuple` adds field names to tuples without the overhead of a full class.
 
 ```python
 from collections import (
@@ -182,6 +194,8 @@ p._replace(x=5) # Point(x=5, y=4)
 
 ## 🔄 itertools — Efficient Iterators
 
+`itertools` provides building blocks for working with iterators efficiently — all lazy and memory-efficient. Key functions: `chain` joins iterables, `islice` slices any iterator, `product`/`combinations`/`permutations` handle combinatorics, and `groupby` groups consecutive identical-key elements.
+
 ```python
 import itertools
 
@@ -205,6 +219,8 @@ itertools.filterfalse(pred, it)
 ---
 
 ## ⚙️ subprocess — Run Shell Commands
+
+`subprocess.run()` executes a shell command from Python. Use `capture_output=True` to capture stdout/stderr as strings. Use `check=True` to raise `CalledProcessError` on non-zero exit codes. Avoid `shell=True` with user-provided input — it enables shell injection attacks.
 
 ```python
 import subprocess
@@ -236,6 +252,8 @@ proc = subprocess.run(
 
 ## 📦 copy — Copy Objects
 
+Python assignment creates an additional reference to the same object — it does not copy. `copy.copy()` makes a **shallow** copy (new container, same nested objects). `copy.deepcopy()` makes a fully independent recursive copy. Use `deepcopy` whenever your data contains nested mutable objects.
+
 ```python
 import copy
 
@@ -253,6 +271,8 @@ deep["hobbies"].append("hiking")      # original unchanged
 ---
 
 ## 🔗 hashlib — Cryptographic Hashing
+
+`hashlib` provides cryptographic hash functions including SHA-256, SHA-512, and MD5. Use SHA-256 for data integrity verification. **MD5 is not cryptographically secure** — only use it for non-security checksums. The `h.update(chunk)` loop pattern processes large files without loading them fully into memory.
 
 ```python
 import hashlib
@@ -276,6 +296,8 @@ def file_sha256(path):
 ---
 
 ## 📌 Top Standard Library Modules
+
+A tour of other highly useful standard library modules: `time` for pausing and high-resolution timing, `uuid` for unique identifiers, `pprint` for readable nested output, `textwrap` for line wrapping, `shutil` for file/directory operations, and `tempfile` for safe temporary files.
 
 ```python
 # Time

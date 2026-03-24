@@ -5,6 +5,7 @@
   { label: "Node", path: "NODE/README.md" },
   { label: "Python", path: "PYTHON/README.md" },
   { label: "FastAPI", path: "FASTAPI/README.md" },
+  { label: "PHP", path: "PHP/README.md" },
 ];
 
 const grid = document.getElementById("readme-grid");

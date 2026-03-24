@@ -13,6 +13,8 @@
 
 ## ⚗️ Flask — Minimal Web Framework
 
+**Flask** is a lightweight, synchronous web framework. You define routes with `@app.route()` decorators and have complete control with minimal magic. Use it for simple APIs, prototyping, or projects where you want to choose your own components (ORM, auth, etc.) rather than using a full battery.
+
 ```bash
 pip install flask
 ```
@@ -102,6 +104,8 @@ def server_error(error):
 ---
 
 ## ⚡ FastAPI — Modern Async Framework
+
+**FastAPI** is a high-performance async framework built on Starlette and Pydantic. It auto-generates interactive API docs (Swagger UI) from your code. Type-annotated function parameters and Pydantic models provide automatic request parsing, validation, and serialisation with no boilerplate.
 
 ```bash
 pip install fastapi uvicorn
@@ -220,6 +224,8 @@ http://localhost:8000/openapi.json → OpenAPI schema
 
 ## 🏰 Django — Batteries Included
 
+**Django** is a full-featured framework with an ORM, admin panel, authentication, forms, and much more built in. It follows the **MTV** (Model-Template-View) pattern. Use it for full web applications, content management systems, or any project that benefits from having all the standard pieces ready to go.
+
 ```bash
 pip install django
 django-admin startproject mysite
@@ -281,6 +287,8 @@ python manage.py createsuperuser
 
 ## 📌 Choose Your Framework
 
+A decision guide: Flask for simple APIs and full control over every component; FastAPI for high-performance async APIs with automatic docs and validation; Django for full web applications with an admin interface.
+
 ```
 Small/simple API     → Flask
 High-performance API → FastAPI
@@ -293,6 +301,8 @@ Auto validation/docs → FastAPI
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of Flask and FastAPI route definitions and request handling.
 
 ```python
 # Flask

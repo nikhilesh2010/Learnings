@@ -11,6 +11,8 @@ Unhandled exceptions crash your program. Good error handling:
 
 ## 🔠 Exception Hierarchy
 
+Python's exceptions form an inheritance tree rooted at `BaseException`. You should almost always catch subclasses of `Exception`. `SystemExit` and `KeyboardInterrupt` inherit directly from `BaseException` — catching them is rarely appropriate. Catching a parent class (e.g., `LookupError`) automatically catches all its children (`IndexError`, `KeyError`, etc.).
+
 ```
 BaseException
 ├── SystemExit
@@ -42,6 +44,13 @@ BaseException
 ---
 
 ## 🛡️ try / except / else / finally
+
+Python's error handling uses four clauses, each with a distinct purpose:
+
+- **`try`** — the block of code to attempt. If an exception occurs anywhere in here, Python immediately jumps to one of the handler blocks below.
+- **`except`** — catches and handles a specific exception type. You can have multiple `except` clauses to handle different exceptions differently. Always catch the most specific exception you can.
+- **`else`** — runs **only if no exception occurred** in the `try` block. Useful for code that should only run on success (keeps it separate from the `try` block).
+- **`finally`** — **always runs**, whether an exception happened or not. Used for cleanup code that must run no matter what (e.g., closing a file or releasing a database connection).
 
 ```python
 # Basic
@@ -88,6 +97,10 @@ finally:
 
 ## 🔄 Re-raising Exceptions
 
+Sometimes you want to **catch** an exception (e.g., to log it or add context) but then **re-raise** it so the caller still knows something went wrong. There are two ways:
+1. `raise` with no arguments — re-raises the exact same exception that was caught, preserving the full original traceback.
+2. `raise NewError(...) from original` — raises a different exception but **chains** the original as the cause (`__cause__`). This is important for transparency — it shows both errors in the traceback so you can trace the full chain of events.
+
 ```python
 def fetch_user(user_id):
     try:
@@ -107,6 +120,12 @@ except FileNotFoundError as e:
 ---
 
 ## 🧩 Custom Exceptions
+
+You can create your own exception classes by inheriting from `Exception` (or another existing exception class). Custom exceptions make your code more expressive — instead of raising a generic `ValueError`, you raise a `NotFoundError` or `ValidationError` that clearly communicates what went wrong.
+
+Best practice:
+- Create a **base app exception** (e.g., `AppError`) and make all your custom exceptions extend it. This way callers can catch all app-level errors with `except AppError` if needed.
+- Add extra attributes (like `code`, `field`, `resource`) to carry structured error information beyond just the message.
 
 ```python
 # Base application exception
@@ -155,6 +174,8 @@ except AppError as e:
 
 ## 🔍 Exception Info & Tracebacks
 
+When an exception occurs, Python stores full information about what went wrong and where. The `traceback` module lets you access and format this information — useful for logging errors in production. `sys.exc_info()` returns a 3-tuple of `(type, value, traceback)` for the currently-handled exception.
+
 ```python
 import traceback
 import sys
@@ -179,6 +200,10 @@ except Exception as e:
 
 ## 🚨 Raising Exceptions
 
+You can raise exceptions manually with the `raise` statement. This is how you signal to the caller that something has gone wrong (e.g., invalid input, resource not found, etc.).
+
+`assert` is a lightweight way to add sanity checks during development. However, assertions are **disabled** when Python runs in optimized mode (`python -O`), so never use `assert` for real input validation in production code — use `if/raise` instead.
+
 ```python
 # raise with message
 raise ValueError("Invalid input")
@@ -199,6 +224,8 @@ def divide(a, b):
 ---
 
 ## 🎯 Best Practices
+
+The golden rule: catch the most **specific** exception you can. Never silently swallow exceptions with a bare `except: pass` — it hides bugs and makes debugging nearly impossible. Always log or re-raise. Use context managers (`with`) for resource cleanup instead of manual `try/finally`.
 
 ```python
 # ✅ Catch specific exceptions
@@ -237,6 +264,8 @@ with open("file.txt") as f:   # auto-closes
 
 ## 🔧 Context Managers for Cleanup
 
+Context managers (the `with` statement) are the cleanest way to ensure resources are released after use regardless of errors. They replace error-prone `try/finally` patterns. File handles, database sessions, locks, and network connections all support the context manager protocol.
+
 ```python
 # Better than try/finally for resource cleanup
 with open("file.txt") as f:
@@ -257,6 +286,8 @@ with open("in.txt") as src, open("out.txt", "w") as dst:
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of Python's error handling syntax: try/except/else/finally, custom exceptions, raising, and re-raising.
 
 ```python
 # Basic

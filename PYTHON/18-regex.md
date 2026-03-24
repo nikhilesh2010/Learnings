@@ -74,6 +74,8 @@ $      — end of string
 
 ## 🛠️ re Functions
 
+The `re` module's core functions: `search()` finds the first match anywhere in the string, `match()` only matches at the very start, `findall()` returns all matches as a list, `sub()` replaces matches, and `split()` splits on a regex pattern. Always prefix patterns with `r` (raw strings) to avoid double-escaping backslashes.
+
 ```python
 import re
 
@@ -113,6 +115,8 @@ re.split(r"[,;]", "a,b;c")          # ["a", "b", "c"]
 
 ## 📦 Compiled Patterns (Faster for Reuse)
 
+`re.compile()` pre-compiles a pattern string into a reusable `Pattern` object. When you apply the same pattern to many strings (e.g., in a loop or validation function), compiling once is faster than recompiling on every call.
+
 ```python
 # Compile once, use many times
 pattern = re.compile(r"\d{4}-\d{2}-\d{2}")
@@ -125,6 +129,8 @@ pattern.sub("XXXX-XX-XX", text)
 ---
 
 ## 🎯 Groups
+
+Parentheses `()` in a pattern create **capturing groups** — portions of the match you can extract independently. `m.group(n)` returns the nth captured group. Named groups `(?P<name>...)` make the code more readable. Non-capturing groups `(?:...)` group without extracting, so they don't consume a group number.
 
 ```python
 # Capturing groups
@@ -148,6 +154,8 @@ re.search(r"(?:https?|ftp)://(\w+)", "https://python")
 ---
 
 ## 🚩 Flags
+
+Flags modify how the regex engine interprets the pattern. The most important: `re.I` for case-insensitive matching, `re.M` to make `^`/`$` match at every line boundary, `re.S` to make `.` match newlines, and `re.X` for verbose patterns with whitespace and inline comments for readability.
 
 ```python
 re.search(r"hello", "HELLO WORLD", re.IGNORECASE)   # case-insensitive
@@ -178,6 +186,8 @@ pattern = re.compile(r"""
 ---
 
 ## 🎯 Common Patterns
+
+Ready-to-use regex patterns for the most common validation tasks: email address, URL, US phone number, ISO date, IPv4 address, hex colour code, URL slug, extracting `href` links from HTML, stripping HTML tags, and normalizing whitespace.
 
 ```python
 # Email
@@ -214,6 +224,8 @@ re.sub(r"\s+", " ", text).strip()
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of the `re` module's core functions, compiled patterns, match object methods, and flags.
 
 ```python
 import re

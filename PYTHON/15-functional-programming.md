@@ -88,6 +88,8 @@ flat = reduce(lambda acc, x: acc + x, nested, [])
 
 ## ⚙️ functools Module
 
+`functools` provides higher-order function utilities. `partial()` pre-fills arguments to create specialised versions of a function. `lru_cache` / `cache` memoize (cache) results of pure functions, transforming exponential recursion into linear work. `reduce()` accumulates a sequence to a single value using a binary function.
+
 ```python
 from functools import partial, reduce, wraps, lru_cache, cache
 
@@ -128,6 +130,8 @@ def fib(n):
 
 ## 🔗 Function Composition
 
+Function composition creates a new function that applies two or more functions in sequence: `compose(f, g)(x)` equals `f(g(x))`. Python has no built-in composition operator, but it's easy to implement with `functools.reduce` and a two-argument `compose` helper.
+
 ```python
 # Compose two functions: compose(f, g)(x) = f(g(x))
 def compose(f, g):
@@ -154,6 +158,8 @@ pipeline(3)   # str(abs(3 - 10)) = str(7) = "7"
 
 ## 🔒 Pure Functions
 
+A pure function always returns the same output for the same input and has **no side effects** — it doesn't modify external state, write to disk, or call the network. Pure functions are trivially testable, easy to reason about, safe to parallelise, and safe to memoize.
+
 ```python
 # Pure function — same input, same output, no side effects
 def add(a, b):
@@ -177,7 +183,7 @@ def append_item_pure(lst, item):
 ---
 
 ## 🧊 Working with Immutable Data
-
+Favour immutable data structures when possible: use tuples instead of lists, and `@dataclass(frozen=True)` for immutable value objects. Instead of modifying data in place, return a new modified copy. This prevents accidental mutation of shared state and makes your code easier to reason about.
 ```python
 # Use tuples instead of lists when data shouldn't change
 point = (3, 4)
@@ -232,6 +238,8 @@ upper = list(map(methodcaller("upper"), ["hello", "world"]))
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of Python's functional programming tools: map, filter, reduce, partial, pure functions, and the operator module.
 
 ```python
 # map / filter / reduce

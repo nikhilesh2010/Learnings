@@ -22,6 +22,8 @@ def process(items: list[int]) -> dict[str, int]:
 
 ## 📦 typing Module
 
+The `typing` module provides building blocks for complex type annotations. `Optional[T]` means `T | None`. `Union` (or the modern `X | Y` syntax in Python 3.10+) allows multiple types. `Callable` annotates function types. `TypeVar` enables generic functions that work with any type while remaining type-safe.
+
 ```python
 from typing import (
     Optional, Union, Any, Callable,
@@ -91,7 +93,7 @@ user: UserData = {"name": "Alice", "age": 30, "email": "alice@example.com"}
 ---
 
 ## 🏛️ Dataclasses — Deep Dive
-
+The `@dataclass` decorator auto-generates `__init__`, `__repr__`, and `__eq__` from your field annotations, eliminating boilerplate. Use `field()` for mutable defaults like lists. `frozen=True` makes the dataclass immutable. `order=True` generates comparison methods (`<`, `>`, etc.) so instances can be sorted.
 ```python
 from dataclasses import dataclass, field, KW_ONLY, asdict, astuple, replace
 
@@ -205,6 +207,8 @@ render(Circle())   # type checker is happy
 
 ## 🔢 Generic Classes
 
+Generic classes work with any type while maintaining static type safety. Declare type parameters with `TypeVar` and use `Generic[T]` as a base class. The type checker verifies that you don't accidentally mix types — for example, a `Stack[int]` will only accept and return `int` values.
+
 ```python
 from typing import Generic, TypeVar
 
@@ -234,6 +238,8 @@ value: int = stack.pop()
 
 ## ✅ Running mypy
 
+`mypy` is the standard Python static type checker. Install it as a dev dependency and run it in CI. Configure it in `pyproject.toml` or `mypy.ini`. Setting `strict = true` enables the most thorough checks, including requiring annotations on all functions.
+
 ```bash
 # Install
 pip install mypy
@@ -253,6 +259,8 @@ strict = true
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of Python type hint syntax: basic annotations, Optional/Union, common `typing` imports, dataclasses, and Protocols.
 
 ```python
 # Basic hints

@@ -26,6 +26,8 @@ With venv:
 
 ## 🏗️ venv — Built-in Virtual Environment
 
+`venv` creates an isolated Python environment in a subdirectory. Each project gets its own installed packages and its own Python interpreter, so version conflicts between projects are impossible. Always activate the environment before installing packages or running project code.
+
 ```bash
 # Create virtual environment
 python -m venv venv          # creates venv/ folder
@@ -71,6 +73,8 @@ __pycache__/
 
 ## 📦 pip — Package Installer
 
+`pip` downloads and installs packages from PyPI. Use exact version pinning (`==`) in production for reproducibility. `pip freeze > requirements.txt` captures the entire current environment. `pip list --outdated` shows which packages have newer versions available.
+
 ```bash
 # Install packages
 pip install requests
@@ -106,6 +110,8 @@ pip freeze > requirements.txt
 
 ## 📋 requirements.txt
 
+A `requirements.txt` file records all project dependencies with pinned version numbers. Commit it to version control. Separate production and development dependencies (e.g., `requirements.txt` and `requirements-dev.txt`) to keep production Docker images lean.
+
 ```
 # requirements.txt — what to commit to git
 
@@ -131,6 +137,8 @@ pip install -r requirements-dev.txt     # dev tools
 ---
 
 ## 🚀 pyproject.toml (Modern Standard)
+
+`pyproject.toml` is the modern, unified project configuration standard (PEP 517/518/621). It consolidates project metadata, required Python version, production dependencies, optional dev dependencies, and CLI entry points into a single file. It replaces `setup.py` and `setup.cfg`.
 
 ```toml
 # pyproject.toml (PEP 518, 621)
@@ -188,6 +196,8 @@ pipx run black my_file.py
 
 ## 🏆 Poetry — Modern Dependency Manager
 
+Poetry combines virtual environment management, dependency resolution, version locking, and package publishing in one CLI. It creates a `poetry.lock` file that ensures every developer and CI run gets the exact same package versions, eliminating "works on my machine" problems.
+
 ```bash
 # Install
 pipx install poetry
@@ -222,6 +232,8 @@ poetry publish
 
 ## 🌐 uv — Extremely Fast Package Manager (Modern)
 
+`uv` is an extremely fast Python package and project manager written in Rust. It's a drop-in replacement for `pip` and `venv` that is 10–100× faster. It also manages Python versions, resolves dependencies, and supports `pyproject.toml`-based projects natively.
+
 ```bash
 # Install uv
 pip install uv
@@ -251,6 +263,8 @@ uv python pin 3.12
 
 ## 🔑 .env & python-dotenv
 
+Never hardcode secrets in source code. Store environment-specific configuration (API keys, database URLs, feature flags) in a `.env` file and load it at startup with `python-dotenv`. Always add `.env` to `.gitignore` — only commit a `.env.example` with placeholder values so teammates know what variables are needed.
+
 ```bash
 # .env (never commit to git!)
 DATABASE_URL=postgres://user:pass@localhost/mydb
@@ -276,6 +290,8 @@ load_dotenv(".env.production")
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of the key commands for venv, pip, Poetry, and uv.
 
 ```bash
 # venv

@@ -14,6 +14,8 @@ Testing ensures your code works correctly and keeps working as it changes.
 
 ## ✅ pytest — The Standard
 
+**pytest** is the de-facto standard Python testing framework. Tests are plain functions prefixed with `test_` — no class required. Install with `pip install pytest` and run with `pytest` to discover all `test_*.py` files. The `-v`, `-x`, `-k`, and `-s` flags are the most commonly used options.
+
 ```bash
 pip install pytest
 ```
@@ -49,6 +51,8 @@ pytest -s                  # show print() output
 
 ## 🎯 Assertions & Failure Messages
 
+pytest **rewrites** the standard `assert` statement to produce detailed failure messages that show the actual vs expected values. Custom `assert value, 'message'` adds context. For nested dicts and lists, pytest shows a structured diff so you can immediately see what differs.
+
 ```python
 # pytest rewrites assert for detailed failure messages
 def test_example():
@@ -67,6 +71,8 @@ assert result == {"name": "Alice", "age": 30}
 ---
 
 ## 🚨 Testing Exceptions
+
+Use `pytest.raises(ErrorType)` as a context manager to assert that a code block raises a specific exception. The `match='pattern'` argument asserts the error message matches a regex. Assign the context manager to a variable to inspect the exception object's attributes after the block.
 
 ```python
 import pytest
@@ -148,6 +154,8 @@ def client(app):
 
 ## 📊 Parametrize — Run Test with Multiple Inputs
 
+`@pytest.mark.parametrize` runs the same test function with multiple input/output cases. Each case appears as a separate test in the report. This eliminates copy-paste test duplication and ensures consistent behaviour is verified across the full range of inputs.
+
 ```python
 import pytest
 
@@ -210,6 +218,8 @@ def test_get_status_decorator(mock_get):
 
 ## 🏗️ Organizing Tests
 
+Organise tests in a `tests/` directory mirroring the `src/` package structure. Put shared fixtures in `conftest.py` — pytest auto-discovers it. Group related tests in files named `test_<module>.py`. Separate unit, integration, and end-to-end tests in subdirectories.
+
 ```
 my_project/
 ├── src/
@@ -228,6 +238,8 @@ my_project/
 ---
 
 ## 🎚️ Marks & Skipping
+
+Marks let you annotate tests with metadata. `skip` and `skipif` conditionally skip tests. `xfail` marks tests expected to fail (useful for known bugs or pending features). Custom marks (e.g., `@pytest.mark.slow`) let you run a subset with `pytest -m 'not slow'`.
 
 ```python
 import pytest
@@ -255,6 +267,8 @@ def test_slow_operation():
 
 ## ⚙️ pytest.ini / pyproject.toml
 
+Configure pytest behaviour in `pyproject.toml` under `[tool.pytest.ini_options]`. Set `testpaths` to restrict discovery, `addopts` for default CLI flags, and `markers` to register custom marks (which suppresses the "unknown mark" warning when you run pytest).
+
 ```toml
 # pyproject.toml
 [tool.pytest.ini_options]
@@ -271,6 +285,8 @@ markers = [
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of pytest essentials: test structure, exception testing, fixtures, parametrize, and mocking.
 
 ```python
 # Test function

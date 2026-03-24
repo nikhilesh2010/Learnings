@@ -124,6 +124,8 @@ logger.info("Order created", extra={"order_id": 123, "user": "alice"})
 
 ## 🔥 traceback Module
 
+`traceback.print_exc()` prints the current exception's full stack trace to stderr. `traceback.format_exc()` returns it as a string, which you can pass to a logger. `sys.exc_info()` provides the raw exception type, value, and traceback object for custom handling inside an `except` block.
+
 ```python
 import traceback
 import sys
@@ -272,6 +274,8 @@ python -m timeit "sum(range(1000))"
 
 ## 🔧 Common Debugging Patterns
 
+Python's introspection tools help diagnose unexpected behaviour without a full debugger. `dir(obj)` lists all attributes and methods. `vars(obj)` shows the instance `__dict__`. `inspect.getsource(func)` retrieves the source code of any function at runtime. `inspect.signature(func)` shows the expected parameters.
+
 ```python
 # Inspect an object
 print(dir(obj))            # all attributes/methods
@@ -295,6 +299,8 @@ inspect.getmembers(obj)    # all members
 ---
 
 ## 📌 Quick Reference
+
+A concise cheatsheet of Python debugging tools: `print`/f-string debug output, `breakpoint()` / pdb commands, logging levels, profiling with cProfile, and timeit for microbenchmarks.
 
 ```python
 # Quick debug
