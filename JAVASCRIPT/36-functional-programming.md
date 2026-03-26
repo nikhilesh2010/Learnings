@@ -13,7 +13,7 @@
 ---
 
 ## 🧼 Pure Functions
-
+A pure function always returns the same output for the same input and does not read or write anything outside its own scope. Pure functions are trivially testable, memoizable, and safe to run in any order or in parallel.
 ```js
 // ✅ Pure — same input always yields same output, no side effects
 function add(a, b) { return a + b; }
@@ -40,6 +40,8 @@ function addToCart(cart, item) { return [...cart, item]; }
 ---
 
 ## 🧊 Immutability
+
+Instead of modifying existing objects or arrays, always create new ones with your changes. Use spread syntax for shallow copies, `toSorted`/`toReversed` for arrays, and deep-clone with `structuredClone` when needed. `Object.freeze` enforces shallow immutability at runtime.
 
 ```js
 // ❌ Mutating
@@ -96,6 +98,8 @@ copy.user.prefs.theme = "light";
 
 ## 🏗️ Declarative vs Imperative
 
+Imperative code describes step-by-step *how* to compute a result; declarative code describes *what* the result should be. Using `filter`, `map`, and `reduce` instead of `for` loops is the most common way to write declarative JavaScript.
+
 ```js
 const users = [
   { name: "Alice", age: 25, active: true },
@@ -120,6 +124,8 @@ const activeAdults2 = users
 ---
 
 ## 🔗 Function Composition
+
+`pipe` chains functions left-to-right so data flows through each step in reading order. `compose` does the same right-to-left (mathematical convention). Compose predicates with `and`/`or`/`not` helpers for reusable filtering logic.
 
 ```js
 // pipe — left to right
@@ -154,6 +160,8 @@ const isEvenAndPositive = and(isEven, isPositive);
 
 ## 🍛 Currying & Partial Application
 
+Currying converts a multi-argument function into a chain of single-argument functions, enabling partial application — pre-filling some arguments to create a specialized function. Combined with `pipe`, curried utilities allow a concise, point-free style.
+
 ```js
 // See HOF chapter for full detail
 
@@ -183,6 +191,8 @@ process([-1, 2, -3, 4, 5]);  // 22
 ---
 
 ## 🎯 Functors & Monads (simplified)
+
+A functor is any container you can `map` over (arrays are functors). The `Maybe` monad wraps a value that might be null and skips any `map` operations safely. The `Result` monad wraps either a success value or an error, replacing `try/catch` with explicit branching.
 
 ```js
 // Functor — a thing you can map over (preserves structure)
@@ -273,6 +283,8 @@ arr.reduce(transducer(concat), []);  // single pass!
 ---
 
 ## 📦 Immutable Data Patterns in Practice
+
+The reducer pattern (as used in Redux) is the standard real-world application of immutability: each action produces a new state object via spread and array methods, never mutating the previous state. This makes state changes predictable, traceable, and time-travel debuggable.
 
 ```js
 // State management (like Redux)

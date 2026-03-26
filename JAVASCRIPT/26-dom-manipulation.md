@@ -24,6 +24,8 @@ document
 
 ## 🔍 Selecting Elements
 
+Use `querySelector` and `querySelectorAll` to find elements using CSS selector syntax — they work on the whole document or scoped to a specific parent element. Legacy methods like `getElementById` are still valid and slightly faster for ID lookups.
+
 ```js
 // By CSS selector (returns FIRST match or null)
 document.querySelector("h1");
@@ -53,6 +55,8 @@ const links = nav.querySelectorAll("a");   // only links inside nav
 
 ## 📄 Reading & Modifying Content
 
+Use `textContent` to safely read or set text (user input is treated as plain text, not HTML). Use `innerHTML` only with fully trusted content — inserting unsanitized user data via `innerHTML` is a major XSS vulnerability.
+
 ```js
 const el = document.querySelector("h1");
 
@@ -77,6 +81,8 @@ el.textContent = userInput;  // ✅ safe — treated as text, not HTML
 ---
 
 ## 🏷️ Attributes & Properties
+
+HTML attributes and DOM properties are related but not always identical. Use `getAttribute`/`setAttribute` for HTML attributes, the direct property (e.g., `img.src`) for live JS values, and `dataset` for custom `data-*` attributes.
 
 ```js
 const img = document.querySelector("img");
@@ -103,6 +109,8 @@ el.dataset.newKey = "value"; // sets data-new-key="value"
 ---
 
 ## 🎨 Styles & Classes
+
+Set inline styles via `el.style` for dynamic one-offs, but prefer toggling CSS classes with `classList` — it keeps style logic in CSS and makes state changes more readable and maintainable.
 
 ```js
 const el = document.querySelector(".card");
@@ -131,6 +139,8 @@ el.className;            // "card highlighted" — full class string
 ---
 
 ## 🏗️ Creating & Inserting Elements
+
+Create new elements with `document.createElement`, configure them, then insert them into the document with methods like `append`, `prepend`, `before`, or `after`. Use `DocumentFragment` to batch many insertions into a single DOM operation for better performance.
 
 ```js
 // Create element
@@ -180,6 +190,8 @@ document.querySelector("ul").appendChild(fragment);
 
 ## 📐 Element Geometry
 
+Different properties measure different things: `offsetWidth`/`offsetHeight` include borders, `clientWidth`/`clientHeight` include padding only, and `getBoundingClientRect()` gives the element's position and size relative to the current viewport.
+
 ```js
 const el = document.querySelector(".card");
 
@@ -219,6 +231,8 @@ function isInViewport(el) {
 
 ## 🔀 Traversing the DOM
 
+Navigate the element tree using parent, child, and sibling relationships. The `closest()` method is especially useful for event delegation — it walks up the tree to find the nearest ancestor that matches a selector.
+
 ```js
 const el = document.querySelector("li.active");
 
@@ -252,7 +266,7 @@ function getAncestors(el) {
 ---
 
 ## 🏎️ IntersectionObserver (Lazy Loading)
-
+`IntersectionObserver` fires a callback whenever a watched element enters or exits the viewport, without needing scroll event listeners. This is the standard way to implement lazy-loaded images, infinite scroll, and visibility-triggered animations.
 ```js
 // Observe when elements enter/leave the viewport
 const observer = new IntersectionObserver((entries, observer) => {
@@ -276,6 +290,8 @@ document.querySelectorAll("img[data-src]").forEach(img => {
 ---
 
 ## 🔄 MutationObserver
+
+`MutationObserver` watches for changes to the DOM tree and fires a callback with a list of mutations. Use it to react to dynamically added nodes, attribute changes, or text modifications — a more efficient alternative to polling.
 
 ```js
 // Watch for DOM changes

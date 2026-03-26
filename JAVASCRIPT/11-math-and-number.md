@@ -26,6 +26,8 @@ Number.NaN;                // NaN
 
 ## 🔍 Number Checking
 
+`Number.isNaN()` and `Number.isFinite()` are the safe alternatives to the global `isNaN()` and `isFinite()` functions because they do not coerce their arguments before checking. `Number.isInteger()` and `Number.isSafeInteger()` distinguish whole numbers and numbers that can be represented exactly in IEEE 754.
+
 ```js
 // ✅ isNaN — does NOT coerce (use this, not the global isNaN)
 Number.isNaN(NaN);         // true
@@ -60,6 +62,8 @@ Number.isSafeInteger(3.14);              // false
 ---
 
 ## 🔄 Number Parsing & Conversion
+
+`parseInt` parses a string as an integer, stopping at the first non-digit character; always supply an explicit radix to avoid octal parsing issues. `parseFloat` does the same for decimals. `Number()` is stricter — it returns `NaN` for any string that is not a pure numeric value.
 
 ```js
 // parseInt — parse integer from string (stops at first non-digit)
@@ -105,6 +109,8 @@ Number("42.9 dollars");     // NaN — strict
 
 ## 🖨️ Number Formatting
 
+`toFixed()` formats a number with a fixed number of decimal places and returns a string. `toPrecision()` controls the total number of significant digits. For locale-aware formatting with thousands separators, currency symbols, or percentage signs, prefer `Intl.NumberFormat` over `toLocaleString` for performance when formatting many values.
+
 ```js
 const n = 123456.789;
 
@@ -134,6 +140,8 @@ n.toLocaleString("en-US", { style: "currency", currency: "USD" });
 ---
 
 ## ⚠️ Floating-Point Precision
+
+JavaScript uses IEEE 754 double-precision arithmetic, which cannot represent some decimal fractions exactly. As a result, expressions like `0.1 + 0.2` produce a value slightly different from `0.3`. Compare floating-point results using an epsilon tolerance, and work in integer units (e.g. cents) for financial calculations.
 
 ```js
 0.1 + 0.2;              // 0.30000000000000004  ← classic floating-point issue
@@ -288,6 +296,8 @@ Math.fround(1.337);   // 1.3370000123977661  (nearest 32-bit float)
 ---
 
 ## 🎲 Random Numbers
+
+`Math.random()` returns a pseudo-random float in the range `[0, 1)`. Scaling and flooring this value produces random integers within any range. For cryptographically secure random values, use `crypto.getRandomValues()` instead.
 
 ```js
 // Math.random() — [0, 1) uniform pseudorandom (not cryptographically secure)

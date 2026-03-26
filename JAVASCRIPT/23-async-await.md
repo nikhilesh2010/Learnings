@@ -24,6 +24,8 @@ async function getUser(id) {
 
 ## 🔑 async Functions
 
+The `async` keyword before a function declaration causes it to always return a Promise, wrapping any returned value automatically. You can use `async` with regular functions, arrow functions, and class methods.
+
 ```js
 // async makes a function return a Promise
 async function greet() {
@@ -139,6 +141,8 @@ async function loadData() {
 
 ## ⚡ Sequential vs Parallel
 
+Awaiting multiple independent operations one after another wastes time — each waits for the previous to finish. Use `Promise.all` to kick off all operations simultaneously and wait for all results at once.
+
 ```js
 // ❌ Sequential — total time = sum of all waits
 async function sequential() {
@@ -173,6 +177,8 @@ async function parallel2() {
 
 ## 🔁 Async Loops
 
+Choose your loop construct carefully: `for...of` processes items one at a time (sequentially), while `Promise.all` with `map` processes them all in parallel. Avoid `forEach` with async callbacks — it won't wait for the async work to finish.
+
 ```js
 // ✅ Sequential: for...of (use when each iteration depends on previous)
 async function processUsersSequentially(users) {
@@ -204,6 +210,8 @@ users.forEach(async user => {
 ---
 
 ## ⏰ Timeouts & Cancellation
+
+`fetch` and most async operations don't have built-in timeouts. Use `AbortController` to cancel requests manually, and wrap promises with `Promise.race` to enforce time limits.
 
 ```js
 // Timeout wrapper
@@ -243,6 +251,8 @@ try {
 ---
 
 ## 🔄 Async Iteration
+
+`for await...of` lets you loop over async generators or any async iterable, awaiting each yielded value in turn. This is ideal for paginated APIs, streaming data sources, or any sequence that arrives asynchronously.
 
 ```js
 // for await...of with async generators

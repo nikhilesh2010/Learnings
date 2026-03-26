@@ -50,6 +50,8 @@ window.addEventListener("storage", (event) => {
 
 ## 🍪 Cookies (Web API)
 
+Cookies are small key-value strings stored by the browser and automatically sent with HTTP requests to the same domain. They're the traditional mechanism for session management, but require careful handling for expiry, path scoping, and security flags.
+
 ```js
 // Set cookie
 document.cookie = "username=Alice; expires=Fri, 31 Dec 2029 23:59:59 GMT; path=/; Secure; SameSite=Strict";
@@ -77,6 +79,8 @@ await cookieStore.delete("theme");
 ---
 
 ## 🔗 URL & History API
+
+The `URL` class makes it easy to parse, construct, and modify URLs without manual string manipulation. The History API lets single-page apps update the browser's URL and history stack without triggering a full page reload.
 
 ```js
 // URL object — parse and manipulate URLs
@@ -118,6 +122,8 @@ window.addEventListener("popstate", (e) => {
 
 ## 🌍 Geolocation API
 
+`navigator.geolocation` provides the user's physical location (with their permission) via GPS, Wi-Fi triangulation, or IP lookup. Use `getCurrentPosition` for a one-time fix or `watchPosition` for continuous updates.
+
 ```js
 // Get current position
 navigator.geolocation.getCurrentPosition(
@@ -157,6 +163,8 @@ const pos = await getPosition();
 
 ## 📋 Clipboard API
 
+The modern async Clipboard API lets you read from and write to the system clipboard programmatically. It requires user gesture and clipboard permission for reading, and works over HTTPS only.
+
 ```js
 // Copy to clipboard
 await navigator.clipboard.writeText("Hello, clipboard!");
@@ -183,6 +191,8 @@ async function copyToClipboard(text) {
 ---
 
 ## 🖼️ Canvas API
+
+The `<canvas>` element provides a pixel-based drawing surface. You get a 2D context with methods for drawing rectangles, paths, arcs, images, and text — useful for charts, games, image editors, and data visualizations.
 
 ```js
 const canvas  = document.querySelector("canvas");
@@ -228,6 +238,8 @@ const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
 ## 🔔 Notifications API
 
+The Notifications API lets you show system-level desktop notifications outside the browser tab. The user must explicitly grant permission, and notifications can include icons, actions, and click handlers.
+
 ```js
 // Request permission
 const permission = await Notification.requestPermission();
@@ -256,6 +268,8 @@ if (permission === "granted") {
 
 ## 🔊 Web Audio API (basics)
 
+The Web Audio API provides a graph-based system for generating and processing audio in the browser — connect source nodes (oscillators, audio files) through processing nodes (gain, filter) to a destination (speakers).
+
 ```js
 const audioCtx = new AudioContext();
 
@@ -281,6 +295,8 @@ playBeep(880, 300); // high-pitched beep
 ---
 
 ## 👷 Web Workers
+
+Web Workers run JavaScript in a separate background thread, keeping the main UI thread free during expensive computations. They communicate with the main thread via `postMessage` and have no access to the DOM.
 
 ```js
 // main.js — main thread
@@ -314,6 +330,8 @@ self.onmessage = (event) => {
 ---
 
 ## 🔧 Other Useful APIs
+
+The browser provides many small but handy APIs: `performance.now()` for high-resolution timing, `navigator.vibrate()` for haptic feedback, online/offline events for connectivity detection, and `ResizeObserver` for element size change notifications.
 
 ```js
 // Performance

@@ -198,6 +198,8 @@ function memoizeWeak(fn) {
 
 ## ⏱️ Debounce & Throttle
 
+Debounce delays a function until a burst of calls stops — ideal for search inputs. Throttle limits how often a function runs during continuous firing — ideal for scroll and resize handlers. Both return a new wrapper function.
+
 ```js
 // Debounce — delay execution until after N ms of silence
 function debounce(fn, wait) {
@@ -237,6 +239,8 @@ window.addEventListener("scroll", onScroll);
 ---
 
 ## 🔂 Once, Before, After
+
+`once` wraps a function so it executes only the first time it's called and returns the cached result on subsequent calls. `atMost` allows up to `n` calls, and `after` delays execution until after `n` calls have occurred.
 
 ```js
 // Execute at most once
@@ -283,6 +287,8 @@ function after(n, fn) {
 ---
 
 ## 🔍 Practical Patterns
+
+Small utility combinators like `tap` (inspect a value mid-pipeline without changing it) and `identity` (return the value unchanged) make function composition pipelines more debuggable and expressive.
 
 ```js
 // "tap" — inspect value in pipeline without changing it

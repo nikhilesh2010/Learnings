@@ -2,6 +2,8 @@
 
 ## 📝 Function Declaration
 
+A function declaration defines a named function using the `function` keyword. Declarations are fully hoisted, meaning they can be called anywhere in their scope — even on lines that appear before the definition.
+
 ```js
 // Hoisted — can be called before it appears in the code
 greet("Alice");  // works!
@@ -12,6 +14,8 @@ function greet(name) {
 ```
 
 ## 📝 Function Expression
+
+A function expression assigns a function to a variable. Unlike declarations, expressions are not hoisted, so the variable must be defined before it is called. Named function expressions are useful for recursion and for producing clearer stack traces.
 
 ```js
 // NOT hoisted — must be defined before use
@@ -26,6 +30,8 @@ const factorial = function fact(n) {
 ```
 
 ## ➡️ Arrow Functions (ES6)
+
+Arrow functions provide a concise syntax with an implicit return for single expressions. They do not bind their own `this`, `arguments`, or `prototype`, making them ideal as callbacks but unsuitable for use as object methods or constructors.
 
 ```js
 // Concise syntax
@@ -92,6 +98,8 @@ function legacy() {
 
 ## 🔄 Returning Values
 
+A function returns `undefined` by default unless an explicit `return` statement is reached. Functions can return multiple values by packing them into an object or array. Early returns act as guard clauses that make the happy path easier to follow.
+
 ```js
 // Explicit return
 function add(a, b) { return a + b; }
@@ -145,6 +153,8 @@ triple(5);  // 15
 
 ## 🏭 Immediately Invoked Function Expression (IIFE)
 
+An IIFE is a function that is defined and called in the same expression. It creates a private scope that does not pollute the surrounding namespace — a pattern commonly used before ES modules made scoped encapsulation straightforward.
+
 ```js
 // Creates a private scope — useful for avoiding global pollution
 (function() {
@@ -166,6 +176,8 @@ triple(5);  // 15
 ---
 
 ## ♻️ Recursion
+
+A recursive function calls itself until it reaches a base case. It is a natural fit for tree traversal, divide-and-conquer algorithms, and any problem with a self-similar structure. Every recursive function must have a clearly defined base case to prevent infinite recursion.
 
 ```js
 // Factorial
@@ -199,6 +211,8 @@ function factTail(n, acc = 1) {
 ---
 
 ## 📦 Pure Functions
+
+A pure function always returns the same output for the same inputs and has no side effects — it does not read from or write to any external state. Pure functions are predictable, easy to test, and straightforward to compose.
 
 ```js
 // Pure: same inputs always produce same outputs, no side effects
@@ -253,6 +267,8 @@ cube(2);    // 8
 
 ## 🔗 `this` in Functions
 
+In regular functions, `this` refers to the object that called the function, and can change depending on the call site. Arrow functions capture `this` from their enclosing lexical scope and never have a `this` of their own. Use `call`, `apply`, or `bind` to set `this` explicitly.
+
 ```js
 // Regular function — `this` depends on HOW it's called
 const obj = {
@@ -282,6 +298,8 @@ greetAlice();                          // "Hi, Alice"
 
 ## 🔢 Function Length & Name
 
+Every function has a `name` property (set automatically from the variable or declaration name) and a `length` property reporting the number of declared parameters. Parameters with default values and rest parameters are not counted in `length`.
+
 ```js
 function add(a, b) {}
 add.name;   // "add"
@@ -294,6 +312,8 @@ fn.length;  // 1 (only a — default and rest not counted)
 ---
 
 ## 🏗️ Constructor Functions (pre-class)
+
+Before ES6 classes, constructor functions called with `new` were used to create object instances. Methods were placed on the constructor's `prototype` so they were shared across all instances. ES6 `class` syntax is preferred today — it is cleaner and produces identical runtime behaviour.
 
 ```js
 function Person(name, age) {
@@ -312,6 +332,8 @@ alice.greet(); // "Hi, I'm Alice"
 ---
 
 ## 📋 Function Best Practices
+
+Keep functions small and focused on a single task. Use named functions for reusable logic, arrow functions for short callbacks, and an options object when a function requires more than three parameters. Prefer pure functions wherever possible to make code easier to test and reason about.
 
 ```js
 // ✅ Single responsibility — one function, one job

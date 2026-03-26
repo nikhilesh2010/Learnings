@@ -6,6 +6,8 @@ WebSocket provides a **full-duplex, persistent communication channel** over a si
 
 ## 🔌 Creating a Connection
 
+Instantiate a `WebSocket` by passing a `wss://` URL (always use the secure protocol in production). You can optionally specify subprotocols that the server can accept to negotiate a shared message format.
+
 ```js
 // Connect — ws:// for HTTP, wss:// for HTTPS (always use wss:// in production)
 const ws = new WebSocket("wss://api.example.com/socket");
@@ -17,6 +19,8 @@ const ws2 = new WebSocket("wss://api.example.com/socket", ["json", "xml"]);
 ---
 
 ## 📡 Events
+
+WebSocket communication is event-driven. Listen for `open` to know when the connection is ready, `message` to handle incoming data, `close` to detect disconnection, and `error` for connection failures.
 
 ```js
 const ws = new WebSocket("wss://echo.websocket.events");
@@ -57,6 +61,8 @@ ws.addEventListener("error", (event) => {
 
 ## 📤 Sending Data
 
+Call `ws.send()` to push data to the server — it accepts strings, JSON-serialized objects, `ArrayBuffer`, or `Blob` for binary payloads. Check `bufferedAmount` if you need to avoid overwhelming a slow connection.
+
 ```js
 // Text
 ws.send("Hello!");
@@ -86,6 +92,8 @@ ws.bufferedAmount;   // bytes waiting to be sent
 
 ## 🔒 ReadyState
 
+The `readyState` property tells you the current lifecycle state of the connection. Always check that the socket is `OPEN` before calling `send` to avoid errors on a connecting or closed socket.
+
 ```js
 ws.readyState;
 // WebSocket.CONNECTING = 0  — connection not yet established
@@ -104,6 +112,8 @@ function safeSend(ws, data) {
 ---
 
 ## 🚪 Closing
+
+Call `ws.close()` to initiate a graceful shutdown. You can pass a numeric close code and a short reason string so the server knows why the client disconnected. Standard codes are defined in RFC 6455; codes 4000–4999 are reserved for application use.
 
 ```js
 // Close cleanly (optional code and reason string)
@@ -243,6 +253,8 @@ class HeartbeatWebSocket {
 
 ## 📨 Message Protocol Patterns
 
+For non-trivial apps, define a structured message envelope with a type field and an ID for correlating requests to responses. This lets you implement request-response semantics on top of the WebSocket's push-based model.
+
 ```js
 // Common JSON message envelope
 const msg = {
@@ -287,6 +299,8 @@ const users = await request(ws, "users.list", { page: 1 });
 
 ## 🔐 Authentication
 
+WebSockets don't support custom HTTP headers during the initial handshake. Common patterns include passing a token in the URL query string (less secure), encoding it as a subprotocol, sending it as the first message after `open`, or relying on a session cookie for same-origin connections.
+
 ```js
 // Option 1: Token in URL query string (visible in server logs — avoid if possible)
 const ws = new WebSocket(`wss://api.example.com/socket?token=${token}`);
@@ -306,6 +320,8 @@ ws.addEventListener("open", () => {
 ---
 
 ## ⚠️ Security Considerations
+
+Always use `wss://` to encrypt traffic in transit. On the server, validate the `Origin` header to prevent unauthorized sites from establishing connections, authenticate every client before accepting commands, and validate all incoming message payloads before processing them.
 
 ```js
 // ✅ Always use wss:// (TLS) in production — never ws://

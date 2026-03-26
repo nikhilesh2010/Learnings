@@ -188,6 +188,8 @@ console.log(obj1.x); // 99 — same object!
 
 ## 🔍 `typeof` Operator
 
+The `typeof` operator returns a string identifying the primitive type of its operand. Note that `typeof null` returns `"object"` — a historical quirk retained for backward compatibility rather than a true reflection of the type.
+
 ```js
 typeof 42           // "number"
 typeof 3.14         // "number"
@@ -257,6 +259,8 @@ Boolean("hi")  // true
 
 ## 🔎 Checking Types Reliably
 
+Because `typeof` has edge cases, use specialised checks for specific types: `Array.isArray()` for arrays, strict `=== null` for null, and `Number.isNaN()` for NaN. Use `instanceof` to check object types against constructor functions in the prototype chain.
+
 ```js
 // Primitives → typeof
 typeof "hi" === "string"   // true
@@ -287,6 +291,8 @@ Object.prototype.toString.call(/rx/)     // "[object RegExp]"
 ---
 
 ## 📌 Variable Best Practices
+
+Default to `const` for every declaration and only switch to `let` when you need to reassign. Avoid `var` entirely — its function scope and hoisting behaviour introduce subtle bugs that `let` and `const` prevent.
 
 ```js
 // ✅ Prefer const by default

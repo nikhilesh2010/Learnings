@@ -2,6 +2,8 @@
 
 ## 🔍 Console Methods
 
+Beyond `console.log`, the console has specialized methods for every scenario: `console.table` renders arrays of objects as a sortable table, `console.group` creates collapsible sections for related logs, `console.time`/`timeEnd` measures elapsed time, and `console.assert` only logs when a condition is false.
+
 ```js
 // Basic output
 console.log("Message", variable);
@@ -89,6 +91,8 @@ F11  / ⬇  — Step into
 
 ## 📦 Inspecting Variables
 
+While paused at a breakpoint in DevTools, you can hover over variables to see their values, run arbitrary expressions in the Console tab (you're in the current scope), add Watch expressions for values you want to track across steps, and even modify variables to test different scenarios.
+
 ```js
 // While paused at a breakpoint in DevTools:
 // - Hover over a variable to see its value
@@ -136,6 +140,8 @@ module.exports = {
 
 ## ⚡ Performance Profiling
 
+Record a session in the DevTools Performance tab, then analyze the flame chart: width represents time spent and red corners indicate tasks over 50ms (jank). Look for forced reflows (purple Layout after yellow Script) and identify specific functions responsible for long tasks.
+
 ```
 DevTools → Performance tab
 
@@ -171,6 +177,8 @@ performance.measure("process-data", "start-process", "end-process");
 
 ## 🧠 Memory Debugging
 
+Use heap snapshot comparison in the DevTools Memory tab to find leaks: take a snapshot before an action, perform it, take another snapshot, then switch to Comparison view and filter for new objects. The Retainers panel reveals the reference chain keeping an object alive.
+
 ```
 DevTools → Memory tab
 
@@ -198,6 +206,8 @@ Detached DOM Trees:
 
 ## 🌐 Network Debugging
 
+The DevTools Network tab shows every request with its headers, payload, response, and detailed timing breakdown. You can throttle the connection to simulate slow mobile networks, block specific URLs to test fallback behavior, and replay XHR requests directly from the panel.
+
 ```
 DevTools → Network tab
 
@@ -223,6 +233,8 @@ Copy as cURL:
 ---
 
 ## 🔌 Common Debugging Patterns
+
+Isolate bugs by logging input and output around the suspect code, then binary-search by commenting out half the code until the problem disappears. Use `Object.defineProperty` with a setter trap to attach a `console.trace` to any property assignment and catch unexpected mutations.
 
 ```js
 // 1. Log before and after to isolate the bug
@@ -261,6 +273,8 @@ makeObservable(state, "count");  // now any change to state.count shows a stack 
 ---
 
 ## 🧩 Node.js Debugging
+
+Start Node with `--inspect` to expose a WebSocket debugger that Chrome DevTools can connect to via `chrome://inspect`. Add `--inspect-brk` to pause before the first line of code. In VS Code, configure a `launch.json` with `"type": "node"` for full integrated debugging with breakpoints and variable inspection.
 
 ```bash
 # Start with inspector

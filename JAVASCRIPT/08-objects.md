@@ -2,6 +2,8 @@
 
 ## 📦 Creating Objects
 
+Objects in JavaScript can be created in several ways. The object literal syntax is the most common and readable. `Object.create()` allows you to set the prototype explicitly, while constructor functions and classes are used to produce multiple instances with shared methods.
+
 ```js
 // 1. Object literal (most common)
 const person = {
@@ -39,6 +41,8 @@ const p = new Point(3, 4);
 
 ## 🔑 Property Access
 
+Dot notation is the standard way to read object properties and is preferred for known, valid identifier keys. Bracket notation is required when the key is dynamic, stored in a variable, or contains special characters. Optional chaining (`?.`) prevents `TypeError` when accessing deeply nested properties that may not exist.
+
 ```js
 const user = { name: "Alice", "user-id": 42, address: { city: "Paris" } };
 
@@ -61,6 +65,8 @@ user?.phone?.number;       // undefined (safe)
 ---
 
 ## ✏️ Adding, Modifying, Deleting Properties
+
+Object properties can be added, replaced, or removed at any time using dot or bracket notation. The `delete` operator removes a property entirely. Use `Object.hasOwn()` or the `in` operator to check whether a property exists before accessing it.
 
 ```js
 const obj = { a: 1 };
@@ -86,6 +92,8 @@ obj.hasOwnProperty("a"); // true (older API)
 
 ## 🏗️ Property Shorthand & Computed Keys (ES6)
 
+When a property name matches a local variable name, shorthand syntax lets you write the name once. Computed property names (using `[expression]`) allow you to determine key names dynamically at object creation time.
+
 ```js
 const name = "Alice";
 const age  = 30;
@@ -108,6 +116,8 @@ const point = { [key]: 10 };   // { x: 10 }
 ---
 
 ## 🔧 Methods & `this`
+
+Functions stored as object properties are called methods. Inside a regular method, `this` refers to the object the method was called on. Arrow functions do not have their own `this` and should not be used as top-level object methods, but they work well for callbacks inside methods.
 
 ```js
 const counter = {
@@ -141,6 +151,8 @@ const counter = {
 
 ## 📋 Object Methods (built-in)
 
+`Object.keys()`, `Object.values()`, and `Object.entries()` extract an object's own enumerable properties as arrays, making it easy to iterate, filter, or transform them. `Object.assign()` and the spread operator merge objects, with later sources overriding earlier ones.
+
 ```js
 const user = { name: "Alice", age: 30, role: "admin" };
 
@@ -171,6 +183,8 @@ const clone2 = Object.assign({}, user);
 ---
 
 ## 🔒 Object.freeze & Object.seal
+
+`Object.freeze()` makes an object fully immutable: no properties can be added, removed, or modified. `Object.seal()` is less strict — existing properties can be modified but the shape of the object cannot change. Both operations are shallow and do not affect nested objects.
 
 ```js
 // freeze — no additions, deletions, or modifications
@@ -243,6 +257,8 @@ person.age;         // 30 — calls getter
 
 ## 🔄 Looping & Spreading
 
+Use `Object.entries()` for the safest and most readable object iteration, as it produces key-value pairs cleanly. The spread operator creates shallow copies and is the standard approach for immutable object updates in React and Redux patterns.
+
 ```js
 // for...in (enumerates ALL enumerable properties, including inherited)
 for (const key in obj) {
@@ -265,6 +281,8 @@ const { b, ...rest } = original; // rest = { a: 1, c: 3 }
 ---
 
 ## 🌳 Nested Objects & Deep Clone
+
+Copying an object with the spread operator or `Object.assign()` creates only a shallow clone — nested objects still share the same reference. Use `structuredClone()` (ES2022) for a true deep clone, or the JSON round-trip for simple plain-data objects when no functions, `Date`s, or `undefined` values are present.
 
 ```js
 // Shallow copy — nested objects still shared
@@ -294,6 +312,8 @@ function deepClone(obj) {
 ---
 
 ## 🏷️ Checking & Comparing Objects
+
+Objects are compared by reference in JavaScript, not by value, so two objects with identical properties are not `===` equal unless they are the same object in memory. For content equality, use `JSON.stringify` as a quick check for simple objects, or a dedicated deep-equal utility for anything more complex.
 
 ```js
 const a = { x: 1 };

@@ -17,6 +17,8 @@
 
 ## 🌐 Where Does JS Run?
 
+JavaScript runs across a wide range of environments. In browsers it is executed by engines like V8 (Chrome), SpiderMonkey (Firefox), and JavaScriptCore (Safari); on the server via Node.js; on mobile via React Native; and on the desktop via Electron.
+
 ```
 Frontend  →  Browser (Chrome V8, Firefox SpiderMonkey, Safari JavaScriptCore)
 Backend   →  Node.js (V8 engine)
@@ -28,6 +30,8 @@ Scripts   →  Deno, Bun
 ---
 
 ## ⚙️ How JS is Executed
+
+JavaScript source code passes through a multi-stage pipeline before producing output. The engine parses the source into an Abstract Syntax Tree, compiles it to bytecode via an interpreter, and then applies JIT optimisation for frequently executed ("hot") code paths — all happening automatically at runtime.
 
 ```
 Source (.js)
@@ -46,6 +50,8 @@ Machine Code → Output
 ---
 
 ## 📝 Your First Programs
+
+A JavaScript program can run directly inside an HTML page via a `<script>` tag, or from the command line using Node.js. The `console.log()` function is the standard way to print output in both environments.
 
 ```html
 <!-- index.html — runs in browser -->
@@ -115,6 +121,8 @@ npm --version    # 9+
 
 ## 🔢 The 3 Layers of the Web
 
+Every webpage is built from three complementary technologies: HTML defines the structure, CSS defines the appearance, and JavaScript defines the behaviour. Keeping these concerns separate makes code easier to maintain and reason about.
+
 ```
 HTML  →  Structure (what exists)
 CSS   →  Presentation (how it looks)
@@ -178,6 +186,8 @@ console.log("End");
 
 ## 🔀 Including JavaScript
 
+Script tags can be inline, external, deferred, or async. Use the `defer` attribute for most application scripts so the HTML parses completely before the script executes — this prevents errors caused by accessing DOM elements that haven't loaded yet.
+
 ```html
 <!-- 1. Inline (avoid for anything >trivial) -->
 <script>console.log("inline");</script>
@@ -198,6 +208,8 @@ console.log("End");
 
 ## 📌 "use strict"
 
+Strict mode opts into a restricted variant of JavaScript that catches common coding mistakes and throws errors for unsafe actions such as assigning to undeclared variables. ES Modules (files using `import`/`export`) are always in strict mode automatically.
+
 ```js
 "use strict";  // opt-in to strict mode — catches common mistakes
 
@@ -214,6 +226,8 @@ x = 5; // ReferenceError: x is not defined ✅ caught
 ---
 
 ## 💬 Comments
+
+Single-line comments use `//` and multi-line comments use `/* */`. JSDoc comments starting with `/**` are recognised by IDEs and documentation generators to provide type information and inline API documentation.
 
 ```js
 // Single-line comment

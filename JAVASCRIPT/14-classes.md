@@ -32,6 +32,8 @@ String(cat);    // "Animal(Kitty)"
 
 ## 🧬 Inheritance with extends
 
+The `extends` keyword sets up a prototype chain between two classes. The derived class must call `super()` before accessing `this` in its constructor. Methods defined in the child class override the parent's; use `super.methodName()` to call the parent implementation explicitly.
+
 ```js
 class Animal {
   constructor(name) {
@@ -150,6 +152,8 @@ ExtendedMath.square(4);  // 16 — inherited static methods ✅
 
 ## 🔧 Getters & Setters
 
+Getters and setters are accessor properties that look like plain property accesses from the outside but execute a function when read or written. They are useful for computed properties, lazy initialisation, and input validation on assignment without exposing internal state.
+
 ```js
 class Temperature {
   #celsius;
@@ -187,6 +191,8 @@ temp.celsius;      // 0
 
 ## 🔂 Iterators in Classes
 
+A class becomes iterable by implementing the `[Symbol.iterator]()` method, which must return an iterator object with a `next()` method. Once a class is iterable, its instances work with `for...of`, the spread operator, and destructuring.
+
 ```js
 class Range {
   constructor(start, end, step = 1) {
@@ -221,6 +227,8 @@ for (const n of range) console.log(n); // 1 3 5 7 9
 ---
 
 ## 🏭 Static Factory Methods
+
+Static factory methods are named constructors on the class itself that provide alternative ways to create instances. They make code more expressive by replacing overloaded constructors with clearly named alternatives like `fromHex` or `fromArray`.
 
 ```js
 class Color {

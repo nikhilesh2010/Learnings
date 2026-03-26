@@ -23,6 +23,8 @@ JavaScript is **single-threaded** — it has one call stack, executing one thing
 
 ## 📚 The Call Stack
 
+The call stack is a LIFO (last-in, first-out) data structure that tracks the currently executing functions. Each function call pushes a frame; when the function returns, the frame is popped. JavaScript can only execute one function at a time, and the event loop only processes queued tasks when the stack is completely empty.
+
 ```js
 function third()  { console.log("third"); }
 function second() { third(); console.log("second"); }
@@ -42,6 +44,8 @@ first();
 ---
 
 ## ⏰ Web APIs & Task Queues
+
+When the call stack is empty the event loop picks the next callback from the queues. Microtasks (Promise callbacks and `queueMicrotask`) have higher priority than macrotasks (`setTimeout`, `setInterval`, I/O), and the entire microtask queue drains before the next macrotask is processed.
 
 ```js
 console.log("1: Start");
@@ -124,6 +128,8 @@ fs.readFile("file.txt", "utf8", (err, data) => {
 
 ## 😱 Callback Hell (Pyramid of Doom)
 
+When multiple asynchronous operations depend on each other, nesting callbacks leads to deeply indented, hard-to-read code known as "callback hell" or the "pyramid of doom". Error handling at each level makes the problem worse. Promises and `async/await` were introduced to solve this.
+
 ```js
 // ❌ Deeply nested callbacks — hard to read and maintain
 getUser(userId, (err, user) => {
@@ -154,6 +160,8 @@ getUser(userId, (err, user) => {
 ---
 
 ## ⏱️ setTimeout & setInterval
+
+`setTimeout` schedules a callback to run once after a delay, and `setInterval` repeats a callback at a fixed interval. Both return an ID that can be passed to `clearTimeout`/`clearInterval` to cancel them. A delay of `0` does not mean immediate execution — it defers until after the current synchronous code finishes.
 
 ```js
 // setTimeout — run once after delay
@@ -190,6 +198,8 @@ poll();
 
 ## 🔄 queueMicrotask
 
+`queueMicrotask()` schedules a function to run in the microtask queue — before the next macrotask and before rendering. It is a lighter alternative to `Promise.resolve().then(...)` when you need to defer work to the end of the current task but before any I/O callbacks.
+
 ```js
 // Schedule a microtask (runs before next macrotask)
 queueMicrotask(() => {
@@ -207,6 +217,8 @@ Promise.resolve().then(() => console.log("Microtask 1"));
 ---
 
 ## 🚫 Blocking the Event Loop
+
+Long-running synchronous operations stall the event loop, freezing the UI and preventing other callbacks from executing. Break heavy work into smaller chunks scheduled with `setTimeout`, move CPU-intensive tasks to a Web Worker, and avoid synchronous patterns like busy-waiting loops on the main thread.
 
 ```js
 // ❌ Never do heavy synchronous work on the main thread

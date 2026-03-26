@@ -35,6 +35,8 @@ npx jest
 
 ## 🏗️ Structuring Tests
 
+Organize tests with `describe` blocks for grouping related cases and `it`/`test` for individual assertions. Group by the function or behavior being tested, and write test descriptions that read like plain English sentences explaining what the code should do.
+
 ```js
 // math.test.js  or  math.spec.js
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
@@ -71,6 +73,8 @@ describe("Math functions", () => {
 ---
 
 ## ✅ Matchers (Expect API)
+
+`expect(value).matcher()` makes assertions readable. Use `.toBe` for strict equality, `.toEqual` for deep object comparison, `.toContain`/`.toMatchObject` for partial matching, and `await expect(promise).resolves.toBe(...)` for async assertions.
 
 ```js
 // Equality
@@ -120,6 +124,8 @@ expect(renderHtml(component)).toMatchSnapshot();  // auto-creates/updates
 
 ## 🎭 Mocking
 
+`vi.fn()` creates a mock function that tracks calls and return values. `vi.mock('module')` replaces an entire module for the test file. `vi.spyOn()` wraps an existing method to track calls while preserving real behavior. Always restore mocks after each test.
+
 ```js
 import { vi, describe, it, expect } from "vitest";
 
@@ -160,6 +166,8 @@ vi.mock("./utils.js", async (importOriginal) => {
 ---
 
 ## ⏰ Fake Timers
+
+`vi.useFakeTimers()` replaces `setTimeout`, `setInterval`, and `Date` with controllable fakes. Use `vi.advanceTimersByTime(ms)` to fast-forward time without actually waiting, making it trivial to test debounce, throttle, and interval-based code.
 
 ```js
 import { vi } from "vitest";
@@ -202,6 +210,8 @@ describe("debounce", () => {
 
 ## ♻️ Setup & Teardown
 
+`beforeAll`/`afterAll` run once per `describe` block — use them for expensive setup like creating a test database. `beforeEach`/`afterEach` run around every test — use them to seed fresh data and restore mocks to keep each test independent.
+
 ```js
 import { beforeAll, afterAll, beforeEach, afterEach } from "vitest";
 
@@ -229,6 +239,8 @@ afterEach(async () => {
 ---
 
 ## 📐 Testing Async Code
+
+Always `return` a Promise or use `async/await` in tests — if you forget and the assertion throws asynchronously, the test may falsely pass. Use `await expect(promise).rejects.toThrow(...)` to assert on promise rejections cleanly.
 
 ```js
 // async/await style (preferred)
@@ -261,6 +273,8 @@ global.fetch = vi.fn().mockResolvedValue({
 
 ## 📊 Code Coverage
 
+Code coverage reports show which lines, branches, and functions were exercised by your tests. Configure coverage thresholds in `vitest.config.js` to fail the CI build if coverage drops below your target. Run `--coverage` to get both a terminal summary and an HTML report.
+
 ```json
 // vitest.config.js
 export default {
@@ -288,6 +302,8 @@ npx vitest --coverage
 ---
 
 ## 🏆 Testing Best Practices
+
+Write test descriptions that explain what the code does and under what conditions. Follow the Arrange-Act-Assert pattern for clarity. Use `test.each` for data-driven tests instead of copy-pasting. Test behavior, not implementation details, so tests don't break on refactors.
 
 ```js
 // ✅ Descriptive test names — describe WHAT and WHEN

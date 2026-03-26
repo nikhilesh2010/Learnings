@@ -2,6 +2,8 @@
 
 ## 📝 Creating RegEx
 
+Use the literal syntax (`/pattern/flags`) for static patterns — it's compiled at load time and more readable. Use the `RegExp` constructor when you need to build a pattern dynamically from a string variable.
+
 ```js
 // Literal syntax (preferred — compiled at load time)
 const re = /hello/;
@@ -32,6 +34,8 @@ const re4 = new RegExp(`^${pattern}$`, "i");  // template literal
 
 ## 🔡 Character Classes
 
+Character class shortcuts like `\d`, `\w`, and `\s` match broad categories of characters. Use `[...]` to define a custom set, `[^...]` for exclusion, and `[a-z]` for ranges. Uppercase versions (`\D`, `\W`, `\S`) match the complement.
+
 ```
 .       any char (except \n without s flag)
 \d      digit [0-9]
@@ -56,6 +60,8 @@ const re4 = new RegExp(`^${pattern}$`, "i");  // template literal
 
 ## 🔢 Quantifiers
 
+Quantifiers control how many times the preceding element matches. Greedy quantifiers match as much as possible by default; add `?` after any quantifier to make it lazy (match as little as possible), which prevents over-matching in patterns like `<.*>`.
+
 ```
 *       0 or more  (greedy)
 +       1 or more  (greedy)
@@ -78,6 +84,8 @@ const re4 = new RegExp(`^${pattern}$`, "i");  // template literal
 
 ## ⚓ Anchors
 
+Anchors assert a position rather than matching a character. `^` matches the start and `$` the end of the string (or of each line with the `m` flag). `\b` matches a word boundary, ensuring a pattern only matches whole words.
+
 ```
 ^       start of string (or line with m flag)
 $       end of string (or line with m flag)
@@ -95,6 +103,8 @@ $       end of string (or line with m flag)
 ---
 
 ## 🪣 Groups & Capturing
+
+Capturing groups `(...)` let you extract parts of a match by index. Named groups `(?<name>...)` make extracted values accessible as properties on the result's `.groups` object. Non-capturing groups `(?:...)` group without capturing, and backreferences `\1` / `\k<name>` match the same text again.
 
 ```js
 // Capturing group — ( )
@@ -122,6 +132,8 @@ const { year, month, day } =
 
 ## 👀 Lookahead & Lookbehind
 
+Lookaheads `(?=...)` and lookbehinds `(?<=...)` assert that a pattern is (or isn't) present without consuming characters in the match. They're zero-width assertions — the matched text doesn't include them, so they're ideal for context-sensitive patterns like extracting numbers preceded by `$`.
+
 ```js
 // Positive lookahead — (?=...) — match X followed by Y
 /\d+(?= dollars)/.exec("100 dollars")[0]; // "100"
@@ -145,6 +157,8 @@ const { year, month, day } =
 ---
 
 ## 🔧 RegEx Methods
+
+Use `re.test()` for a quick boolean check, `re.exec()` when you need the full match object and want to iterate all matches with a `g`-flagged regex. For string operations, `str.match()`, `str.matchAll()`, `str.replace()`, and `str.split()` all accept regular expressions.
 
 ```js
 const str = "Hello World hello world";
@@ -181,6 +195,8 @@ str.split(/(\s+)/);  // includes separator in result: ["Hello"," ","World"...]
 ---
 
 ## 📚 Common Patterns
+
+Battled-tested regex patterns for everyday validation tasks: email addresses, URLs, IPv4, US phone numbers, hex colors, strong passwords, slugs, and ISO dates. Use `str.replace(/\s+/g, " ").trim()` to normalize whitespace.
 
 ```js
 // Email (simplified)
@@ -221,6 +237,8 @@ str.replace(/\s+/g, " ").trim();
 ---
 
 ## ⚙️ Advanced Features
+
+The `y` (sticky) flag anchors matches to a specific `lastIndex` position, useful for tokenizing. The `u` flag enables proper Unicode and `\p{}` Unicode property escapes. The `d` flag adds start/end indices to match results. Always use `escapeRegex()` to sanitize user input before building a dynamic `RegExp`.
 
 ```js
 // sticky flag — match must start at lastIndex

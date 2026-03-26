@@ -302,6 +302,8 @@ graphemeLength("👋🏽");   // 1
 
 ## 🌐 Locale Detection & Discovery
 
+`navigator.language` returns the user's current locale string, while `navigator.languages` provides the full ordered preference list. `Intl.Locale` parses a locale tag into its component parts (language, region, script, and extensions) for inspection or comparison.
+
 ```js
 // Get current system locale
 navigator.language;        // "en-US"

@@ -8,6 +8,8 @@ A **Service Worker** is a JavaScript file that runs in a background thread, sepa
 
 ## 🏗️ Registration
 
+Register a service worker from your main JavaScript file, usually during the `load` event. The browser installs it asynchronously — the registration object lets you check its scope, monitor lifecycle state, and manually trigger an update check.
+
 ```js
 // In your main JS (app.js / main.js)
 if ("serviceWorker" in navigator) {
@@ -40,6 +42,8 @@ await reg.unregister();   // returns true if successful
 ---
 
 ## 🔄 Lifecycle
+
+A service worker progresses through install, waiting, and activate phases before it controls any pages. The waiting phase ensures existing tabs keep using the old worker until they're closed — call `skipWaiting()` and `clients.claim()` to take over immediately.
 
 ```
 Registration
@@ -216,6 +220,8 @@ self.addEventListener("fetch", (event) => {
 
 ## 💾 Cache API
 
+The Cache API stores `Request`/`Response` pairs, allowing you to serve assets without hitting the network. You can open named caches, add or put entries, query them with `match`, and delete stale entries during the activate event.
+
 ```js
 // Open / create a cache
 const cache = await caches.open("my-cache-v1");
@@ -254,6 +260,8 @@ caches.match(request, {
 ---
 
 ## 📬 Push Notifications
+
+Push notifications require the user's permission, a VAPID key pair for server authentication, and a push subscription sent to your server. The service worker listens for `push` events to display the notification, and `notificationclick` to handle user interaction.
 
 ```js
 // 1. Request permission
@@ -341,6 +349,8 @@ async function flushMessageQueue() {
 
 ## 💬 Communicating with the Page
 
+Service workers and the main page communicate via `postMessage`. The worker can broadcast to all controlled clients with `self.clients.matchAll()`, and the page sends messages to the active worker via `navigator.serviceWorker.controller.postMessage()`.
+
 ```js
 // From sw.js → page (broadcast)
 self.clients.matchAll().then((clients) => {
@@ -397,6 +407,8 @@ Service Workers enable Progressive Web Apps (PWAs). A `manifest.json` makes the 
 ---
 
 ## ⚠️ Important Constraints
+
+Service workers require HTTPS (or `localhost`), run in their own global scope (`self`, not `window`), and cannot access the DOM or `localStorage`. They only control pages under the directory where `sw.js` is located, so place it at the root to cover the entire site.
 
 ```js
 // Service Workers only work on HTTPS (or localhost for development)

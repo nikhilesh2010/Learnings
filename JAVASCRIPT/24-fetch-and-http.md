@@ -25,6 +25,8 @@ async function getUsers() {
 
 ## 📨 Request Options
 
+Control how a request is made by passing an options object as the second argument to `fetch`. This is where you set the HTTP method, request headers, and body payload.
+
 ```js
 // POST — send JSON
 const response = await fetch("/api/users", {
@@ -58,6 +60,8 @@ await fetch(`/api/users/${id}`, { method: "DELETE" });
 
 ## 📥 Reading Response Body
 
+A `Response` object's body can only be read once. Choose the right reader method based on the expected content type — `.json()` for JSON APIs, `.text()` for plain text, and `.blob()` for binary data like images.
+
 ```js
 const response = await fetch(url);
 
@@ -85,6 +89,8 @@ response.headers.get("X-Rate-Limit");
 
 ## 🔒 Headers
 
+Use the `Headers` class or a plain object to set request headers. Common use cases include specifying `Content-Type`, passing authentication tokens, and reading server-returned headers.
+
 ```js
 // Custom Headers object
 const headers = new Headers({
@@ -108,6 +114,8 @@ for (const [key, value] of response.headers.entries()) {
 ---
 
 ## ❌ Error Handling
+
+`fetch` only rejects its Promise on network-level failures (no connection, DNS error). HTTP error status codes like 404 or 500 resolve normally — you must check `response.ok` yourself and throw appropriately.
 
 ```js
 // ⚠️ fetch() only rejects on NETWORK errors (no internet, DNS failure)
@@ -153,6 +161,8 @@ try {
 
 ## ⏰ Timeouts & Cancellation
 
+`fetch` has no native timeout option. Use `AbortController` to cancel a request programmatically and `setTimeout` to abort after a deadline. Always clear the timeout after a successful response to avoid stale aborts.
+
 ```js
 // Fetch doesn't have a built-in timeout — use AbortController
 async function fetchWithTimeout(url, timeoutMs = 5000) {
@@ -188,6 +198,8 @@ cancelButton.onclick = () => controller.abort();
 ---
 
 ## 📤 Sending Different Body Types
+
+Choose the right body format based on what the server expects. Use `JSON.stringify` for JSON APIs, `FormData` for file uploads (the browser sets the `Content-Type` automatically), and `URLSearchParams` for HTML form-style submissions.
 
 ```js
 // JSON body
@@ -227,6 +239,8 @@ await fetch("/api/binary", {
 
 ## 🍪 Cookies & Credentials
 
+By default, `fetch` does not include cookies in cross-origin requests. Use the `credentials` option to control whether cookies and HTTP auth are sent, which is required for session-based authentication across origins.
+
 ```js
 // Include cookies in cross-origin requests
 await fetch("https://api.example.com/user", {
@@ -248,6 +262,8 @@ await fetch("/api/public", {
 
 ## 🔄 Request Object
 
+The `Request` class lets you create reusable, portable request descriptors. You can build a `Request` once with all its options and pass it to `fetch`, which is useful when caching or intercepting requests.
+
 ```js
 // Create reusable Request objects
 const req = new Request("/api/users", {
@@ -262,6 +278,8 @@ const response = await fetch(req);
 ---
 
 ## 🏗️ API Client Wrapper
+
+For real applications, wrap `fetch` in a class that centralizes your base URL, default headers, error handling, and authentication. This prevents repetitive boilerplate and gives you one place to add logging, retries, or interceptors.
 
 ```js
 class ApiClient {

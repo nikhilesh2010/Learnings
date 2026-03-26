@@ -2,6 +2,8 @@
 
 ## 📦 Creating Arrays
 
+The array literal (`[]`) is the preferred way to create arrays in JavaScript. `Array.from()` converts any iterable or array-like object into a real array and optionally transforms each element. `Array.of()` avoids the ambiguity of the `Array` constructor, which behaves differently depending on whether you pass one or more arguments.
+
 ```js
 // Array literal (preferred)
 const nums = [1, 2, 3, 4, 5];
@@ -25,6 +27,8 @@ Array.of(1, 2, 3);  // [1, 2, 3]
 ---
 
 ## 🔍 Accessing & Modifying
+
+Elements are accessed by zero-based numeric index using bracket notation. The `at()` method (ES2022) supports negative indices, making it a clean way to reference elements from the end of the array. Setting `arr.length` to a smaller value truncates the array in place.
 
 ```js
 const arr = [10, 20, 30, 40, 50];
@@ -56,6 +60,8 @@ const copy = [...arr];
 
 ## ➕ Adding & Removing Elements
 
+`push` and `pop` add and remove from the end; `unshift` and `shift` add and remove from the beginning. `splice()` is a versatile in-place method that can insert, remove, or replace elements at any position.
+
 ```js
 const arr = [1, 2, 3];
 
@@ -76,6 +82,8 @@ arr.splice(1, 1, 99);      // replace 1 item at index 1: [1,99,3,4]
 ---
 
 ## 🔎 Searching
+
+`indexOf` and `lastIndexOf` find elements by value and return their index. `includes()` is cleaner when you only need to know whether an element exists. `find()` and `findIndex()` search by a predicate function and return the first match.
 
 ```js
 const arr = [10, 20, 30, 40, 30];
@@ -102,6 +110,8 @@ arr.every(n => n > 15);  // false (10 is not > 15)
 ---
 
 ## 🔄 Iteration
+
+`forEach` calls a callback for every element but returns nothing and cannot be broken early. `for...of` is the recommended alternative when you need early termination or to work with `async/await`. The `entries()` iterator yields `[index, value]` pairs.
 
 ```js
 const fruits = ["apple", "banana", "cherry"];
@@ -160,6 +170,8 @@ nums.reduce((acc, n) => ({ ...acc, [n]: n ** 2 }), {}); // {1:1, 2:4, ...}
 
 ## 🔀 Sorting
 
+The default `sort()` converts elements to strings and sorts lexicographically, which is incorrect for numbers. Always pass a comparator function for numeric or property-based sorting. `toSorted()` (ES2023) returns a sorted copy without mutating the original.
+
 ```js
 // Default sort — lexicographic (converts to string)
 [10, 9, 2, 1, 100].sort();       // [1, 10, 100, 2, 9] ← wrong for numbers!
@@ -186,6 +198,8 @@ const sorted2 = arr.toSorted((a, b) => a - b); // ES2023 — non-mutating ✅
 ---
 
 ## 🔗 Combining & Slicing
+
+`concat()` and the spread operator join arrays into a new array without mutation. `slice()` extracts a portion by start/end indices and supports negative values to count from the end. `join()` converts an array to a delimited string.
 
 ```js
 const a = [1, 2, 3];
@@ -214,6 +228,8 @@ a.slice();      // [1, 2, 3] — full copy
 
 ## 🔄 Reversing & Filling
 
+`reverse()` mutates the original array in place; `toReversed()` (ES2023) returns a new reversed copy. `fill()` sets a range of indices to a constant value and is useful for initialising fixed-size arrays.
+
 ```js
 [1, 2, 3].reverse();               // [3, 2, 1] — mutates!
 [1, 2, 3].toReversed();            // [3, 2, 1] — non-mutating (ES2023) ✅
@@ -228,6 +244,8 @@ new Array(5).fill(0);              // [0, 0, 0, 0, 0]
 ---
 
 ## 🧩 Destructuring Arrays
+
+Array destructuring unpacks elements into variables by position. You can skip elements with empty commas, collect the remaining elements with a rest pattern, and supply default values for positions that may be `undefined`. It is especially convenient for swapping variables or unpacking function return values.
 
 ```js
 const [a, b, c] = [1, 2, 3];

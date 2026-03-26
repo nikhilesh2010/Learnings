@@ -2,6 +2,8 @@
 
 ## 📝 Accessing Form Data
 
+The `FormData` API is the cleanest way to collect all form field values at once, including files and multi-select fields. You can convert it to a plain object with `Object.fromEntries` or serialize it directly for a `fetch` request.
+
 ```js
 const form = document.querySelector("#user-form");
 
@@ -35,6 +37,8 @@ const age   = Number(form.elements["age"].value);
 ---
 
 ## 🔍 Input Types & Values
+
+Different input types expose values differently: text inputs use `.value` (always a string), checkboxes use `.checked`, file inputs expose a `FileList` via `.files`, and date inputs offer both a string and a `Date` object. Always convert numeric inputs with `Number()`.
 
 ```js
 // Text inputs
@@ -75,6 +79,8 @@ dateInput.valueAsNumber; // timestamp
 
 ## ✅ HTML5 Built-in Validation
 
+HTML5 provides free, browser-native validation through attributes like `required`, `pattern`, `minlength`, `min`, and `max`. The `validity` object on each input gives granular detail about which constraint failed, so you can show targeted error messages.
+
 ```html
 <form id="signup">
   <input type="email" name="email" required placeholder="Email">
@@ -114,6 +120,8 @@ input.setCustomValidity("");    // clear custom message (restore built-in)
 ---
 
 ## 🛠️ Custom Validation
+
+For complex validation logic beyond what HTML5 attributes support, build a validator class that runs rules on blur and re-validates on input change. Custom validation should always complement, never replace, server-side validation.
 
 ```js
 class FormValidator {
@@ -216,6 +224,8 @@ new FormValidator("#signup-form", {
 
 ## 📂 File Uploads
 
+Access selected files through `input.files` as a `FileList`. Validate size and type on the client before uploading, use `FileReader` to provide local previews, and send files to the server with `FormData` and `fetch`. Drag-and-drop uploads use the `dataTransfer.files` from the `drop` event.
+
 ```js
 const fileInput = document.querySelector('input[type="file"]');
 
@@ -278,6 +288,8 @@ dropZone.addEventListener("drop", async (e) => {
 ---
 
 ## 🔒 Security in Forms
+
+Client-side validation is UX only — always validate and sanitize on the server. Use `textContent` instead of `innerHTML` when displaying user input, include CSRF tokens in state-changing requests, and use HTTPS for all form submissions.
 
 ```js
 // ✅ Always validate on the server — client validation is UX only!

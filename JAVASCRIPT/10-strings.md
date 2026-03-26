@@ -2,6 +2,8 @@
 
 ## 📝 String Basics
 
+JavaScript strings are immutable sequences of UTF-16 code units. They can be created with single quotes, double quotes, or backtick template literals. The `length` property counts UTF-16 code units, which can differ from the number of visible characters for non-BMP characters like emoji.
+
 ```js
 const single  = 'Hello';
 const double  = "World";
@@ -22,6 +24,8 @@ typeof "hello";     // "string"
 ---
 
 ## 🔤 Template Literals
+
+Template literals use backtick delimiters and support embedded expressions with `${}`, multi-line content without escape characters, and tagged templates where a tag function processes the string parts and interpolated values. They are the preferred way to build dynamic strings.
 
 ```js
 const name = "Alice";
@@ -180,6 +184,8 @@ String(num).padStart(8, "0"); // "00000042"
 
 ## 🔡 String Comparison
 
+JavaScript compares strings lexicographically by Unicode code point value, which means uppercase letters sort before lowercase and accented characters may sort incorrectly. Use `localeCompare()` for culturally correct, locale-aware sorting of international text.
+
 ```js
 "apple" < "banana";   // true (lexicographic)
 "Z" < "a";            // true (uppercase < lowercase in Unicode)
@@ -196,6 +202,8 @@ names.sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
 ---
 
 ## 🔢 Number ↔ String Conversions
+
+`String()` and `toString()` convert numbers to strings, with `toString(base)` supporting different numeral bases. `Number()` and the unary `+` operator convert strings to numbers strictly, while `parseInt` and `parseFloat` are lenient and stop parsing at the first non-numeric character.
 
 ```js
 // Number to string
@@ -225,6 +233,8 @@ parseFloat("3.14em"); // 3.14
 
 ## 🔠 Character Codes & Unicode
 
+`charCodeAt()` and `codePointAt()` retrieve the numeric code for a character, while `String.fromCharCode()` and `String.fromCodePoint()` do the reverse. Use `codePointAt()` and `fromCodePoint()` when working with characters outside the Basic Multilingual Plane, such as emoji, to avoid surrogate pair issues.
+
 ```js
 // Character code
 "A".charCodeAt(0);       // 65
@@ -247,6 +257,8 @@ String.fromCodePoint(128512); // "😀"
 
 ## 🔍 Regular Expressions in Strings
 
+Strings have methods that accept regex patterns: `match()` returns an array of captures for the first match (or `null`), `matchAll()` returns an iterator of all matches with their capture groups, and `search()` returns the index of the first match. The `RegExp` `test()` method is the simplest way to check whether a pattern exists in a string.
+
 ```js
 const email = "user@example.com";
 
@@ -266,6 +278,8 @@ const text = "cats and dogs and horses";
 ---
 
 ## 📋 Useful Patterns
+
+This section collects concise utility functions for everyday string tasks: capitalising the first letter, truncating with an ellipsis, generating URL-friendly slugs, counting substring occurrences, reversing a string safely for Unicode, testing for palindromes, and converting camelCase to kebab-case.
 
 ```js
 // Capitalize first letter

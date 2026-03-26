@@ -2,6 +2,8 @@
 
 ## 🔥 try / catch / finally
 
+`try` wraps risky code; `catch` receives any thrown error and handles it; `finally` always runs regardless of success or failure — ideal for cleanup like hiding spinners or releasing resources. Use the re-throw pattern to handle only what you can and let everything else propagate.
+
 ```js
 try {
   // code that might throw
@@ -39,6 +41,8 @@ try {
 ---
 
 ## 🏷️ Built-in Error Types
+
+JavaScript has several built-in error subtypes for common situations: `TypeError` for wrong types, `ReferenceError` for undefined variables, `RangeError` for out-of-bounds values, and `SyntaxError` for malformed code. Every error has `.name`, `.message`, and `.stack` properties — and ES2022 added `.cause` for error chaining.
 
 ```js
 // Error — base class
@@ -81,6 +85,8 @@ try {
 ---
 
 ## 📐 Custom Error Classes
+
+Extend `Error` to create domain-specific error classes that carry extra context (like HTTP status codes or invalid field names) and can be identified with `instanceof`. Always call `super(message)`, set `this.name`, and fix the prototype chain for transpiled environments.
 
 ```js
 // Base custom error
@@ -144,6 +150,8 @@ try {
 
 ## 🌐 Async Error Handling
 
+For `async/await`, wrap awaited calls in `try/catch`. For Promise chains, use `.catch()` at the end. Be aware that `fetch` only rejects on network failure, not HTTP errors — check `response.ok` explicitly. When running multiple promises in parallel, add per-promise `.catch()` handlers to allow partial failures.
+
 ```js
 // async/await with try/catch
 async function fetchUser(id) {
@@ -189,6 +197,8 @@ const [users, posts] = await Promise.all([
 ---
 
 ## 🌍 Global Error Handlers
+
+Register global handlers to catch errors that slip through all local handling. In the browser, use `window.onerror` for synchronous errors and `unhandledrejection` for missed Promise rejections. In Node.js, use `process.on('uncaughtException')` and `process.on('unhandledRejection')` — but always exit after an uncaught exception.
 
 ```js
 // Browser — uncaught synchronous errors
@@ -244,7 +254,7 @@ if (!result.ok) {
 ---
 
 ## 🛟 Error Boundaries Pattern
-
+Wrap risky async operations in a helper that catches failures and returns a fallback value instead of throwing. The retry utility adds exponential backoff for transient failures like network timeouts or flaky external APIs.
 ```js
 // Wrap risky operations with recovery
 async function withFallback(fn, fallback) {
@@ -285,6 +295,8 @@ const data = await retry(() => fetch("/api/flaky").then(r => r.json()), {
 ---
 
 ## 📋 Error Handling Best Practices
+
+Never silently swallow errors — at minimum log them. Catch only the errors you can meaningfully handle and re-throw the rest. Add actionable context to error messages and use `.cause` to chain errors so the root cause is never lost.
 
 ```js
 // ✅ Be specific — catch only what you can handle

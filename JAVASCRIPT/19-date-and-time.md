@@ -30,6 +30,8 @@ const ts = Date.now();                    // milliseconds since epoch  ✅ prefe
 
 ## 🔍 Reading Date Parts
 
+The `Date` object provides separate getter methods for each calendar and time component. Local-time getters (e.g. `getHours()`) depend on the system's timezone, while UTC getters (e.g. `getUTCHours()`) are timezone-independent. Note that `getMonth()` returns a zero-based index (0 = January).
+
 ```js
 const d = new Date("2024-03-15T10:30:45.123Z");
 
@@ -61,6 +63,8 @@ d.valueOf();            // same as getTime()
 
 ## ✏️ Setting Date Parts
 
+Setter methods (`setFullYear`, `setMonth`, etc.) mutate the `Date` object in place. Setting a value that overflows the valid range — like day 32 of January — automatically rolls over to the correct date in the next month, which can be exploited for date arithmetic.
+
 ```js
 const d = new Date("2024-03-15");
 
@@ -80,6 +84,8 @@ const d2 = new Date(2024, 0, 32);  // → Feb 1 2024 (January 32 overflows)
 ---
 
 ## 🖨️ Formatting Dates
+
+The built-in `toString`, `toDateString`, and `toLocaleDateString` methods produce human-readable strings, but their output varies by browser and OS locale. For consistent, production-quality formatting, prefer `Intl.DateTimeFormat` with explicit locale and option arguments. Use `toISOString()` for storage and API serialisation.
 
 ```js
 const d = new Date("2024-03-15T10:30:00Z");
@@ -111,6 +117,8 @@ fmt.format(d);  // "Friday, March 15, 2024 at 10:30 AM"
 ---
 
 ## ➕ Date Arithmetic
+
+Date arithmetic works by converting dates to millisecond timestamps, performing the arithmetic, and converting back. For month and year arithmetic use `setMonth()`/`setFullYear()` rather than milliseconds, because month lengths vary. Dates can be compared directly with `<` and `>` because they coerce to their timestamp.
 
 ```js
 // Add/subtract using timestamps
@@ -183,6 +191,8 @@ Intl.DateTimeFormat().resolvedOptions().timeZone;  // "Asia/Kolkata" (current sy
 
 ## ⚡ Performance: Date.now() vs new Date()
 
+`Date.now()` returns the current timestamp as a number without allocating a `Date` object, making it faster for benchmarking and timestamping. For sub-millisecond timing accuracy, use `performance.now()` which returns a high-resolution float.
+
 ```js
 // ✅ For timestamps only — much faster, no object allocation
 const t0 = Date.now();
@@ -202,6 +212,8 @@ Date.parse("invalid");                 // NaN
 ---
 
 ## 🔄 Common Utility Patterns
+
+This section provides reusable functions for common date tasks: validating a `Date`, formatting as `YYYY-MM-DD`, computing days between two dates, finding the next occurrence of a weekday, and generating a human-readable relative time string like "3h ago".
 
 ```js
 // Is valid date?
@@ -282,6 +294,8 @@ const temporalInstant = Temporal.Instant.fromEpochMilliseconds(legacyDate.getTim
 ---
 
 ## ⚠️ Common Pitfalls
+
+The most frequent `Date` bugs stem from its 0-based month indexing, inconsistent parsing of non-ISO date strings across browsers, and reference equality traps when comparing two `Date` objects. Always use ISO 8601 format for parsing, compare with `getTime()`, and remember that `getMonth()` returns `0` for January.
 
 ```js
 // ❌ Month is 0-indexed — the most common Date bug

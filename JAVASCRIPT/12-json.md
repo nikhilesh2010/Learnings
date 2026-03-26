@@ -6,6 +6,8 @@ JSON (JavaScript Object Notation) is the universal data interchange format. Java
 
 ## 🔄 JSON.stringify — Serialization
 
+`JSON.stringify()` converts a JavaScript value into a JSON string. The optional second argument (replacer) can filter or transform properties, and the third argument (indentation) controls pretty-printing. The result is always a string that can be safely stored or transmitted.
+
 ```js
 // Basic usage
 JSON.stringify(42);               // "42"
@@ -31,6 +33,8 @@ JSON.stringify({ a: 1 }, null, "\t");  // tab indentation
 ---
 
 ## ⚠️ What Gets Dropped / Transformed
+
+Not all JavaScript values can be represented in JSON. Functions, `Symbol`s, and `undefined` are silently dropped from objects (or replaced with `null` in arrays). Special number values like `Infinity` and `NaN` become `null`, `Date` objects become ISO strings, and `BigInt` values throw a `TypeError`.
 
 ```js
 // Values that become undefined (dropped from objects, become null in arrays)
@@ -94,6 +98,8 @@ JSON.stringify({ x: 1 }, (key, value) => {
 ---
 
 ## 🔍 JSON.parse — Deserialization
+
+`JSON.parse()` converts a JSON string back into a JavaScript value. It throws a `SyntaxError` on malformed input, so it should always be wrapped in `try/catch` when parsing untrusted data. The optional reviver function lets you transform values during parsing.
 
 ```js
 JSON.parse("42");               // 42
@@ -189,6 +195,8 @@ JSON.stringify({ info: new Debug() });
 
 ## 🔄 Serializing Special Types
 
+JavaScript types that JSON does not natively support — `Map`, `Set`, `BigInt`, and `Error` — require custom serialization helpers. Convert `Map` to its entries array, `Set` to an array, and `BigInt` to a string, then reverse the process on the receiving end.
+
 ```js
 // Map ↔ JSON
 function mapToJson(map) {
@@ -223,6 +231,8 @@ function errorToJson(err) {
 
 ## 🔁 Deep Clone with JSON
 
+A JSON round-trip (`JSON.parse(JSON.stringify(obj))`) is a quick way to deep clone a plain data object. However it silently drops functions, `undefined`, `Date`, `Map`, `Set`, class instances, and circular references. Prefer `structuredClone()` (ES2022) for a more capable built-in deep clone.
+
 ```js
 // Quick deep clone — works for plain JSON-safe data
 const original = { a: 1, b: { c: [2, 3] } };
@@ -245,6 +255,8 @@ const betterClone = structuredClone(original);
 ---
 
 ## 🔄 Circular Reference Handling
+
+JSON does not support circular references, and `JSON.stringify()` throws a `TypeError` when it encounters one. A replacer function that tracks already-seen objects with a `WeakSet` can substitute a placeholder string for circular references. For full round-trip serialisation of cyclic graphs, use a library such as `flatted`.
 
 ```js
 // JSON.stringify throws on circular refs
@@ -274,6 +286,8 @@ stringifyWithCycles(circular);  // '{"a":1,"self":"[Circular]"}'
 ---
 
 ## 🛡️ Security Considerations
+
+Never use `eval()` to parse JSON — it can execute arbitrary JavaScript and is an XSS vector. Always use `JSON.parse()`. Be aware of prototype pollution: some older merge utilities may inadvertently copy `__proto__` properties from parsed JSON onto `Object.prototype`. Validate incoming JSON payloads against a schema (e.g. with Zod or Ajv) before using them.
 
 ```js
 // ❌ NEVER use eval() to parse JSON

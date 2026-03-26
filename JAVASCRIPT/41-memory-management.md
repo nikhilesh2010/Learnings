@@ -182,7 +182,7 @@ class Component {
 ---
 
 ## 🪝 WeakRef & FinalizationRegistry
-
+`WeakRef` holds a reference to an object without preventing garbage collection — call `.deref()` to get the object, which returns `undefined` once it's been collected. `FinalizationRegistry` lets you register a cleanup callback that fires after the GC reclaims an object.
 ```js
 // WeakRef — weak reference that doesn't prevent GC
 let bigObject = { data: new Array(1000000).fill(0) };
@@ -237,6 +237,8 @@ class WeakCache {
 
 ## 🔍 Detecting Memory Leaks (DevTools)
 
+Use the Memory tab in Chrome DevTools to take heap snapshots before and after an operation and compare them. Objects that should have been freed but remain in the "after" snapshot are leak candidates. The Retainers panel shows exactly what is keeping each object alive.
+
 ```
 Chrome DevTools → Memory tab:
 
@@ -260,6 +262,8 @@ Tips:
 ---
 
 ## 🧮 Memory-Efficient Patterns
+
+For large data: stream files in chunks instead of loading them entirely, use typed arrays (`Float32Array`, `Uint32Array`) for numeric datasets (no per-element boxing overhead), and apply object pooling for high-frequency allocations like game particles — reuse objects instead of creating and discarding them every frame.
 
 ```js
 // ✅ Process large data in chunks (streaming)

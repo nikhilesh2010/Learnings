@@ -48,6 +48,8 @@ proxy.age = 31;    // logs "Setting age = 31"
 
 ## 🛡️ Validation Proxy
 
+Wrap an empty object in a Proxy with a `set` trap that checks types or values before allowing writes. This enforces a schema at runtime without any external library.
+
 ```js
 function createTypedObject(schema) {
   return new Proxy({}, {
@@ -108,6 +110,8 @@ state.count = 1;  // logs "count changed: 0 → 1"
 
 ## 🏦 Default Values Proxy
 
+Intercept property reads with a `get` trap to return a fallback when a key doesn't exist. This pattern also enables negative array indexing by converting the index before forwarding the lookup.
+
 ```js
 // Returns a default value for missing properties
 const withDefaults = (target, defaultValue = 0) =>
@@ -136,6 +140,8 @@ arr[-2];  // 4
 ---
 
 ## 🚫 Read-only / Frozen Proxy
+
+Throw an error from the `set` and `deleteProperty` traps to create an object that appears normal but rejects all modifications at runtime — useful for protecting configuration or constants.
 
 ```js
 function readOnly(target) {
@@ -193,6 +199,8 @@ const proxy = new Proxy({}, {
 
 ## 🔬 Function Proxy (apply trap)
 
+The `apply` trap intercepts all calls to a function, letting you add logging, memoization, timing, or argument validation transparently without modifying the original function.
+
 ```js
 // Logging all function calls
 function withLogging(fn) {
@@ -230,6 +238,8 @@ function memoize(fn) {
 ---
 
 ## ⚠️ Proxy Gotchas
+
+Proxies only intercept operations on the proxy object itself — deeply nested objects are plain objects and won't trigger traps. Proxy deeply nested values by returning proxies from the `get` trap. Also note that proxies have a performance cost and can't violate non-configurable property invariants.
 
 ```js
 // 1. Proxies don't intercept deeply nested objects — need nested proxies

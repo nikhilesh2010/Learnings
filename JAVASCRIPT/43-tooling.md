@@ -2,6 +2,8 @@
 
 ## 📦 Package Managers
 
+`npm` is the default package manager bundled with Node.js. `yarn` and `pnpm` are faster alternatives with better workspace support. All three share the same registry and a similar CLI — use `npm audit` regularly to check for known vulnerabilities in your dependencies.
+
 ```bash
 # npm (Node Package Manager — comes with Node.js)
 npm init -y                    # create package.json
@@ -116,6 +118,8 @@ import styles from "./styles.module.css"; // CSS modules
 
 ## 📦 Webpack (Older but Common)
 
+Webpack is the long-standing bundler widely used before Vite. Its `module.rules` transform files through loaders (Babel for JS, css-loader for CSS), and `optimization.splitChunks` handles code splitting. Vite is preferred for new projects, but Webpack remains common in existing codebases.
+
 ```js
 // webpack.config.js
 const path = require("path");
@@ -226,6 +230,8 @@ npx eslint src --fix             # auto-fix where possible
 
 ## 💅 Prettier (Code Formatter)
 
+Prettier automatically reformats code to a consistent style, eliminating debates about formatting. Configure it via `.prettierrc` and run it as part of your pre-commit hook alongside ESLint to keep the entire codebase uniformly formatted.
+
 ```bash
 npm install -D prettier
 ```
@@ -260,7 +266,7 @@ npx prettier --check "src/**/*.js"   # CI check only
 ---
 
 ## 🪝 Husky & lint-staged (Git Hooks)
-
+Husky attaches scripts to Git hooks (like `pre-commit`), and lint-staged runs those scripts only on staged files. This combination ensures every commit passes linting and formatting checks without slowing down developers who aren't touching that code.
 ```bash
 npm install -D husky lint-staged
 npx husky init
@@ -283,6 +289,8 @@ npx lint-staged
 ---
 
 ## 📂 TypeScript (Type Checking)
+
+TypeScript adds a static type system on top of JavaScript, catching type errors at compile time that would otherwise only surface at runtime. Vite and modern bundlers support TypeScript out of the box — run `tsc --noEmit` in CI to type-check without producing output files.
 
 ```bash
 npm install -D typescript

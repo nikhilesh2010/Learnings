@@ -2,6 +2,8 @@
 
 ## 📅 ES2016 (ES7)
 
+ES2016 added two quality-of-life improvements: `Array.prototype.includes` (which correctly handles `NaN` unlike `indexOf`) and the `**` exponentiation operator as a cleaner alternative to `Math.pow`.
+
 ```js
 // Array.prototype.includes (vs indexOf)
 [1, 2, 3].includes(2);     // true
@@ -17,6 +19,8 @@
 ---
 
 ## 📅 ES2017 (ES8)
+
+ES2017 introduced `Object.values`/`Object.entries` for iterating objects, string padding methods, and — most significantly — `async`/`await` syntax for writing asynchronous code synchronously.
 
 ```js
 // Object.values / Object.entries
@@ -43,6 +47,8 @@ function fn(a, b, c,) {}  // valid — easier git diffs
 ---
 
 ## 📅 ES2018 (ES9)
+
+ES2018 brought object spread/rest syntax, `Promise.finally`, async iteration with `for await...of`, and important RegExp improvements including named capture groups, lookbehind assertions, and the `s` (dotAll) flag.
 
 ```js
 // Object spread / rest
@@ -79,6 +85,8 @@ const { year, month, day } =
 
 ## 📅 ES2019 (ES10)
 
+ES2019 added `Array.flat`/`flatMap` for flattening nested arrays, `Object.fromEntries` to reverse `Object.entries`, string trim methods, and made `catch` binding optional when you don't need the error value.
+
 ```js
 // Array.flat / Array.flatMap
 [1, [2, [3, [4]]]].flat();     // [1, 2, [3, [4]]]  (depth 1)
@@ -112,6 +120,8 @@ try {
 ---
 
 ## 📅 ES2020 (ES11)
+
+ES2020 introduced optional chaining (`?.`) and nullish coalescing (`??`) — two of the most impactful syntax additions in years. It also added `BigInt` for arbitrary-precision integers, `Promise.allSettled`, and `globalThis` for cross-environment global access.
 
 ```js
 // Optional chaining ?.
@@ -166,6 +176,8 @@ export * as utils from "./utils.js";
 
 ## 📅 ES2021 (ES12)
 
+ES2021 added logical assignment operators (`||=`, `&&=`, `??=`), `String.replaceAll`, `Promise.any` (first fulfilled wins), numeric separators for readability, and `WeakRef`/`FinalizationRegistry` for soft references.
+
 ```js
 // Logical assignment operators
 let x = null;
@@ -207,6 +219,8 @@ registry.register(obj, "myObject");
 
 ## 📅 ES2022 (ES13)
 
+ES2022 standardized class public/private fields and static members, the `.at()` method for negative array/string indexing, `Object.hasOwn` as a safer alternative to `hasOwnProperty`, `Error.cause` for error chaining, and top-level `await` in modules.
+
 ```js
 // Class fields & private methods (see Classes chapter)
 class Counter {
@@ -243,6 +257,8 @@ export { config };
 
 ## 📅 ES2023 (ES14)
 
+ES2023 introduced non-mutating array methods (`toSorted`, `toReversed`, `toSpliced`, `with`) so you can transform arrays without altering the original, along with `Object.groupBy`/`Map.groupBy` for grouping collections by a key.
+
 ```js
 // Array change methods (non-mutating alternatives)
 const arr = [3, 1, 2];
@@ -271,6 +287,8 @@ Map.groupBy(people, p => p.dept);  // returns Map
 ---
 
 ## 📅 ES2024 (ES15)
+
+ES2024 added `Promise.withResolvers()` for a cleaner deferred promise pattern, standardized `Object.groupBy`/`Map.groupBy`, and introduced the RegExp `/v` (unicodeSets) flag for advanced Unicode character class operations.
 
 ```js
 // Promise.withResolvers — cleaner deferred pattern

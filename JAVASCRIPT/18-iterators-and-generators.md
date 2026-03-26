@@ -204,6 +204,8 @@ function* flatten(arr) {
 
 ## ⚡ Async Generators & for await...of
 
+An async generator (`async function*`) yields values asynchronously, `await`ing between each `yield`. It is consumed with `for await...of` and is particularly useful for paginated APIs, streaming data sources, and any scenario where values arrive over time rather than all at once.
+
 ```js
 async function* asyncCounter(from, to, delayMs = 100) {
   for (let i = from; i <= to; i++) {
@@ -236,6 +238,8 @@ for await (const item of fetchAllPages("/api/products?page=1")) {
 ---
 
 ## 🔬 Custom Iterable Class
+
+A class becomes iterable by implementing `[Symbol.iterator]()` on its prototype. Once iterable, instances of the class work with `for...of`, spread, and destructuring natively. This pattern is demonstrated here with a `LinkedList` class that exposes its nodes as a sequence.
 
 ```js
 class LinkedList {

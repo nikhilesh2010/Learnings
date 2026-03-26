@@ -2,6 +2,8 @@
 
 ## 🔀 if / else if / else
 
+The `if` statement executes a block conditionally, with optional `else if` chains and a final `else` fallback. Always use curly braces even for single-statement bodies — omitting them is a common source of hard-to-spot bugs.
+
 ```js
 const score = 75;
 
@@ -28,6 +30,8 @@ if (flag)
 ---
 
 ## 🔄 switch
+
+The `switch` statement compares an expression against multiple `case` values using strict equality (`===`). Each matching case falls through to the next until a `break` is encountered, which allows multiple cases to share the same handler.
 
 ```js
 const day = "Monday";
@@ -177,6 +181,8 @@ for (const key in obj) {
 
 ## 🛑 Loop Control
 
+`break` exits the nearest enclosing loop or `switch` immediately, while `continue` skips the rest of the current iteration and moves to the next one. Labelled `break` lets you exit an outer loop from within a nested loop.
+
 ```js
 // break — exits the loop
 for (let i = 0; i < 10; i++) {
@@ -202,6 +208,8 @@ outer: for (let i = 0; i < 3; i++) {
 ---
 
 ## 🛡️ try / catch / finally
+
+The `try/catch/finally` block handles runtime errors: code in `try` runs normally, any thrown error is caught by `catch`, and `finally` always executes regardless of outcome — making it ideal for cleanup such as closing connections or releasing resources.
 
 ```js
 try {
@@ -237,6 +245,8 @@ try {
 ---
 
 ## 💣 throw
+
+The `throw` statement manually signals an error by interrupting execution and passing a value to the nearest enclosing `catch` block. By convention, throw `Error` instances or subclasses of `Error` so that callers receive a meaningful `message` and `stack` trace.
 
 ```js
 // Throw anything (but Error objects are conventional)

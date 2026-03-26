@@ -107,6 +107,8 @@ await fetch("/api/transfer", {
 
 ## 🔒 Secure Data Handling
 
+Never store authentication tokens or sensitive data in `localStorage` — it's accessible to any JavaScript on the page and is the first target of XSS attacks. Use `HttpOnly` cookies for auth tokens (they can't be read by JS), and rely on the Web Crypto API for any cryptographic operations.
+
 ```js
 // ✅ NEVER store sensitive data in localStorage / sessionStorage
 // LocalStorage is accessible by ALL JS on the page — XSS drains it instantly
@@ -144,6 +146,8 @@ const key = await crypto.subtle.generateKey(
 
 ## 🚫 Injection Prevention
 
+Never build SQL queries, shell commands, or code strings from user input. Use parameterized queries on the server, avoid `eval` and `new Function`, and validate all external input at your application's entry points with strict type and format checks.
+
 ```js
 // SQL (usually server-side, but relevant for context)
 // ❌ String concatenation
@@ -178,6 +182,8 @@ function validateEmail(email) {
 
 ## 🌐 HTTPS & Secure Communication
 
+Always serve your application and API over HTTPS. Redirect HTTP to HTTPS at the application level as a safety net, and never disable TLS certificate validation in Node.js — setting `NODE_TLS_REJECT_UNAUTHORIZED=0` in production is a serious security vulnerability.
+
 ```js
 // ✅ Always use HTTPS — never HTTP for anything sensitive
 // ✅ Check https:// before making API calls
@@ -201,6 +207,8 @@ function isAllowedUrl(url) {
 
 ## 🪟 postMessage Security
 
+Always validate `event.origin` before trusting a message received via `postMessage` — any window or iframe can send messages, including malicious ones. When sending, specify the exact target origin rather than `"*"` to prevent data leaking to unexpected recipients.
+
 ```js
 // ❌ Don't accept messages from any origin
 window.addEventListener("message", (event) => {
@@ -221,6 +229,8 @@ iframe.contentWindow.postMessage(data, "https://trusted.example.com");
 ---
 
 ## 🔍 Security Headers (Reference)
+
+These HTTP response headers form your application's security baseline. Set them on your server or reverse proxy. `Content-Security-Policy` and `Strict-Transport-Security` are the most impactful — the others prevent MIME sniffing, clickjacking, and referrer leakage.
 
 ```
 Content-Security-Policy      — restrict resource sources

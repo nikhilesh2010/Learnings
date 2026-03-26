@@ -8,6 +8,8 @@ Scope determines **where variables are visible** in your code. JS has four types
 
 ## 1. Global Scope
 
+Variables declared outside any function or block are in the global scope and accessible everywhere. `var` declarations at the top level become properties of the global object (`window` in browsers), while `let` and `const` do not.
+
 ```js
 var globalVar = "I'm global";   // on window in browsers
 let globalLet = "Also global";  // NOT on window
@@ -27,6 +29,8 @@ function oops() {
 ---
 
 ## 2. Function Scope
+
+Variables declared with `var`, `let`, or `const` inside a function are only visible within that function. `var` in particular is function-scoped rather than block-scoped, which means it leaks out of `if` blocks and loops but is still contained within the enclosing function.
 
 ```js
 function myFunc() {
@@ -55,6 +59,8 @@ function test() {
 
 ## 3. Block Scope (ES6 — let & const)
 
+`let` and `const` are block-scoped: they are accessible only within the `{}` block where they are declared. This fixes the classic `var`-in-loop closure bug because each loop iteration gets its own binding.
+
 ```js
 {
   let x = 10;
@@ -76,6 +82,8 @@ for (var i = 0; i < 3; i++) {
 ---
 
 ## 4. Module Scope
+
+Each ES module file has its own top-level scope. Variables declared at the module's top level are scoped to that module and are not added to the global object, preventing accidental global pollution.
 
 ```js
 // Each ES module has its own scope
@@ -249,6 +257,8 @@ init(); // 42 (no log — already called)
 
 ## ⚠️ Closure Gotcha — Loop Variables
 
+When `var` is used in a loop, all callback closures share a reference to the same variable. By the time the callbacks execute, the loop has already finished and `i` holds its final value. Using `let` instead creates a new binding for each iteration, giving each closure its own copy.
+
 ```js
 // Common bug with var and closures in loops
 for (var i = 0; i < 3; i++) {
@@ -279,6 +289,8 @@ for (var i = 0; i < 3; i++) {
 
 ## 🔍 Variable Shadowing
 
+A variable declaration in an inner scope that uses the same name as an outer-scope variable is said to shadow it. The inner declaration is completely independent; accessing the name inside the inner scope resolves to the inner binding, leaving the outer binding unchanged.
+
 ```js
 const name = "global";
 
@@ -301,6 +313,8 @@ console.log(name);  // "global"
 ---
 
 ## 📦 The Module Pattern (pre-ES6)
+
+Before ES modules, the module pattern used an IIFE to create a private scope and returned only the public-facing API. Closures kept the internal state hidden from the outside world. ES `import`/`export` syntax is preferred today, but this pattern still appears in legacy codebases.
 
 ```js
 const MyModule = (function() {

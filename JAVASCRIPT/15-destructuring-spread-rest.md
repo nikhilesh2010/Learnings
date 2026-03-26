@@ -2,6 +2,8 @@
 
 ## 📦 Array Destructuring
 
+Array destructuring unpacks values from an array into named variables by position. Elements can be skipped, default values provided for missing positions, and remaining elements collected with a rest pattern. It provides a clean syntax for swapping variables or extracting values from a function's array return.
+
 ```js
 // Basic
 const [a, b, c] = [1, 2, 3];
@@ -40,6 +42,8 @@ const [head] = [1, 2, 3, 4]; // head = 1 (rest ignored)
 ---
 
 ## 🔑 Object Destructuring
+
+Object destructuring extracts properties from an object into local variables by name. Properties can be renamed with `: newName`, given a default with `= value`, collected into a rest object with `...`, or accessed from nested objects by chaining the pattern. It is commonly used for function parameter destructuring.
 
 ```js
 // Basic
@@ -82,6 +86,8 @@ const {
 ---
 
 ## 🎯 Destructuring in Function Parameters
+
+Destructuring directly in a function's parameter list lets you unpack the values you need from an object or array argument at the call site. This avoids repetitive `const x = options.x` boilerplate and makes the expected shape of the argument self-documenting.
 
 ```js
 // Object parameter destructuring (most useful pattern)

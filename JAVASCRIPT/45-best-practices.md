@@ -90,6 +90,8 @@ async function onboardUser(user) {
 
 ## 🔄 Async / Await Best Practices
 
+Always handle errors with `try/catch` around `await` calls, and run independent async operations in parallel with `Promise.all` — sequential `await` chains are slower than necessary. Never forget the `await` keyword on async calls; a missing `await` is one of the most common async bugs.
+
 ```js
 // ✅ Prefer async/await over raw promises
 // ✅ Handle errors explicitly
@@ -130,6 +132,8 @@ await loginUser();
 
 ## 🧊 Immutability & Pure Functions
 
+Never mutate function parameters — always create and return new objects or arrays. This makes side effects obvious and makes code easier to reason about, test, and debug, especially in state management contexts.
+
 ```js
 // ✅ Don't mutate objects / arrays received as parameters
 function addItem(cart, item) {
@@ -150,6 +154,8 @@ function updateUser(user, changes) {
 ---
 
 ## 📦 Module Organization
+
+Use named exports for utility functions (they're tree-shakeable) and default exports for a module's primary class or component. Barrel files (`index.js`) provide clean, stable import paths for consumers and hide internal file structure.
 
 ```js
 // ✅ One concern per file; small, focused modules
@@ -176,6 +182,8 @@ import { thing } from "@/shared/utils/format";
 ---
 
 ## ⚠️ Error Handling Discipline
+
+A silently caught and ignored error is the worst kind of bug — it hides problems and makes debugging nearly impossible. Always at least log unexpected errors, validate data at system boundaries, and use custom error classes to carry domain-specific context.
 
 ```js
 // ✅ Never silently swallow errors
@@ -204,6 +212,8 @@ throw new UserNotFoundError(userId);
 ---
 
 ## 🧹 Clean Code Checklist
+
+Favor early returns (guard clauses) over nested `if/else` trees — they reduce indentation and make the happy path clear. Use destructuring, default parameters, optional chaining, and template literals to write concise, intent-revealing code.
 
 ```js
 // ✅ Prefer early returns to reduce nesting
@@ -248,6 +258,8 @@ const msg = `Hello ${name}, you have ${count} messages.`;
 
 ## 🚀 Performance Best Practices
 
+Cache expensive results with memoization, debounce user input handlers, and lazy load large modules only when needed. Prefer declarative array methods over manual loops for readability — the performance difference is negligible for typical data sizes.
+
 ```js
 // ✅ Cache expensive computations
 const memoized = memoize(expensiveCalc);
@@ -267,6 +279,8 @@ const doubled = nums.map(n => n * 2);  // vs for loop
 ---
 
 ## 📝 Documentation Style
+
+Use JSDoc comments on public API functions to document parameters, return types, and thrown errors — IDEs use these for inline documentation and type hints. Write comments that explain *why* code does something, not *what* it does (the code itself shows what); and remove dead code rather than commenting it out.
 
 ```js
 // ✅ JSDoc comments for public API

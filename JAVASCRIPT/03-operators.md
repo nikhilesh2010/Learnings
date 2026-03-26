@@ -2,6 +2,8 @@
 
 ## ➕ Arithmetic Operators
 
+Arithmetic operators perform mathematical calculations on numbers. JavaScript always uses floating-point division, so `10 / 3` yields a decimal. The `**` exponentiation operator was introduced in ES2016.
+
 ```js
 5 + 3   // 8   addition
 5 - 3   // 2   subtraction
@@ -34,6 +36,8 @@ console.log(a);   // 5
 
 ## 🔁 Assignment Operators
 
+Assignment operators combine an operation with a variable assignment in a single step. ES2021 added logical assignment operators (`??=`, `||=`, `&&=`) that only assign when the current value meets a specific condition.
+
 ```js
 let x = 10;
 x += 5;   // x = x + 5  → 15
@@ -57,6 +61,8 @@ c &&= c.toUpperCase(); // c = c && c.toUpperCase() → "HI"
 ---
 
 ## 🔍 Comparison Operators
+
+Strict equality (`===`) and strict inequality (`!==`) compare both value and type without any coercion, making them the safe default. Loose equality (`==`) performs type coercion and produces surprising results — avoid it.
 
 ```js
 // Strict equality (no coercion) ✅ ALWAYS USE THESE
@@ -84,6 +90,8 @@ null == 0    // false ← surprising!
 ---
 
 ## 🔘 Logical Operators
+
+The `&&` and `||` operators do not simply return `true` or `false`; they return one of their operands. `&&` returns the first falsy value or the last value; `||` returns the first truthy value or the last value. This makes them useful for short-circuit patterns and default values.
 
 ```js
 // AND — returns first falsy or last value
@@ -126,6 +134,8 @@ const port = userConfig.port ?? 3000;  // 0 is a valid port!
 
 ## ❓ Ternary Operator
 
+The ternary operator is a compact inline conditional that evaluates to one of two expressions depending on a boolean condition. It is best kept simple; use a full `if/else` statement for complex branching to preserve readability.
+
 ```js
 condition ? valueIfTrue : valueIfFalse
 
@@ -142,6 +152,8 @@ const grade = score >= 90 ? "A"
 ---
 
 ## 🔗 Optional Chaining `?.` (ES2020)
+
+Optional chaining short-circuits property access, method calls, and array indexing when the left-hand side is `null` or `undefined`, returning `undefined` instead of throwing a `TypeError`. It is commonly combined with `??` to supply a fallback value.
 
 ```js
 // Without optional chaining — verbose and error-prone
@@ -166,7 +178,7 @@ const label = user?.profile?.displayName ?? "Anonymous";
 ---
 
 ## 🧮 Bitwise Operators
-
+Bitwise operators treat their operands as 32-bit signed integers and operate on individual bits. They are rarely needed in everyday code but are useful for low-level tasks like flags, fast integer truncation, and working with binary data.
 ```js
 // Operate on 32-bit integers
 5 & 3    // 1   AND
@@ -188,6 +200,8 @@ Math.floor(x) === (x | 0)  // for positive numbers
 
 ## 🔤 String Operator
 
+The `+` operator doubles as string concatenation when either operand is a string. Evaluation is left-to-right, so mixing numbers and strings can produce surprising results. Prefer template literals for readability and to avoid accidental coercion.
+
 ```js
 "Hello" + " " + "World"  // "Hello World"  (concatenation)
 
@@ -204,6 +218,8 @@ Math.floor(x) === (x | 0)  // for positive numbers
 ---
 
 ## 🏷️ `typeof` & `instanceof`
+
+`typeof` returns a string describing the primitive type of a value. `instanceof` checks whether an object appears anywhere in a constructor's prototype chain. Note that `typeof null === "object"` is a long-standing historical bug.
 
 ```js
 typeof 42          // "number"
@@ -227,6 +243,8 @@ typeof function(){}// "function"
 ---
 
 ## 🆔 `in` Operator
+
+The `in` operator checks whether a property key exists on an object or anywhere in its prototype chain, returning a boolean. It also works on arrays using numeric indices as keys.
 
 ```js
 const obj = { name: "Alice", age: 30 };
@@ -252,6 +270,8 @@ if ("fetch" in window) {
 
 ## 🗑️ `delete` Operator
 
+The `delete` operator removes an own property from an object and returns `true` on success. It has no effect on variables, function declarations, or non-configurable properties.
+
 ```js
 const obj = { a: 1, b: 2 };
 delete obj.a;
@@ -265,6 +285,8 @@ delete x;  // false — doesn't delete variables
 ---
 
 ## 🔀 Spread & Rest (Operators / Syntax)
+
+The spread syntax (`...`) expands an iterable into individual elements — useful for copying arrays, merging objects, and passing arguments. The rest syntax uses the same `...` notation to collect remaining arguments or destructured elements into an array.
 
 ```js
 // Spread — expands iterables
@@ -286,6 +308,8 @@ sum(1, 2, 3, 4);  // 10
 ---
 
 ## 📊 Operator Precedence (high → low)
+
+Operator precedence determines the order in which operators are evaluated in an expression. Higher-precedence operators bind more tightly than lower-precedence ones. Use parentheses to override precedence and make execution order explicit.
 
 ```
 ()            Grouping

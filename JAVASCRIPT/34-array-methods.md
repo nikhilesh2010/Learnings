@@ -2,6 +2,8 @@
 
 ## 🔨 Mutating Methods (change original array)
 
+These methods modify the array in place and return either a new length, a removed element, or the modified array. Prefer the non-mutating ES2023 equivalents (`toSorted`, `toReversed`) when you need to preserve the original.
+
 ```js
 const arr = [1, 2, 3];
 
@@ -29,6 +31,8 @@ arr.copyWithin(0, 3);    // copy from index 3 to index 0 (rarely used)
 ---
 
 ## 📤 Non-Mutating Methods (return new value)
+
+These methods leave the original array untouched and return a new value — a new array, string, or element. Use `slice()` to copy, `concat`/spread to merge, and `at(-1)` as a clean alternative to `arr[arr.length - 1]`.
 
 ```js
 const arr = [1, 2, 3, 4, 5];
@@ -117,6 +121,8 @@ nums.flatMap(x => [x, x * 2]);
 
 ## 🔍 Search Methods
 
+Use `find` to get the first matching element, `findIndex` to get its position, and `some`/`every` to check whether any or all elements meet a condition. ES2023's `findLast`/`findLastIndex` search from the end.
+
 ```js
 const people = [
   { name: "Alice", age: 25 },
@@ -148,6 +154,8 @@ nums.every(x => x > 3);    // false
 
 ## 🏗️ Creating Arrays
 
+For most cases use an array literal, but `Array.from` is your go-to for generating arrays from iterables, strings, or a length + mapping function. `Array.of` avoids the ambiguity of `new Array(n)` when creating single-element arrays.
+
 ```js
 // Array literal
 const a = [1, 2, 3];
@@ -174,6 +182,8 @@ new Array(5).fill(null).map(() => ({})); // 5 distinct objects
 ---
 
 ## 📊 Grouping & Aggregating
+
+ES2024's `Object.groupBy` partitions an array into groups by a key function. For older targets use `reduce` to build the same grouped object manually. Common utilities like `unique`, `zip`, `chunk`, and `range` are also easy to implement with `reduce` and `Array.from`.
 
 ```js
 // Object.groupBy (ES2024)
@@ -223,6 +233,8 @@ range(0, 10, 2);  // [0, 2, 4, 6, 8]
 ---
 
 ## ⚙️ Sorting Deep Dive
+
+For multi-key sort, chain comparisons: compare by the primary key first, then fall back to secondary keys when the primary comparison is a tie. Use `toSorted` to sort without mutating, and `localeCompare` for correct alphabetical ordering.
 
 ```js
 const users = [

@@ -23,6 +23,8 @@ id1.description;     // "id" (ES2019)
 
 ## 🔑 Symbols as Object Keys
 
+Symbols can be used as object property keys by wrapping them in computed key syntax (`[symbol]`). Because each symbol is unique, they act as collision-free keys that are invisible to normal property enumeration methods like `Object.keys()` and `JSON.stringify()`, making them useful for library-internal or metadata properties.
+
 ```js
 const ID  = Symbol("id");
 const KEY = Symbol("key");

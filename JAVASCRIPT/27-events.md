@@ -2,6 +2,8 @@
 
 ## 🎯 Adding Event Listeners
 
+Use `addEventListener` to attach event handlers — it's preferred over `on*` properties because it allows multiple listeners on the same element and gives you options like `once` (auto-remove after first fire) and `capture`.
+
 ```js
 const btn = document.querySelector("#myBtn");
 
@@ -29,6 +31,8 @@ btn.onclick = () => console.log("click");  // overwrites previous
 ---
 
 ## 📦 The Event Object
+
+Every event handler receives an `Event` object with properties describing what happened: where the user clicked, which element triggered the event, and methods to prevent default browser behavior or stop the event from propagating up the DOM tree.
 
 ```js
 document.addEventListener("click", (event) => {
@@ -240,6 +244,8 @@ element.addEventListener("pointerleave", handler);
 
 ## 🎯 Custom Events
 
+Create application-level events with `CustomEvent`, passing structured data through the `detail` property. Dispatching them on the document allows any part of the app to listen, enabling decoupled component communication.
+
 ```js
 // Create and dispatch
 const event = new CustomEvent("user:login", {
@@ -270,6 +276,8 @@ class ShoppingCart extends HTMLElement {
 ---
 
 ## ⚡ Debounce & Throttle
+
+High-frequency events like `scroll`, `resize`, and `input` can fire dozens of times per second. Debouncing delays execution until activity stops; throttling ensures the function runs at most once per time interval.
 
 ```js
 // Debounce — wait until activity stops (search input, resize)

@@ -2,6 +2,8 @@
 
 ## 📊 Measuring Performance
 
+Use `performance.now()` for precise elapsed-time measurements. The User Timing API (`performance.mark` / `performance.measure`) lets you label spans that appear as named regions in the DevTools Performance flame chart.
+
 ```js
 // High-resolution timer
 const start = performance.now();
@@ -30,6 +32,8 @@ performance.getEntriesByType("resource");       // asset loads
 ---
 
 ## 🔁 Loop Optimization
+
+The most common loop bottlenecks are redundant DOM queries and property lookups inside the loop body. Cache elements and lengths in variables before the loop, use `for...of` for clean iteration, and choose short-circuiting methods like `find` and `some` when you only need the first match.
 
 ```js
 // ❌ Slow — recalculates arr.length every iteration
@@ -112,6 +116,8 @@ el.style.overflow = "visible";  // 3 potential reflows
 
 ## 📦 Virtual DOM / List Virtualization
 
+When rendering thousands of list items, only the visible ones should exist in the DOM. A virtual list calculates which items are in the viewport based on scroll position and renders just those, keeping DOM node count constant regardless of data size.
+
 ```js
 // Only render visible items (virtual scroll)
 class VirtualList {
@@ -151,6 +157,8 @@ class VirtualList {
 
 ## 🚀 Code Splitting & Lazy Loading
 
+Split your bundle so users only download the code they need for the current page or action. Use dynamic `import()` to load modules on demand — on button click, route change, or when an element becomes visible.
+
 ```js
 // Dynamic import — load only when needed
 const loadChart = async () => {
@@ -184,6 +192,8 @@ document.querySelectorAll("img[data-src]").forEach(img => observer.observe(img))
 ---
 
 ## ♻️ Memoization & Caching
+
+Memoization caches the result of a pure function so repeated calls with the same arguments return instantly. Use a simple Map-based cache for most cases, or an LRU cache with a bounded size to prevent unbounded memory growth.
 
 ```js
 // React useMemo equivalent for plain JS
@@ -233,6 +243,8 @@ class LRUCache {
 
 ## ⏳ Debounce, Throttle & Task Scheduling
 
+For non-urgent work, `requestIdleCallback` defers execution to idle browser time. `queueMicrotask` schedules work after the current synchronous task but before the next macrotask. Yielding to the main thread periodically with `setTimeout(fn, 0)` keeps the UI responsive during long-running processing loops.
+
 ```js
 // requestIdleCallback — run non-urgent work during idle time
 requestIdleCallback((deadline) => {
@@ -261,6 +273,8 @@ async function runChunked(tasks) {
 ---
 
 ## 🧠 String & Object Performance Tips
+
+For large datasets: join strings with `Array.join` instead of `+=` in loops, use `Set` for O(1) membership checks instead of `Array.includes`, and prefer a single-pass `reduce` over chained `filter().map()` when you need both operations at once.
 
 ```js
 // ❌ String concatenation in loop

@@ -10,6 +10,8 @@
 
 ## `var` Hoisting
 
+Variable declarations using `var` are moved to the top of their enclosing function (or global) scope before any code runs. Only the declaration is hoisted, not the assignment, so the variable exists but holds `undefined` until the assignment line is reached.
+
 ```js
 // What you write:
 console.log(x); // undefined (NOT ReferenceError!)
@@ -138,6 +140,8 @@ get `undefined` — with let/const, you get a loud error ✅
 
 ## Class Hoisting & TDZ
 
+Class declarations are hoisted in the same way as `let` and `const` — they exist in the Temporal Dead Zone until the declaration is evaluated. Attempting to instantiate a class before its declaration appears in the source will throw a `ReferenceError`.
+
 ```js
 // Class declarations are in TDZ — cannot use before definition
 const obj = new Animal(); // ❌ ReferenceError
@@ -152,6 +156,8 @@ const dog = new Animal("Rex"); // ✅
 ---
 
 ## import Hoisting
+
+ES module `import` declarations are hoisted and evaluated before any other code in the module. This means you can reference imported bindings anywhere in the file, even on lines that appear before the `import` statement, without causing a reference error.
 
 ```js
 // Imports are hoisted and evaluated BEFORE any code runs
@@ -208,6 +214,8 @@ console.log(typeof foo); // "string"
 ---
 
 ## Best Practices
+
+Avoid relying on hoisting by always declaring variables and functions before using them. Use `const` and `let` instead of `var`, and place all declarations at the top of their scope so the code's execution order is obvious to any reader.
 
 ```js
 // ✅ Declare all variables at the TOP of their scope

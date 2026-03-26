@@ -47,6 +47,8 @@ math.default;    // the default export (multiply)
 
 ## 🔄 Re-exports (Barrel Files)
 
+A barrel file (`index.js`) re-exports selected items from multiple modules, giving consumers a single convenient import path instead of knowing every internal file location. This is the standard pattern for organizing utility or component libraries.
+
 ```js
 // ── utils/index.js ──────────────────────────
 export { add, PI }          from "./math.js";
@@ -96,6 +98,8 @@ import.meta.env;      // Vite/bundler environment variables
 
 ## 🗂️ Module Loading Rules
 
+ESM resolves paths relative to the importing file. Bare specifiers (like `"react"`) work in Node.js and bundlers but not in browsers without an import map. Use `import.meta.url` to determine the current module's URL.
+
 ```
 // ✅ Relative path
 import "./utils.js";
@@ -135,6 +139,8 @@ import "react";
 
 ## 🔑 Module Characteristics
 
+ESM has several important behaviors that differ from regular scripts: modules are deferred by default, run in strict mode automatically, have their own file scope (no globals), are cached as singletons, and export live bindings that reflect mutations in the exporting module.
+
 ```js
 // 1. Deferred by default (like defer attribute)
 //    Scripts execute after HTML parse
@@ -163,6 +169,8 @@ console.log(count);  // 1  ← live binding updated!
 ---
 
 ## 📜 CommonJS (Node.js)
+
+CommonJS is Node.js's original module system, using `require()` to import and `module.exports` to export. It's synchronous and dynamic (evaluated at runtime), which differs fundamentally from ESM's static analysis. Modern Node.js supports both, but ESM is the recommended standard.
 
 ```js
 // ── math.cjs.js ──────────────────────────────
@@ -207,6 +215,8 @@ const path = require("path");
 ---
 
 ## 📁 Module Patterns in Projects
+
+A common project layout uses barrel `index.js` files in each feature folder to provide clean import paths, and separates concerns into `utils/`, `api/`, and `components/` directories. This makes imports predictable and keeps individual files focused.
 
 ```
 src/

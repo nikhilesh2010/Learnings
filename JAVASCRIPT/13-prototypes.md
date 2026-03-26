@@ -14,6 +14,8 @@ myFunc   → Function.prototype → Object.prototype → null
 
 ## 🔍 Accessing Prototypes
 
+Use `Object.getPrototypeOf(obj)` to read an object's prototype — the modern, standards-recommended approach. The `__proto__` accessor is deprecated and should be avoided in new code. Following the chain to `null` will traverse the entire inheritance hierarchy.
+
 ```js
 const arr = [1, 2, 3];
 
@@ -30,6 +32,8 @@ Object.getPrototypeOf(Object.prototype);                  // null
 ---
 
 ## ⛓️ How the Prototype Chain Works
+
+When you access a property that an object does not own, JavaScript walks up the prototype chain looking for it. This continues until the property is found or the end of the chain (`null`) is reached, at which point `undefined` is returned. Methods placed on the prototype are shared by every instance that inherits from it.
 
 ```js
 const animal = {
@@ -55,6 +59,8 @@ dog.toString(); // "[object Object]" — from Object.prototype
 ---
 
 ## 🏭 Constructor Functions & Prototypes
+
+When a function is called with `new`, JavaScript creates a new object whose prototype is set to `Function.prototype`. Properties set with `this` inside the constructor become own properties of the instance, while methods placed on `Constructor.prototype` are shared across all instances, saving memory.
 
 ```js
 function Person(name, age) {
@@ -92,6 +98,8 @@ alice.greet === bob.greet;  // true ✅
 
 ## 🧬 Prototypal Inheritance
 
+To set up an inheritance chain between two constructor functions, assign a new object created from the parent's `prototype` as the child's `prototype`, then restore the `constructor` reference. The child's constructor should call the parent constructor with `call` to initialise inherited own properties.
+
 ```js
 function Animal(name) {
   this.name = name;
@@ -124,6 +132,8 @@ d instanceof Animal; // true (chain includes Animal.prototype)
 
 ## 🏗️ Object.create()
 
+`Object.create(proto)` creates a new object whose prototype is set to `proto`, giving you fine-grained control over the inheritance chain without needing a constructor function. Passing `null` creates a truly empty object with no inherited properties — useful as a safe dictionary.
+
 ```js
 // Create with specific prototype
 const vehicleProto = {
@@ -151,6 +161,8 @@ const obj = Object.create(vehicleProto, {
 
 ## 🔎 instanceof & isPrototypeOf
 
+`instanceof` checks whether the `prototype` property of a constructor appears anywhere in an object's prototype chain. `isPrototypeOf()` does the same but operates directly on prototype objects. Note that `instanceof` does not work reliably across iframes because each frame has its own global object and constructors.
+
 ```js
 const arr = [1, 2, 3];
 
@@ -168,6 +180,8 @@ Object.prototype.isPrototypeOf(arr); // true
 ---
 
 ## 🏷️ hasOwnProperty & Own Properties
+
+`Object.hasOwn(obj, key)` (ES2022) reliably checks whether a property is directly on an object rather than inherited from its prototype. Use it when iterating with `for...in`, which also traverses inherited enumerable properties and can produce unexpected keys.
 
 ```js
 const parent = { inherited: true };
@@ -194,6 +208,8 @@ for (const key in child) {  // own + inherited enumerable!
 
 ## 🔧 Augmenting Built-in Prototypes
 
+Adding properties to built-in prototypes like `Array.prototype` or `Object.prototype` is generally considered bad practice. It can conflict with future language additions, break `for...in` enumeration, and cause hard-to-diagnose bugs when multiple libraries do the same. Write standalone utility functions instead.
+
 ```js
 // ⚠️ Generally avoid augmenting built-in prototypes in libraries
 // It can conflict with other code and future language additions
@@ -217,6 +233,8 @@ function last(arr) { return arr[arr.length - 1]; }
 
 ## 🔬 Property Lookup Performance
 
+Reading a property that lives directly on an object is fastest; each hop up the prototype chain adds a small lookup cost. Deeply nested inheritance hierarchies can degrade performance for frequently-called hot paths, though modern engine optimisations often compensate.
+
 ```js
 // Properties found on the object itself are fastest
 // Each prototype hop adds a tiny lookup cost
@@ -233,6 +251,8 @@ const child = Object.create(proto);  // a found after 1 hop
 ---
 
 ## 📋 Prototype vs Class (same thing)
+
+ES6 `class` syntax is purely syntactic sugar over constructor functions and prototype assignment — both approaches produce an identical runtime prototype chain. Classes are strongly preferred in new code because they are more readable, enforce `super()` calls, and support private fields.
 
 ```js
 // Constructor function way:

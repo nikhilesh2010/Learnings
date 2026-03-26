@@ -15,6 +15,8 @@ Once settled (fulfilled or rejected), a promise **never changes state**.
 
 ## 🏗️ Creating Promises
 
+A `Promise` is created by passing an executor function to the `Promise` constructor. The executor receives `resolve` and `reject` callbacks: calling `resolve(value)` fulfils the promise, and calling `reject(error)` rejects it. This is typically used to wrap callback-based APIs so they can be chained with `.then()`.
+
 ```js
 const promise = new Promise((resolve, reject) => {
   // Do async work...
@@ -42,6 +44,8 @@ function readFileAsync(path) {
 
 ## 🔗 Chaining with .then()
 
+Each `.then()` call returns a new promise so operations can be chained in sequence. Returning a plain value from a `.then()` handler passes it to the next `.then()`; returning a promise causes the chain to wait for that promise to settle before continuing. Never nest promise chains — always return inner promises to keep the chain flat.
+
 ```js
 fetch("/api/user/1")
   .then(response => response.json())   // transform
@@ -64,6 +68,8 @@ fetch("/api/users")
 ---
 
 ## ❌ Error Handling
+
+A `.catch()` added to the end of a chain intercepts any rejection from any step above it. Returning a value inside `.catch()` turns the rejection into a resolved value, allowing the chain to continue recovery. `.finally()` always runs whether the chain succeeded or failed, making it the right place for cleanup logic.
 
 ```js
 // .catch() handles rejections anywhere in the chain
@@ -159,6 +165,8 @@ const fastest = await Promise.any([
 
 ## ⚡ Static Methods
 
+`Promise.resolve()` and `Promise.reject()` create an already-settled promise, which is useful in tests, default branches, and normalising values that may or may not be promises. Awaiting `Promise.resolve(value)` is safe whether `value` is a promise or a plain value.
+
 ```js
 // Already resolved/rejected — useful in tests and defaults
 Promise.resolve(42).then(v => console.log(v)); // 42
@@ -174,6 +182,8 @@ async function example(maybePromise) {
 ---
 
 ## 🔁 Promise Chaining vs Nesting
+
+Nested `.then()` callbacks recreate the callback-hell problem and make error handling incomplete. Always return the inner promise from a `.then()` handler to keep the chain flat and ensure a single `.catch()` handles all errors.
 
 ```js
 // ❌ Nested promises — defeats the purpose
@@ -197,6 +207,8 @@ fetch("/api/user")
 ---
 
 ## 🏗️ Promisify Pattern
+
+The promisify pattern wraps a Node.js error-first callback function in a `Promise` so it can be used with `.then()` chains or `async/await`. Node's built-in `util.promisify()` does this automatically for functions that follow the standard `(err, result)` callback convention.
 
 ```js
 // Convert callback-based functions to promise-based
@@ -226,6 +238,8 @@ const readFile = promisify(fs.readFile);
 
 ## 🧩 Building a Simple Promise Chain
 
+This pattern wraps a `Promise` in a class to demonstrate how chainable fluent APIs can be built. Storing the promise internally and returning `this` from each method allows calls like `.then(...).catch(...).finally(...)` on the custom class.
+
 ```js
 class Task {
   constructor(fn) {
@@ -245,6 +259,8 @@ class Task {
 ---
 
 ## ⚠️ Common Mistakes
+
+The most frequent promise bugs are forgetting to `return` an inner promise from `.then()` (which breaks the chain), omitting `.catch()` (leaving rejections unhandled), and the "promise constructor anti-pattern" of wrapping an existing promise in a `new Promise()` unnecessarily.
 
 ```js
 // 1. Forgetting to return in .then()
