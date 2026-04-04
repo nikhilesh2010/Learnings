@@ -2,27 +2,65 @@
 
 ## Load Balancer Types
 
-### Application Load Balancer (ALB)
+**What:** Service that distributes traffic across multiple servers.
 
-Layer 7 (Application layer):
+**Why we use it:** One server can't handle all traffic. Load balancers spread the load.
+
+**How it works:**
 
 ```
-Perfect for:
-├── Modern web applications
-├── Microservices
-├── Container workloads
-├── REST APIs
+Without load balancer (BOTTLENECK):
+1,000 users → Single server → Overloaded!
 
-Features:
-├── Host-based routing
-├── Path-based routing
-├── Header-based routing
-├── Query parameter routing
-├── Hostname-based routing
-└── HTTP/2 support
+With load balancer (BALANCED):
+1,000 users → Load Balancer  
+            ├→ Server 1 (250 users)
+            ├→ Server 2 (250 users)
+            ├→ Server 3 (250 users)
+            └→ Server 4 (250 users)
 
-Cost: $0.0225/hour (vs NLB $0.0225, difference in data)
+Each server: Fast response!
 ```
+
+**Three types:**
+
+### Application Load Balancer (ALB) - MOST COMMON
+
+**Best for:** Web applications, microservices, REST APIs
+
+**Features:**
+- Intelligent routing (based on path, hostname, query strings)
+- /api/* → API service
+- /images/* → Image service
+- www.example.com → Web servers
+
+**Example:**
+```
+ALB routes traffic intelligently:
+GET /api/users → Lambda function
+POST /api/users → Lambda function  
+GET /static/image.jpg → S3 bucket
+GET / → Web server pool
+
+Same URL domain, different backends!
+```
+
+### Network Load Balancer (NLB)
+
+**Best for:** Extreme performance, real-time gaming, IoT
+
+**Features:**
+- 1 million requests/second
+- Sub-millisecond latency
+- Non-HTTP protocols (TCP, UDP, custom)
+
+### Classic Load Balancer (CLB) - Legacy
+
+Old, not recommended. Use ALB instead.
+
+---
+
+**Choose:** Use ALB for 99% of cases!
 
 ### Network Load Balancer (NLB)
 

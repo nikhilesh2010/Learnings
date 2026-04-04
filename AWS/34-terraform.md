@@ -2,19 +2,44 @@
 
 ## Terraform vs CloudFormation
 
+**What:** Terraform = Multi-cloud Infrastructure as Code tool (AWS, Azure, GCP).
+
+**Why we use it:** CloudFormation only works with AWS. Terraform works everywhere, so code is portable.
+
+**How it works:**
+
 ```
 CloudFormation:
 ├── AWS-only
-├── Native integration
-├── Automatic discovery
-└── Limited modularity
+├── Native integration (auto-discovers resources)
+├── Limited to AWS ecosystem
+└── Good for: AWS-focused teams
 
 Terraform:
-├── Multi-cloud (AWS, Azure, GCP)
-├── Cloud-agnostic
-├── Powerful modules
-├── Strong state management
-└── Steeper learning curve
+├── Multi-cloud (AWS, Azure, GCP, Kubernetes, etc.)
+├── Write once, deploy anywhere
+├── Cloud-agnostic approach
+├── Powerful modularity
+├── Steeper learning curve
+└── Good for: Multi-cloud strategy
+```
+
+**Simple example comparison:**
+
+```
+Deploy VPC + Subnet:
+
+CloudFormation (AWS-only):
+aws cloudformation create-stack \
+  --template-body file://vpc.yaml
+
+Terraform (multi-cloud):
+terraform apply  # Same code works on AWS, Azure, GCP!
+
+To switch from AWS to Azure:
+├── Change provider configuration
+├── Run terraform apply
+├── Done! Infrastructure on Azure now
 ```
 
 ## Terraform Workflow

@@ -2,20 +2,54 @@
 
 ## What are SNS & SQS?
 
-**Both are message queuing/notification services:**
+**What:** Two message services for connecting applications.
+
+**Why we use them:** Applications need to communicate reliably, especially when they can't connect directly.
+
+**How they work:**
 
 ```
-SNS = Simple Notification Service (Push)
+SNS = Simple Notification Service (Push):
 ├── Pub/Sub model
-├── Publishers send messages
+├── Publisher sends once
 ├── Multiple subscribers receive immediately
-└── Use for: Notifications, alerts, fanout
+├── Like: Broadcasting announcement to everyone
+└── Use for: Alerts, notifications, fanout
 
-SQS = Simple Queue Service (Pull)
-├── Queue model
-├── Producers put messages
-├── Consumers pull when ready
+SQS = Simple Queue Service (Pull):
+├── Queue/Worker model
+├── Producer puts messages in queue
+├── Consumer pulls when ready
+├── Like: Email inbox (get messages when you log in)
 └── Use for: Decoupling, buffering, worker pools
+```
+
+**Simple example comparison:**
+```
+Scenario: Order placed notification
+
+SNS approach (Push):
+├── Order service publishes: "Order #123 placed!"
+├── Email service subscribes → Gets email instantly
+├── SMS service subscribes → Gets text instantly
+├── Analytical service subscribes → Gets data instantly
+└── All 3 notified immediately!
+
+SNS = Instant broadcast
+
+SQS approach (Pull):
+├── Order service puts message in queue
+├── Email service: "When I'm ready, pull message, send email"
+├── SMS service: "When I'm ready, pull message, send text"
+├── Analytics service later: "Pull message, analyze"
+└── Each processes when ready
+
+SQS = Asynchronous, decoupled processing
+
+Choice:
+├── SNS: Need instant notifications to multiple services
+├── SQS: Need to buffer work, process later
+├── Both: SNS → fans out to multiple SQS queues
 ```
 
 ## SNS - Simple Notification Service

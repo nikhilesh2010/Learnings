@@ -2,18 +2,76 @@
 
 ## Systems Manager Overview
 
-Comprehensive operations hub:
+**What:** Operational management service for managing your infrastructure at scale.
+
+**Why we use it:** Need central place to manage hundreds of servers, automation, patches, configuration.
+
+**How it works:**
 
 ```
-Manages:
-├── EC2, RDS, on-premises servers
-├── Automation workflows
-├── Patch management
-├── Configuration management
-├── Session management
-└── Parameter store
+Without Systems Manager (manual):
+└── SSH into each server individually
+└── Apply patches manually
+└── Run same command on 100 servers = tedious!
 
-Cost: Free (mostly)
+With Systems Manager (centralized):
+└── One console for all servers
+└── Patch 100 servers at once
+└── Run commands
+└── Monitor all systems
+└── Configuration management
+```
+
+**Key capabilities:**
+
+```
+1. Session Manager (Secure Shell Access)
+   ├── SSH into instances without port 22
+   ├── No SSH keys needed
+   ├── All commands logged
+   └── IAM-based access control
+
+2. Patch Manager (System Updates)
+   ├── Apply patches to all EC2 instances
+   ├── Schedule: Tuesday 2 AM
+   ├── Auto-approval for security patches
+   ├── Maintenance windows
+
+3. Parameter Store (Configuration)
+   ├── Store app configuration centrally
+   ├── Database passwords
+   ├── API keys
+   ├── Applications fetch at runtime
+   └── Update without code changes
+
+4. Run Command (Execute Commands)
+   ├── Run scripts on multiple servers
+   ├── Example: Stop all instances
+   └── Parallel execution
+```
+
+**Simple example:**
+
+```
+Update 500 web servers:
+
+Traditional:
+├── SSH into server 1 → Run update
+├── SSH into server 2 → Run update
+├── Repeat 500 times... (takes hours!)
+
+Systems Manager:
+1. Patch Manager → Create patch group
+2. Select: 500 web servers
+3. Schedule: Tonight 2 AM
+4. Automatic execution:
+   ├── 10 servers at 2:00 AM
+   ├── 10 more at 2:10 AM (rolling)
+   ├── Monitor health
+   └── Continue updating
+
+All done automatically!
+Cost: Free
 ```
 
 ## Session Manager

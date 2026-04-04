@@ -2,22 +2,55 @@
 
 ## CloudTrail Overview
 
-API call tracking:
+**What:** Service that records EVERY API call made in your AWS account.
+
+**Why we use it:** Audit trail - who did what and when? Compliance + security.
+
+**How it works:**
 
 ```
-Every AWS API call logged:
-├── Who called (principal)
-├── When they called
-├── What they called
-├── Where from (IP)
-├── Response (success/failure)
+Every AWS action logged automatically:
 
-Example:
 User: john@company.com
-Action: ec2:RunInstances
-Resource: i-0123456789abcdef0
-Time: 2024-01-15 14:32:47 UTC
-Source IP: 203.0.113.42
+  └── Calls: "Launch EC2 instance"
+  └── Time: 2024-01-15 14:32:47 UTC
+  └── Source IP: 203.0.113.42
+  └── Result: Success (instance launched)
+
+CloudTrail saves to S3:
+└── JSON files with all details
+└── Can query with Athena
+└── Never changes (immutable logs)
+
+Result:
+├── Complete audit trail
+├── Trace security incidents
+├── Compliance evidence
+├── Troubleshoot "who deleted this?"
+```
+
+**Simple example:**
+
+```
+Production database deleted accidentally!
+
+Problem:
+└── Database gone! Who did this?
+
+CloudTrail to the rescue:
+1. Search CloudTrail logs
+2. Find: "DeleteDBInstance" calls
+3. See: alice@company.com deleted it at 3:47 PM yesterday
+4. See: From IP 192.0.2.100
+5. See: Using AccessKey AKIA...
+6. Confirm: It was accidental
+7. Restore from backup
+8. Add policy: Require MFA for deletions
+
+Next time:
+└── Alice types delete command
+└── CloudTrail prompts for MFA
+└── Accidental deletes prevented!
 ```
 
 ## CloudTrail Setup

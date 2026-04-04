@@ -2,7 +2,11 @@
 
 ## CloudFront Basics
 
-Global content delivery:
+**What:** Global content delivery network that caches your content closer to users.
+
+**Why we use it:** If your content is in one region but users are worldwide, they experience slow latency. CloudFront puts copies in 400+ locations worldwide.
+
+**How CloudFront works:**
 
 ```
 Without CloudFront:
@@ -13,9 +17,36 @@ Origin in us-east-1
 With CloudFront:
 User in Tokyo
   ↓ (fast, 20ms latency)
-Edge location in Tokyo
-  ↓ (cache hit or fetch from origin)
-Origin in us-east-1
+Edge location in Tokyo (cached copy)
+  ├── Cache hit? Return immediately!
+  └── Cache miss? Fetch from origin us-east-1
+
+Cost savings:
+├── Data transfer cheaper from edge location
+├── Origin load reduced
+└── Better user experience
+```
+
+**Simple example:**
+```
+Website with images hosted in S3 (us-east-1):
+
+Without CloudFront:
+├── User in Sydney downloads 5MB image
+├── Travels across entire Pacific (200ms latency)
+├── Network cost: $0.09/GB (expensive!)
+
+With CloudFront:
+├── User in Sydney downloads image (20ms latency - instant!)
+├── Served from edge location in Sydney
+├── Network cost: $0.085/GB (slightly better)
+├── User experience: 10x faster!
+
+Result:
+├── Happy users
+├── Faster page loads
+├── Better SEO rankings
+├── Lower bandwidth costs
 ```
 
 ## How CloudFront Works

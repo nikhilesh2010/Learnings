@@ -4,20 +4,43 @@
 
 ### Encryption Types
 
+**What:** Methods to scramble data so only authorized people can read it.
+
+**Why we use it:** Protect sensitive data if it's stolen or intercepted.
+
+**How it works:**
+
 ```
-Symmetric:
-├── Same key encrypts AND decrypts
-├── Fast (modern: <1ms)
-└── Example: AES-256
+Symmetric (Same key encrypts AND decrypts):
+├── Example: AES-256
+├── Speed: Very fast (< 1ms)
+├── Key management: Simpler (one key)
+└── Use for: Data encryption at rest
 
-Asymmetric:
-├── Public key (encrypt) + Private key (decrypt)
-├── Slower (but needed for signatures)
-└── Example: RSA-2048
+Asymmetric (Two keys: public + private):
+├── Public key: Anyone can use to encrypt
+├── Private key: Only owner can decrypt
+├── Speed: Slower but needed for signatures
+├── Use for: Key exchange, digital signatures
 
-AWS uses:
-└── Symmetric for data encryption (speed)
-└── Asymmetric for key exchange/signatures
+AWS strategy:
+├── Symmetric (KMS) for fast data encryption
+├── Asymmetric (RSA) for key sharing
+```
+
+**Simple example:**
+```
+Encrypt a file using AWS KMS:
+1. Your app asks KMS: "Encrypt this file"
+2. KMS encrypts securely
+3. File saved encrypted on disk
+4. Later: App asks KMS "Decrypt this file"
+5. KMS verifies permissions, decrypts
+6. App gets readable file
+
+Security:
+├── Even if disk stolen, data is unreadable (encrypted)
+├── Only people with KMS permissions can decrypt
 ```
 
 ## KMS Master Keys

@@ -2,18 +2,54 @@
 
 ## What is S3?
 
-**S3 = Simple Storage Service**
+**What:** Simple Storage Service - unlimited file storage in the cloud.
+
+**Why we use it:** Need to store files, backups, images, or any data reliably and cheap.
+
+**How it works:**
 
 ```
-File/Folder System         S3 (Object Storage)
-├── Files & folders       ├── Objects (files)
-├── Hierarchy (C:/Users) ├── Buckets (containers)
-├── Permissions per file └── Flat structure, infinite scale
-├── 16TB file limit       └── No file size limit
-└── Slower scaling        └── Automatic scaling
-
-Think: Google Drive / Dropbox / AWS version
+Traditional Storage:        S3 Storage:
+├── Hard drive at desk      ├── AWS data centers (400+ globally)
+├── Limited size            ├── Unlimited - add files forever
+├── Manual backups          ├── Automatically replicated
+├── Data loss risk          ├── 99.999999999% durability
+├── Can't share easily      ├── Share via URLs
+└── Cost: Hardware deprec.  └── Cost: $0.023/GB/month
 ```
+
+**Simple example:**
+
+```
+Upload family photos:
+
+Traditional:
+├── Store on laptop hard drive
+├── Risk: Laptop breaks → Photos gone forever!
+├── Share: Email? (too large), USB? (inconvenient)
+
+S3 approach:
+├── Upload photos to S3
+├── Automatically copied to multiple locations
+├── Access anytime from anywhere
+├── Share via link: https://mybucket.s3.amazonaws.com/photo.jpg
+└── Cost: 1,000 photos (50MB total) = ~$0.001/month
+
+Real use cases:
+├── Website images/media
+├── Data backups
+├── Log files
+├── Machine learning datasets
+├── Archival storage
+```
+
+### Key Concepts
+
+**Bucket:** Container that holds objects (like a folder, but global). Names must be globally unique.
+
+**Object:** File stored in bucket. Example: document.pdf is an object in "my-documents" bucket.
+
+**Key:** Path to object. Example: "reports/2024/january.pdf"
 
 ## Key Concepts
 

@@ -2,42 +2,58 @@
 
 ## Serverless Web Application
 
-```
-Architecture:
+**What:** Web app using only managed services (no servers to manage).
 
-Client
+**Why we use it:** Scalable, cost-effective, minimal operations.
+
+**How it works:**
+
+```
+Traditional Web App:
+├── Buy servers ($$$)
+├── Setup application
+├── Deploy code
+├── Configure load balancer
+├── Monitor constantly
+└── Scale manually
+
+Serverless Web App:
+├── Upload code to Lambda
+├── Configure API Gateway
+├── AWS handles scaling/monitoring
+└── Only pay for execution
+```
+
+**Simple example architecture:**
+
+```
+Users
   ↓ (HTTPS)
-CloudFront (CDN)
-  ├── /static/* → S3 (images, CSS, JS)
-  └── /api/* → API Gateway
+CloudFront (CDN) - Fast delivery
+  ├── Static files → S3 (cheap storage)
+  └── API requests → API Gateway
 
 API Gateway
-  ├── POST /users → Lambda (create)
-  ├── GET /users → Lambda (list)
-  └── GET /users/{id} → Lambda (detail)
+  ├── GET /api/users → Lambda
+  ├── POST /api/users → Lambda
+  └── GET /api/users/{id} → Lambda
 
-Lambda functions
-  ├── Connect to RDS (secrets from Secrets Manager)
-  ├── Connection pooling (avoid cold start)
+Lambda Functions
+  ├── Connect to RDS (databases)
+  ├── Secrets from Secrets Manager
   └── Logs to CloudWatch
 
-RDS Aurora MySQL
-  ├── Multi-AZ
+RDS Aurora Database
+  ├── Multi-AZ (high availability)
   ├── Automated backups
-  └── Read replicas for analytics
+  └── Read replicas for scale
 
 Benefits:
 ├── No servers to manage
-├── Auto-scaling
-├── Pay per use
-└── High availability built-in
-
-Cost:
-├── CloudFront: $0.085/GB
-├── API Gateway: $3.50 per million requests
-├── Lambda: $0.0000002 per request
-├── RDS: $0.45 per hours
-└── Total: $50-200/month (small app)
+├── Auto-scales globally
+├── Pay only for use
+├── High availability built-in
+├── Cost: $50-200/month (small app)
 ```
 
 ## Microservices on Containers

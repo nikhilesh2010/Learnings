@@ -2,20 +2,58 @@
 
 ## What is RDS?
 
-**RDS = Relational Database Service**
+**What:** Relational Database Service - AWS manages your database.
 
-Managed database service (AWS handles backups, patches, replication):
+**Why we use it:** Managing databases is hard (backups, patches, high availability). RDS does it for you.
+
+**How it works:**
 
 ```
-Self-Managed DB           RDS (AWS Managed)
-├── Install DB server     ├── Choose engine
-├── Configure           ├── Select instance size
-├── Manage backups      ├── AWS handles:
-├── Apply patches       │  ├── Backups
-├── High availability   │  ├── Patches
-├── Security            │  ├── Replication
-└── Disasters           │  ├── Scaling
-└── You manage OS/DB    └── You focus on data/app
+Self-Managed Database:       RDS (AWS Managed):
+├── Install DB server        ├── Choose engine (MySQL, PostgreSQL, etc.)
+├── Configure                ├── Select instance size
+├── Manage backups          ├── AWS handles:
+├── Apply patches           │  ├── Automated backups
+├── High availability       │  ├── OS patches
+├── Security                │  ├── Database patches
+└── Disasters               │  ├── Replication
+    └── You manage OS/DB    │  ├── Automatic scaling
+                            │  └── Disaster recovery
+                            └── You focus on data
+```
+
+**Simple example:**
+
+```
+Start a PostgreSQL database:
+
+Traditional (manual):
+1. Buy server hardware ($3,000)
+2. Install Linux OS (2 hours)
+3. Download PostgreSQL (30 min)
+4. Configure backups (4 hours)
+5. Setup replication (8 hours)
+6. Optimize for performance (days)
+7. Monitor 24/7 (forever)
+Total: Weeks of work!
+
+With RDS:
+1. RDS console → Create database
+2. Engine: PostgreSQL
+3. Instance: db.t3.micro
+4. Click "Create"
+5. Wait 5 minutes
+6. Database ready with:
+   ├── Automated daily backups
+   ├── Automatic failover (high availability)
+   ├── OS patches applied automatically
+   ├── Database patches applied automatically
+   └── CloudWatch monitoring
+Done in minutes!
+
+Cost:
+├── Manual: Server hardware + your time + DevOps salary
+├── RDS: ~$17/month for small database
 ```
 
 ## Supported Engines

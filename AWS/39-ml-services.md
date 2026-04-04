@@ -2,23 +2,84 @@
 
 ## ML Services Overview
 
-Amazon's machine learning portfolio:
+**What:** Pre-trained machine learning models you can use without ML expertise.
+
+**Why we use it:** AI/ML is complex. AWS has ready-to-use models.
+
+**How it works:**
 
 ```
 No ML expertise needed:
-├── Pre-trained models
-├── API-based
-└── Pay-per-use
+└── Use pre-trained models
+└── Call via API
+└── Pay per use
+└── No training required
 
-SageMaker:
-├── Full ML platform
-├── Build, train, deploy
-├── For data scientists
+Full ML from scratch (hard):
+└── Collect data
+└── Clean data  
+└── Build model
+└── Train model
+└── Deploy model
+└── Monitor performance
 
-Quick integration:
-├── Computer Vision (Rekognition)
-├── NLP (Comprehend)
-├── Forecast (Lookup Tables)
+AWS makes it easy!
+```
+
+**Key services:**
+
+```
+1. Rekognition (Computer Vision):
+   ├── Identify objects in images
+   ├── Face recognition
+   ├── Text in images (OCR)
+   ├── Content moderation
+   └── Price: $1.50 per 1,000 images
+
+2. Comprehend (Natural Language):
+   ├── Sentiment analysis (happy/sad)
+   ├── Entity recognition (names, places)
+   ├── Language detection
+   └── Price: $0.0001 per unit
+
+3. Textract (Document Processing):
+   ├── Extract text from scans
+   ├── Forms + tables
+   ├── Invoices
+   └── Price: $0.015 per page
+
+4. SageMaker (Full ML Platform):
+   ├── For data scientists
+   ├── Build custom models
+   ├── Train and deploy
+   └── Most powerful but complex
+```
+
+**Simple example:**
+
+```
+Moderate user-uploaded photos:
+
+Traditional:
+├── Hire content moderators
+├── Look at every photo manually
+├── $5,000/month costs
+├── Slow (hours/days to review)
+
+With Rekognition:
+import boto3
+
+client = boto3.client('rekognition')
+response = client.detect_moderation_labels(
+    Image={'S3Object': {'Bucket': 'photos', 'Name': 'img.jpg'}}
+)
+
+Result: Photo is SAFE (99% confidence)
+Cost: $0.003 per image
+Speed: Instant!
+
+Use case:
+└── Photo uploaded → Instant check → Approve/reject
 ```
 
 ## Rekognition - Computer Vision

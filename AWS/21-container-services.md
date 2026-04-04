@@ -2,21 +2,45 @@
 
 ## Container Basics Review
 
+**What:** Containers vs VMs - two ways to package applications.
+
+**Why we use it:** Containers are lighter, faster, and simpler than spinning up full VMs.
+
+**How they work:**
+
 ```
-VM vs. Container:
-
-VM:
-├── Full OS (heavyweight)
+VM (Virtual Machine):
+├── Full OS (heavyweight, 500MB+)
 ├── Hypervisor overhead
-├── Slow startup (minutes)
-├── Isolation: Strong
+├── Slow startup (1-5 minutes)
+├── Strong isolation (separate kernel)
+└── Use case: Isolated environments, Windows apps
 
-Container:
-├── Lightweight (just app)
-├── Shared kernel
-├── Fast startup (seconds)
-├── Isolation: Good
-└── More dense packing
+Container (Docker):
+├── Lightweight (just your app + dependencies)
+├── Shared kernel with host
+├── Fast startup (< 1 second)
+├── Good isolation (namespace + cgroup)
+└── Use case: Modern applications, microservices
+```
+
+**Simple example:**
+```
+Deploy web server:
+
+VM approach:
+├── Start EC2 Ubuntu instance (1-2 min to boot)
+├── SSH in, install Nginx (5 min)
+├── Upload code (1 min)
+└── Running after 8 minutes
+
+Container approach:
+├── Docker image prepared locally (includes Nginx + code)
+├── Push to ECR registry
+├── Pull and run on ECS (< 10 seconds)
+└── Running in 15 seconds!
+
+20x faster deployment!
 ```
 
 ## Elastic Container Service (ECS)

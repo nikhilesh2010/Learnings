@@ -2,18 +2,55 @@
 
 ## What is DynamoDB?
 
-**DynamoDB = Fully Managed NoSQL Database**
+**What:** Fully managed NoSQL database by AWS.
+
+**Why we use it:** Traditional SQL databases are complex to scale. DynamoDB scales automatically.
+
+**How it works:**
 
 ```
-SQL Database (RDS)           NoSQL (DynamoDB)
+SQL Database (RDS):          NoSQL (DynamoDB):
 ├── Fixed schema             ├── Flexible schema
-├── Relationships (joins)    ├── Nested data
-├── Complex queries          ├── Simple key-value lookups
+├── Complex joins            ├── Nested data, no joins
+├── Rows & columns           ├── Keys & attributes
 ├── Scaling complex          ├── Scales automatically
-└── Good for:                └── Good for:
-   Relational data              Fast, scalable applications
-   Structured queries           Real-time apps
-                                IoT, gaming, mobile
+└── Good for: Relational     └── Good for: Speed, scale
+   data (orders, users)          (real-time apps, gaming)
+```
+
+**Simple example:**
+
+```
+Traditional SQL:
+CREATE TABLE user (
+  id INT PRIMARY KEY,
+  name VARCHAR(100),
+  email VARCHAR(100),
+  phone VARCHAR(20)
+)
+INSERT INTO users VALUES (1, 'Alice', 'alice@ex.com', '555-1234')
+SELECT * FROM users WHERE id = 1
+
+DynamoDB (NoSQL):
+Table: Users
+├── Partition Key: userId
+├── Item 1:
+│   ├── userId: "user-001"
+│   ├── name: "Alice"
+│   ├── email: "alice@ex.com"
+│   ├── phone: "555-1234"
+│   ├── address: {street: "123 Main", city: "Boston"}
+│   └── tags: ["vip", "premium"]
+
+Get item:
+  GetItem(userId="user-001")
+
+Major differences:
+├── Schema flexible (add fields anytime)
+├── Supports nested objects (no need for joins)
+├── Scales to millions of items automatically
+├── Pay per request (not per capacity)
+└── No complex queries (keep it simple!)
 ```
 
 ## DynamoDB vs SQL

@@ -2,6 +2,12 @@
 
 ## AWS Shared Responsibility Model
 
+**What:** AWS and you share responsibility for security.
+
+**Why it matters:** It's not all AWS, not all you. Understanding who's responsible prevents security holes.
+
+**How it works:**
+
 ```
 AWS Responsible For:          You Responsible For:
 ├── Facilities                ├── User access (IAM)
@@ -11,6 +17,26 @@ AWS Responsible For:          You Responsible For:
 ├── Managed service internals ├── Data classification
 ├── DDoS protection           ├── Network rules
 └── Compliance infrastructure └── Security monitoring
+```
+
+**Simple examples:**
+
+```
+EC2 instance:
+AWS: Keeps data center secure, network safe, hypervisor patched
+You: Patch OS, install security updates, close unused ports,  choose strong password
+
+RDS database:
+AWS: Database engine security, network isolation, host OS patching
+You: Backup strategy, user permissions, monitoring for attacks
+
+S3 bucket:
+AWS: Storage infrastructure security, server-side encryption option
+You: Enable encryption, block public access, set bucket policies
+
+Lambda function:
+AWS: Runtime security, infrastructure
+You: Code security (no vulnerabilities), proper IAM role (least privilege)
 ```
 
 ## Identity & Access Management (IAM)

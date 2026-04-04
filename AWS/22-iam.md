@@ -2,19 +2,50 @@
 
 ## What is IAM?
 
-**IAM = Identity and Access Management**
+**What:** Identity and Access Management - Control who has access to what in AWS.
 
-Control who has access to AWS resources and what they can do:
+**Why we use it:** Don't want everyone to have full admin access. Principle of least privilege.
+
+**How it works:**
 
 ```
-Traditional              IAM Model
-├── Everyone admin      ├── Fine-grained permissions
-├── Hard to audit       ├── Central access control
-├── High breach risk    ├── Audit trail of actions
-├── No separation       ├── Principle of least privilege
-└── Manual access       └── Automated provisioning
+Traditional (bad):          IAM (good):
+├── Everyone admin          ├── Each person gets specific permissions
+├── Can delete anything    ├── Developer can only modify EC2
+├── Hard to audit          ├── Accountant can only view billing
+├── Everyone is a risk      ├── Easy to track who did what
+                            └── Each access logged
 
-Think: Like office keycards - different cards, different rooms
+Real world analogy:
+Traditional: Everyone has master keys to all rooms
+IAM: Employee A has key to office, Employee B has key to kitchen
+
+Setup:
+Root account (key holder)
+├── Creates User: Developer
+│   └── Permissions: EC2Full, S3Read
+├── Creates User: DBA
+│   └── Permissions: RDS Full
+└── Creates User: Accountant
+    └── Permissions: Billing Read-Only
+```
+
+**Simple example:**
+
+```
+Deploy application requiring multiple roles:
+
+⚠️ BAD (don't do this):
+├── All developers: Full admin access
+├── Everyone has access keys
+├── Anyone can delete production database
+
+✅ GOOD (IAM way):
+├── Dev team: EC2, Lambda, RDS read-only
+├── Ops team: Full access (but MFA required)
+├── Billing: Only billing dashboard access
+├── Each action logged automatically
+├── Can instantly revoke access when someone leaves
 ```
 
 ## IAM Identities

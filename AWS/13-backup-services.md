@@ -2,20 +2,35 @@
 
 ## AWS Backup Service
 
-Centralized backup management:
+**What:** Centralized backup management across multiple AWS services.
 
+**Why we use it:** Managing backups for EC2, RDS, EBS, DynamoDB separately is chaotic and error-prone.
+
+**How it works:**
 ```
-Without AWS Backup:
-├── Manage snapshots per service
-├── Different retention policies
-├── Backup scattered across
-└── Difficult to restore
+AWS Backup Service:
+├── One central place for all backups
+├── Set backup frequency (daily, weekly, monthly)
+├── Define retention (keep for 7 days, 30 days, 1 year)
+├── Automatic lifecycle management
+└── One dashboard to see all backups
 
-With AWS Backup:
-├── Central backup vault
-├── Consistent policies
-├── Monitor all backups
-├── Easy recovery
+Compared to manual:
+├── Manual: EC2 snapshot policy + RDS backup policy = multiple tools
+├── AWS Backup: All in one place!
+```
+
+**Simple example:**
+```
+Set up backup plan:
+├── Frequency: Every day at 2 AM UTC
+├── Retention: Keep for 30 days
+├── Services: EC2, RDS, EBS, EFS
+
+Result:
+├── Every VM, database, volume backed up automatically
+├── Old backups deleted after 30 days
+├── Can restore any resource instantly
 ```
 
 ## Backup Plans

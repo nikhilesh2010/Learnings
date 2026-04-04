@@ -4,23 +4,35 @@
 
 ### Provisioned Concurrency
 
-Reserve concurrent execution capacity:
+**What:** Reserve Lambda capacity in advance, pre-warmed and ready to execute.
 
+**Why we use it:** First Lambda invocation is slow (~1-3 seconds). For APIs requiring instant response, pre-warming avoids cold starts.
+
+**How it works:**
 ```
-Default: Shared pool across all functions
-Problem: Cold starts on first request
+Default (no provisioning):
+└── Shared pool: First request = cold start (~1-3s)
 
-Provisioned Concurrency:
-├── Pre-warm function
-├── Always ready for requests
-├── No cold start delay
-└── Cost: $0.015 per provisioned concurrency per hour
+With Provisioned Concurrency:
+└── Reserved instances always running (~100ms response)
+└── No waiting for initialization
 
-Use for:
-├── APIs requiring <100ms latency
-├── Real-time applications
-├── Customer-facing endpoints
+Cost: $0.015 per provisioned concurrency per hour
 ```
+
+**Simple example:**
+```
+API endpoint needs response < 100ms
+├── Without provisioning: First request = 2 seconds (user waits!)
+├── With provisioning: First request = 50ms (instant!)
+└── Cost: ~$11/month per pre-warmed instance
+```
+
+**Use for:**
+- APIs requiring <100ms latency
+- Real-time applications
+- Customer-facing endpoints
+- Not for: Batch jobs or async processing
 
 ### Ephemeral Storage
 

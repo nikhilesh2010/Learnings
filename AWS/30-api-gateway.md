@@ -2,19 +2,55 @@
 
 ## What is API Gateway?
 
-**API Gateway = Managed API Service**
+**What:** Managed service to create, deploy, and manage REST/WebSocket APIs.
 
-Create REST/WebSocket APIs without managing servers:
+**Why we use it:** Building APIs requires handling routing, authentication, rate limiting, logging, etc. API Gateway does all this automatically.
+
+**How it works:**
 
 ```
-Traditional API                API Gateway
+Traditional API:                API Gateway:
 ├── Build web server          ├── Configure endpoints
-├── Configure routes          ├── Map to backend
+├── Configure routes          ├── Map to backend (Lambda, HTTP)
 ├── Handle SSL/TLS           ├── AWS manages SSL/TLS
 ├── Add authentication       ├── Built-in auth (AWS/custom)
-├── Set rate limits          ├── Throttling, caching
+├── Set rate limits          ├── Automatic throttling
 ├── Monitor traffic          ├── CloudWatch integration
-└── Scale infrastructure     └── Auto-scales
+├── Scale infrastructure     └── Auto-scales
+
+Setup time: Days              API Gateway: Hours
+```
+
+**Simple example:**
+
+```
+Build user management API:
+
+Without API Gateway:
+1. Install Node.js web server
+2. Configure Express.js
+3. Define routes (/users, /users/:id)
+4. Get SSL certificate
+5. Create IAM roles
+6. Deploy to EC2
+7. Configure load balancer
+8. Setup cloudwatch monitoring
+Weeks of work!
+
+With API Gateway:
+1. Create API in console
+2. Add resources: /users, /users/{id}
+3. Add methods: GET, POST, PUT, DELETE
+4. Route to Lambda function
+5. Deploy to "prod" stage
+6. Get HTTPS endpoint
+7. API is live!
+Done in minutes!
+
+Result:
+GET https://api.example.com/users
+GET https://api.example.com/users/123
+POST https://api.example.com/users
 ```
 
 ## Types of APIs

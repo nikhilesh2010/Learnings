@@ -2,24 +2,58 @@
 
 ## Organizations Overview
 
-Manage multiple AWS accounts centrally:
+**What:** Manage multiple AWS accounts centrally from one place.
+
+**Why we use it:** Don't want all resources in one account (security risk). Need to organize accounts by team/environment.
+
+**How it works:**
 
 ```
-Single Account:
-└── Hard to organize
-└── Billing consolidated at account level
+Single Account (chaotic):
+└── Dev + Staging + Production all mixed
 
-Multi-Account (no Organizations):
-├── Multiple separate accounts
-├── Hard to manage centrally
-├── Billing scattered
+Multiple Accounts (better):
+├── Production account (locked down)
+├── Staging account (medium controls)
+├── Development account (relaxed)
+└── Security account (monitoring)
 
-With Organizations:
-├── Multiple accounts
-├── Centralized management
-├── Consolidated billing
-├── Service Control Policies (SCP)
-└── Simplified provisioning
+Organizations (best):
+├── Central management console
+├── Billing unified
+├── Policies applied to all
+├── Easy to add/remove accounts
+└── Clear governance
+```
+
+**Simple example:**
+
+```
+Structure for startup:
+
+Organization Root
+├── Production OU (Account 1)
+│   ├── No one can delete resources
+│   ├── MFA required for all access
+│   └── Only Ops team can modify
+│
+├── Development OU (Account 2)
+│   ├── Developers can create/delete anything
+│   ├── Free to experiment
+│   └── Lower security standards
+│
+└── Security OU (Account 3)
+    ├── Read-only access to all accounts
+    ├── CloudTrail logging central location
+    ├── Security audits
+    └── Compliance checks
+
+Benefits:
+├── Accounts isolated (bug in dev doesn't affect prod)
+├── Cost tracking per environment
+├── Policies enforced consistently
+├── Easy to add new developer (create account)
+└── Easy to remove (delete account)
 ```
 
 ## Organization Structure

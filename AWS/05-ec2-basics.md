@@ -4,20 +4,49 @@
 
 **EC2 = Elastic Compute Cloud**
 
-Your own virtual server in the cloud that you can:
-- Start/stop/restart instantly
-- Configure with different sizes
-- Install any operating system
-- Pay per hour of use
+Virtual servers that you can start/stop/configure instantly.
+
+**What it is:** Your own computer in the cloud.
+
+**Why we use it:** 
+- Traditional: Buy physical server ($2,000), takes weeks
+- EC2: Get server in 2 minutes, pay $0.0116/hour
+
+**How it works:**
 
 ```
-Traditional Server          EC2 Server
-├── Physical hardware   ├── Virtual hardware
-├── In data center      ├── AWS data center
-├── Takes weeks to buy  ├── Available in seconds
-├── Fixed capacity      ├── Adjustable anytime
-├── Paid upfront        ├── Paid per hour
-└── Difficult to scale  └── Scales automatically
+Traditional Server              EC2 Server
+├── Physical hardware           ├── Virtual hardware
+├── In company data center      ├── In AWS data center
+├── Takes weeks to buy          ├── Available in seconds
+├── Fixed capacity              ├── Adjustable anytime
+├── Paid upfront                ├── Paid per hour
+└── Difficult to scale          └── Scales automatically
+```
+
+**Simple example:**
+
+```
+Start a web server:
+
+Traditional:
+1. Buy server ($3,000)
+2. Ship it (1 week)
+3. Install OS (1 day)
+4. Install Nginx (1 hour)
+5. Upload website
+Total: 2 weeks, $3,000
+
+EC2:
+1. AWS console → Launch instance
+2. Choose: Ubuntu Linux, t2.micro
+3. Click "Launch"
+4. Wait 2 minutes
+5. SSH in, configure
+Total: 3 minutes, $0.0116/hour (~$8.50/month)
+
+Stop when not using:
+└── Shut down → Pay nothing!
 ```
 
 ## EC2 Use Cases

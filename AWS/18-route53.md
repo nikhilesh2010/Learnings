@@ -2,17 +2,62 @@
 
 ## Route 53 Basics
 
-Amazon's DNS service:
+**What:** AWS's Domain Name System (DNS) service - translates domain names to IP addresses.
+
+**Why we use it:** Users type "example.com", but computers need IP address "203.0.113.1". Route 53 does that translation.
+
+**How it works:**
 
 ```
-Traditional DNS:
-└── Your domain registrar manages DNS
+Without Route 53:
+User types: example.com
+  ↓ 
+Your domain registrar's DNS
+  ↓
+Returns: IP 203.0.113.1
+  ↓
+Browser connects to server
 
-Route 53:
-├── AWS managed DNS (with other benefits)
-├── Highly available (11 global endpoints)
-├── Integrated with AWS services
-└── Supports domain registration + DNS hosting
+With Route 53:
+User types: example.com
+  ↓
+AWS Route 53 (AWS's DNS)
+  ├→ Can route to closest region (latency-based)
+  ├→ Can route based on geography
+  ├→ Can health-check and failover
+  └→ Can load-balance requests
+  ↓
+Browser connects to right server
+```
+
+**Simple example:**
+
+```
+Setup traffic routing:
+
+Simple routing:
+example.com → 203.0.113.1 (always the same IP)
+
+Weighted routing (A/B testing):
+example.com → Server A 70%, Server B 30%
+
+Latency-based routing (global):
+User in Tokyo  → Route to ap-northeast-1 (closest)
+User in London → Route to eu-west-1 (closest)
+
+Failover routing (high availability):
+Primary server healthy → Route there
+Primary server down → Route to backup automatically
+
+Health checks:
+Route 53 constantly checks: Is server responding?
+├── Healthy → Send traffic
+└── Unhealthy → Route to backup
+
+Result:
+├── Users always connect to best server
+├── Automatic failover if primary fails
+├── Global load balancing without complexity
 ```
 
 ## Hosted Zones

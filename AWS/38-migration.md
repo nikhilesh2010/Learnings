@@ -2,41 +2,72 @@
 
 ## Migration Strategies
 
-### 6 Rs Framework
+**What:** How to move applications from on-premises to AWS.
+
+**Why we use it:** Leverage cloud benefits for existing systems.
+
+**How it works - 6 Rs Framework:**
 
 ```
-Rehost (Lift & Shift):
-├── Run VM image as EC2
-├── Fast, minimal changes
-├── Lowest effort
-└── Cost: Same per compute
+1. Rehost (Lift & Shift):
+   ├── Move VM image directly to EC2
+   ├── Minimal changes
+   ├── Effort: Low
+   ├── Cost savings: 10-30%
+   └── Timeline: Weeks
 
-Replatform (Lift, Tinker & Shift):
-├── Move to managed service
-├── Some refactoring
-├── e.g., VM -> RDS managed DB
-└── Better cost/performance
+2. Replatform (Lift, Tinker & Shift):
+   ├── Move to managed services
+   ├── On-prem MySQL → RDS MySQL
+   ├── Some refactoring needed
+   ├── Effort: Medium
+   ├── Cost savings: 20-40%
+   └── Timeline: Months
 
-Refactor (Re-architect):
-├── Redesign for cloud
-├── Microservices
-├── Serverless components
-├── Highest effort, best efficiency
+3. Refactor (Re-architect):
+   ├── Redesign for cloud
+   ├── Monolith → Microservices
+   ├── Lambda, serverless
+   ├── Effort: High
+   ├── Cost savings: 40-60%
+   └── Timeline: 6+ months
 
-Repurchase (Saas):
-├── Replace with SaaS
-├── e.g., On-prem CRM -> Salesforce
-└── Exit custom maintenance
+4. Repurchase (SaaS):
+   ├── Replace with SaaS
+   ├── On-prem CRM → Salesforce
+   ├── Effort: Medium
+   └── Exit maintenance costs
 
-Retire:
-├── Shut down old app
-├── No longer needed
-└── Eliminate costs/licenses
+5. Retire:
+   ├── Shut down old app
+   ├── No longer needed
+   └── Eliminate costs!
 
-Retain (Hybrid):
-├── Keep on-premises
-├── Not cloud-ready yet
-├── Revisit later
+6. Retain (Hybrid):
+   ├── Keep on-premises
+   ├── Not cloud-ready yet
+   └── Revisit later
+```
+
+**Simple example:**
+
+```
+Migrate web application:
+
+Rehost approach (fast):
+1. Snapshot VM on-premises
+2. Convert to EC2 AMI
+3. Launch on AWS
+Timeline: 1 week
+Cost: Still paying AWS compute
+
+Refactor approach (optimized):
+1. Analyze architecture
+2. Split monolith into services
+3. Use Lambda + API Gateway
+4. Use RDS + DynamoDB
+Timeline: 6 months
+Cost: 50% lower, better performance
 ```
 
 ### Choosing Strategy

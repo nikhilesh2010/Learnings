@@ -2,18 +2,38 @@
 
 ## RDS Performance Insights
 
-Real-time database performance monitoring:
+**What:** Real-time monitoring dashboard showing exactly what's slowing your database.
 
+**Why we use it:** Databases get slow, but which query caused it? Performance Insights tells you instantly.
+
+**How it works:**
 ```
-Metrics visible:
-├── Database load (peak vs average)
-├── Active sessions
-├── Wait events (what's slowing down queries?)
-└── DB Parameters
+Tracks:
+├── CPU usage (what % being used?)
+├── Active sessions (how many queries running?)
+├── Wait events (what are queries waiting for?)
+├── Slowest queries (ranked by impact)
 
-Example insight:
-"High CPU, caused by full table scan"
-  └── Add index to improve query
+Shows the problem:
+┌─────────────────────────────┐
+│ Database Load Chart (24h)    │
+│ ▂▂▄▄▆▆▆▆▆▆▆▆████▆▂▂▂▂▂▂ │ ← Peak at 3 PM!
+└─────────────────────────────┘
+
+Identifies cause:
+"Full table scan on users table (no index)"
+  └── Solution: Create index
+```
+
+**Simple example:**
+```
+Your API suddenly gets slow at 3 PM
+├── Check Performance Insights dashboard
+├── See: 500 concurrent queries (normally 50)
+├── See: All waiting on JOIN on unindexed column
+├── Solution: Create index on that column
+├── Test: Latency drops from 5s to 200ms
+└── Problem solved! API fast again!
 ```
 
 ### Enabling Performance Insights

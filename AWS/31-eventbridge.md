@@ -2,20 +2,56 @@
 
 ## EventBridge Basics
 
-Event-driven architecture:
+**What:** Way to connect AWS services through events (publish-subscribe pattern).
+
+**Why we use it:** When something happens in one service, automatically trigger actions in other services without direct connections.
+
+**How it works:**
 
 ```
-Source sends event:
-Order placed → EventBridge → Route to 3 targets
+Event-driven architecture:
 
-Targets:
-├── Lambda (process order)
-├── SNS (send notification)
-└── SQS (queue for async)
+Service A (event source):
+└── Something happens (S3 upload, EC2 creation, etc.)
+└── Creates event: { source: "s3", event: "put object" }
 
-Event flow:
-└── Decoupled applications
-└── Scalable, resilient
+EventBridge (event router):
+├── Receives event from A
+├── Matches event against rules
+├── Routes to all matching targets
+
+Services B, C, D (targets):
+├── B triggered automatically
+├── C triggered in parallel
+├── D triggered in parallel
+└── No synchronous waiting!
+```
+
+**Simple example:**
+```
+Use case: New image uploaded to S3 bucket
+
+Without EventBridge (manual polling):
+├── Lambda polls S3 every minute (wasteful!)
+├── Checks for new images
+├── Still has 1-minute delay
+
+With EventBridge:
+├── Image uploaded to S3
+├── S3 sends event to EventBridge instantly
+├── EventBridge routes to:
+│   ├── Lambda 1: Thumbnail generation (async)
+│   ├── Lambda 2: ML analysis (async)
+│   └── SNS: Send email notification
+├── All happen in parallel
+├── Instant processing
+└── Costs less (no polling!)
+
+Result:
+├── Faster processing
+├── Decoupled services
+├── Easy to add more targets
+├── More resilient (failed target doesn't block others)
 ```
 
 ## Event Sources

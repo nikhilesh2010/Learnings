@@ -2,17 +2,65 @@
 
 ## Disaster Recovery Strategies Recap
 
-```
-Backup & Restore: RTO 24h, RPO 24h (cheap)
-Pilot Light: RTO 1h, RPO 15m (lowest cost active)
-Warm Standby: RTO 15m, RPO 5m (medium)
-Hot Standby: RTO 0m, RPO 0m (expensive)
+**What:** How fast can you recover if a disaster (data center failure) happens?
 
-Choose based on:
-├── Business criticality
-├── Acceptable downtime
-├── Budget
-└── Compliance requirements
+**Why it matters:**
+- Backup & Restore: Can wait 24 hours to recover
+- Real-time: Need instant recovery (live replication)
+- Business decides: How much downtime is acceptable?
+
+**Trade-off:**
+
+```
+Cheap: 24-hour wait → Customers wait 24 hours
+Medium: 1-hour wait → Customers wait 1 hour
+Expensive: Real-time → No wait (active replication)
+
+Choose based on business criticism!
+```
+
+**Simple strategies:**
+
+```
+Backup & Restore (Cheapest):
+├── Take daily backup
+├── Store separately
+├── If disaster: Restore from backup (24 hours)
+├── RPO: 24 hours (lose 1 day of data)
+├── RTO: 24 hours (recover in 24 hours)
+└── Cost: Minimal
+
+Pilot Light (Low-cost active):
+├── Keep standby copy ready (but scaled down)
+├── Continuously replicated
+├── Quick activation when needed
+├── RPO: 15 minutes
+├── RTO: 1 hour
+└── Cost: Low
+
+Warm Standby (Medium):
+├── Full secondary system running (50% capacity)
+├── Real-time replication
+├── Fast failover
+├── RPO: 5 minutes
+├── RTO: 15 minutes
+└── Cost: Medium (paying for standby)
+
+Hot Standby / Active-Active (Most expensive):
+├── Full primary + full backup running
+├── Both active (no "standby")
+├── Instant failover
+├── RPO: 0 (real-time)
+├── RTO: 0 (already active!)
+└── Cost: High (2x infrastructure)
+```
+
+**Choose your strategy:**
+```
+Not critical: Backup & Restore
+Somewhat critical: Pilot Light
+Business critical: Warm Standby
+Highly critical: Active-Active
 ```
 
 ## Multi-Region Architecture

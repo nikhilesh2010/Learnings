@@ -2,18 +2,54 @@
 
 ## What is Lambda?
 
-**Lambda = Serverless Function-as-a-Service (FaaS)**
+**What:** Serverless function-as-a-service - upload code, AWS runs it automatically.
 
-Upload code, run without managing servers:
+**Why we use it:** No servers to manage. Code runs on demand. Pay only for execution time.
+
+**How it works:**
 
 ```
-Traditional Server Model       Lambda Model
-├── Rent EC2 instance          ├── Write function
-├── Install runtime/deps       ├── Upload to AWS
-├── Deploy code                ├── Upload triggers
-├── Configure auto-scaling     ├── Automatic scaling
-├── Monitor & maintain         ├── AWS manages everything
-└── Pay $$/hour                └── Pay per execution
+Traditional Server:         Lambda:
+├── Rent EC2 instance       ├── Write function
+├── Install runtime/deps    ├── Upload to AWS
+├── Deploy code             ├── AWS manages:
+├── Configure auto-scaling  │  ├── Servers
+├── Monitor & maintain      │  ├── Scaling to 1000s
+├── Pay $$/hour (always)    │  ├── OS patches
+└── Even if unused!         │  └── Security
+                            ├── Triggers on events
+                            ├── Runs only when needed
+                            └── Pay per 100ms of execution
+```
+
+**Simple example:**
+
+```
+Resize images when uploaded to S3:
+
+Traditional approach:
+1. Run EC2 instance 24/7 (polling S3 for new images)
+2. Cost: $8/month (even if not processing images)
+3. Speed: 30-second delay (polling interval)
+
+Lambda approach:
+1. S3 upload triggers Lambda automatically
+2. Lambda resizes image
+3. Lambda stops
+4. Cost: $0.01/month (100 images resized)
+5. Speed: < 100ms (instant!)
+
+Lambda best for:
+├── APIs (respond to HTTP requests)
+├── File processing (triggered by S3 uploads)
+├── Scheduled tasks (one per hour)
+├── Real-time data processing
+├── Chatbots and automation
+
+Lambda NOT best for:
+├── Long-running jobs (> 15 minutes)
+├── Large memory requirements
+├── Constant background processing
 ```
 
 ## Key Benefits

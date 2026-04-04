@@ -2,17 +2,59 @@
 
 ## What is CloudFormation?
 
-**CloudFormation = Infrastructure as Code (IaC)**
+**What:** Infrastructure as Code (IaC) - Define AWS resources in code instead of clicking console.
 
-Define AWS resources in code, deploy consistently:
+**Why we use it:** 
+- Reproducible: Deploy same infrastructure multiple times
+- Version controlled: Track infrastructure changes in git
+- Automated: Deploy 100 resources in seconds
+- Disaster recovery: Redeploy entire infrastructure if needed
+
+**How it works:**
 
 ```
-Manual              CloudFormation
-├── Click console  ├── Write JSON/YAML
-├── Create VPC     ├── Create template
-├── Create subnets ├── Deploy stack
-├── Launch EC2     ├── Resources auto-created
-└── Error-prone    └── Reproducible, version controlled
+Manual approach:                CloudFormation:
+1. Open AWS console           1. Write YAML/JSON template
+2. Create VPC (click)         2. Define all resources
+3. Create subnet (click)      3. Run: aws cloudformation create-stack
+4. Create EC2 (click)         4. Resources created automatically
+5. Create RDS (click)         5. Done!
+...repeat for 20 resources    
+Takes hours, error-prone       Takes minutes, reliable
+```
+
+**Simple example:**
+
+```
+Deploy VPC + EC2 + RDS with CloudFormation:
+
+Resources section:
+  MyVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+  
+  MyEC2:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-xxx
+  
+  MyDatabase:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: mydb
+      Engine: PostgreSQL
+
+Deploy:
+aws cloudformation create-stack \
+  --stack-name my-app \
+  --template-body file://template.yaml
+
+Result:
+└── All 3 resources created in 2 minutes!
+└── All related: EC2 has permission to access RDS
+└── Delete stack → Deletes everything
 ```
 
 ## Benefits of IaC

@@ -2,24 +2,56 @@
 
 ## Secure Network Communication
 
-### Types of Connections
+**What:** Ways to connect on-premises networks to AWS securely.
+
+**Why we use it:** Don't want data traveling over public internet (risky).
+
+**How different methods work:**
 
 ```
-Public internet:
-├── Cheap (free)
-├── Insecure (snoop-able)
-└── Variable latency
+Public Internet (BAD for sensitive data):
+├── Fast (free)
+├── Not secure (snoop-able)
+└── Data exposed
 
-VPN (Virtual Private Network):
-├── Encrypted tunnel over public internet
-├── Secure but still internet-dependent
-└── Some latency/jitter
+VPN - Virtual Private Network (GOOD):
+├── Encrypted tunnel over internet
+├── Secure
+├── Some latency/jitter
+├── Cost: $0.05/hour (~$30-40/month)
+└── Setup time: Hours
 
-Direct Connect:
-├── Dedicated physical connection
+Direct Connect (BEST):
+├── Private fiber connection (not internet)
 ├── Consistent performance
-├── Expensive (≥$0.30/hour)
-└── Long setup time (weeks)
+├── Most secure
+├── Cost: $0.30+/hour ($200+/month)
+└── Setup time: Weeks
+
+Choose based on:
+├── Sensitivity: VPN or Direct Connect
+├── Performance needs: Direct Connect
+├── Budget: VPN for most cases
+```
+
+**Simple example:**
+
+```
+Connect office to AWS:
+
+Without VPN (BAD):
+Office → Internet → AWS
+└─ Anyone on internet could intercept traffic!
+
+With VPN (GOOD):
+Office → Encrypted tunnel → AWS
+└─ Traffic encrypted, secure
+
+Real use:
+├── Office subnet: 192.168.0.0/16
+├── AWS VPC subnet: 10.0.0.0/16
+├── Employees access VPC as if locally
+└─ Like extending office network to cloud
 ```
 
 ## AWS Site-to-Site VPN

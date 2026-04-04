@@ -2,18 +2,48 @@
 
 ## Understanding AWS Billing Model
 
-### Core Principle: Pay-as-You-Go
+**What:** AWS charges you based on what you use (not what you buy).
+
+**Why it's important:** Can be cheap or expensive depending on how you use it.
+
+**How it works:**
 
 ```
-Traditional IT:          AWS:
-Year 1: $50,000         Month 1: $50
-Year 2: $50,000         Month 2: $120
-Year 3: $50,000         Month 3: $45
-+ Maintenance           + Scale automatically
-+ Upgrades
-+ Downtime risks
-───────────────
-$150,000+               = Pay what you use
+Traditional IT:                AWS Pay-as-You-Go:
+Year 1: $50,000               Month 1: $50 (light usage)
+Year 2: $50,000               Month 2: $200 (peak season)
+Year 3: $50,000               Month 3: $75 (average)
+└─ Fixed cost regardless       └─ Pay for actual usage
+   of usage
+
+Example:
+E-commerce Site:
+├── Quiet month: $50
+├── Black Friday: $500 (scale up automatically)
+├── Back to normal: $50
+└─ Total annual: ~$150-200 (vs. $50,000 for servers)
+```
+
+**Simple example:**
+
+```
+Website with auto-scaling:
+
+EC2 cost:
+├── Quiet day: 1 instance = $0.0116/day
+├── Busy day: 8 instances = $0.093/day
+└── Average: $0.03/day = $9/month
+
+S3 storage:
+├── 10 GB stored = $0.23/month
+├── Data transfer = $0.90/month
+└── Total: ~$1.13/month
+
+Lambda functions:
+├── 1 million requests = $0.20
+└── Average: $0.50/month
+
+Total: ~$10-15/month
 ```
 
 ## The Three Pricing Models

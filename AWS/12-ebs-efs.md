@@ -2,32 +2,80 @@
 
 ## Elastic Block Storage (EBS)
 
-### EBS Volume Types
+**What:** Persistent storage volumes that attach to EC2 instances (like a hard drive for your VM).
+
+**Why we use it:** EC2 instances lose data when stopped. EBS keeps your data persistent.
+
+**How it works:**
 
 ```
-General Purpose (gp3) - RECOMMENDED:
-├── SSD (fast)
-├── Baseline: 3000 IOPS, 125 MB/s
-├── Can increase: Up to 16,000 IOPS, 1000 MB/s
-├── Cost: $0.08/GB/month
-└── Use for: Most workloads
+EC2 without EBS:
+├── Data in instance storage
+├── Instance stops → Data LOST
+├── Not suitable for production
 
-Provisioned IOPS (io2):
-├── SSD (very fast)
-├── Can provision: 64,000 IOPS per volume
-├── Good for: Databases, intensive I/O
-└── Cost: Higher (premium performance)
+EC2 with EBS:
+├── EBS volume attached
+├── Instance stops → Data SAFE
+├── Survives failures
+└── Can be backed up (snapshots)
+```
 
-Throughput Optimized (st1) - HDD:
-├── Slower but cheaper
-├── 125-500 MB/s
-├── Cost: $0.045/GB/month
-└── Use for: Big data, data warehouses
+**Simple example:**
 
-Cold Storage (sc1) - HDD:
-├── Cheapest
-├── Cost: $0.015/GB/month
-└── Use for: Archives, cold storage
+```
+Run web application on EC2:
+
+Without EBS (BAD):
+1. Launch ec2 instance
+2. Install Nginx web server
+3. Upload website files
+4. EC2 fails → All files LOST!
+5. Have to setup everything again
+
+With EBS (GOOD):
+1. Create EBS volume (like buying hard drive)
+2. Attach to EC2 instance
+3. Put website files on EBS
+4. EC2 fails → EBS volume preserved
+5. Attach EBS to new EC2 instance
+6. Website back online immediately!
+
+Cost:
+├── EBS: $0.10/GB/month
+└── Example: 100GB drive = $10/month
+```
+
+### Volume Types
+
+**gp3 (General Purpose) - RECOMMENDED:**
+- SSD (fast)
+- $0.08/GB/month
+- Good for: Most workloads, web servers
+
+**io2 (Provisioned IOPS):**
+- Very fast SSD
+- For: Databases requiring high IOPS
+- More expensive
+
+**st1 (Throughput Optimized) - HDD:**
+- Slower but cheaper ($0.045/GB)
+- For: Big data, sequential reads
+
+### EBS Snapshots
+
+**What:** Backup of your EBS volume at a point in time.
+
+**Why:** For disaster recovery, copying volumes, creating AMIs.
+
+**How:**
+```bash
+# Create snapshot
+aws ec2 create-snapshot --volume-id vol-xxxxx
+
+# Snapshot stored in S3 (invisible to you)
+# Later: Create new EBS volume from snapshot
+aws ec2 create-volume --snapshot-id snap-xxxxx
 ```
 
 ### EBS Snapshots
